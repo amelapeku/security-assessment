@@ -8,16 +8,31 @@
 <body>
   <div class="quiz-container">
     <div id="question-container" class="question-box">
-      <p id="question-text"></p>
-      <div class="risk-cloud" id="risk-text"></div>
+      <!-- Question at the top -->
+      <p id="question-text">This is where the question will appear.</p>
+
+      <!-- Space -->
+      <div class="spacer"></div>
+
+      <!-- Yes/No options -->
       <div class="options">
         <label><input type="radio" name="answer" value="yes"> Yes</label>
         <label><input type="radio" name="answer" value="no"> No</label>
       </div>
+
+      <!-- Orange shape with text -->
+      <div class="risk-cloud" id="risk-text">
+        This is the risk or additional info text.
+      </div>
+
+      <!-- Navigation buttons -->
       <div class="buttons">
         <button id="prev-btn">Previous</button>
         <button id="next-btn">Next</button>
       </div>
     </div>
   </div>
-  <script src="quiz.js"></sc
+
+  <script src="quiz.js"></script>
+</body>
+</html>
