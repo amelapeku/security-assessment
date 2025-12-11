@@ -1,56 +1,59 @@
-// 70 placeholder questions
-const questions = Array.from({ length: 70 }, (_, i) => ({
-    text: `Placeholder Question ${i + 1}: Replace this text with your real question.`,
-}));
+const questions = [
+  { q: "Enable threat detection for cloud services?", risk: "Risk: Lack of threat detection on compute, storage, databases, and identities." },
+  { q: "Activate Microsoft Defender for Cloud on all Azure services?", risk: "Risk: Azure services not fully protected by Microsoft Defender for Cloud." },
+  { q: "Are security teams familiar with alert types?", risk: "Risk: Security team unaware of alert types and severity leading to slow responses." },
+  { q: "Are there gaps in detection for services without native protection?", risk: "Risk: Gaps in detection for services without native protection." },
+  { q: "Alerts are tuned to reduce false positives?", risk: "Risk: High false positives or missed alerts due to poor tuning." }
+];
 
 let currentQuestion = 0;
-let answers = Array(questions.length).fill(null); // null = unanswered
+let answers = Array(questions.length).fill(null);
+
+const questionText = document.getElementById("question-text");
+const riskText = document.getElementById("risk-text");
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
+const radioButtons = document.getElementsByName("answer");
 
 function loadQuestion() {
-    document.getElementById("question-text").innerText =
-        questions[currentQuestion].text;
+  const q = questions[currentQuestion];
+  questionText.textContent = q.q;
+  riskText.textContent = q.risk;
 
-    document.getElementById("progress-text").innerText =
-        `Question ${currentQuestion + 1} of ${questions.length}`;
+  // Reset radios
+  radioButtons.forEach(rb => rb.checked = false);
+  if (answers[currentQuestion]) {
+    radioButtons.forEach(rb => {
+      if (rb.value === answers[currentQuestion]) rb.checked = true;
+    });
+  }
 
-    let progressPercent = ((currentQuestion) / (questions.length)) * 100;
-    document.getElementById("progress-fill").style.width = progressPercent + "%";
+  prevBtn.disabled = currentQuestion === 0;
+  nextBtn.textContent = currentQuestion === questions.length - 1 ? "Finish" : "Next";
 }
 
-document.getElementById("yes-btn").onclick = () => {
-    answers[currentQuestion] = 1;
-};
+// Save answer
+radioButtons.forEach(rb => {
+  rb.addEventListener("change", () => {
+    answers[currentQuestion] = rb.value;
+  });
+});
 
-document.getElementById("no-btn").onclick = () => {
-    answers[currentQuestion] = 0;
-};
+prevBtn.addEventListener("click", () => {
+  if (currentQuestion > 0) currentQuestion--;
+  loadQuestion();
+});
 
-document.getElementById("next-btn").onclick = () => {
-    if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        loadQuestion();
-    } else {
-        showScore();
-    }
-};
+nextBtn.addEventListener("click", () => {
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    loadQuestion();
+  } else {
+    // Show score
+    const score = answers.filter(a => a === "yes").length * 5;
+    alert(`You scored ${score} points`);
+  }
+});
 
-document.getElementById("prev-btn").onclick = () => {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        loadQuestion();
-    }
-};
-
-function showScore() {
-    let totalYes = answers.filter(a => a === 1).length;
-    let scorePercent = Math.round((totalYes / questions.length) * 100);
-
-    document.getElementById("quiz-container").classList.add("hidden");
-    document.getElementById("result-screen").classList.remove("hidden");
-
-    document.getElementById("final-score").innerText =
-        `You scored ${scorePercent}%`;
-}
-
-// Initialize first question
+// Initialize
 loadQuestion();
