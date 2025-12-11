@@ -8,37 +8,38 @@ body {
 
 /* Center quiz container */
 .quiz-container {
-  max-width: 800px; /* Desktop-friendly width */
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 900px; /* wider for desktop */
+  margin: 60px auto; /* more top/bottom space */
+  padding: 30px;
 }
 
 /* Question box with light gray background */
 .question-box {
   background-color: #f2f2f2;
-  padding: 30px;
-  border-radius: 10px;
+  padding: 40px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* spacing between elements */
+  gap: 40px; /* more space between elements */
 }
 
 /* Spacer for extra space between question and options */
 .spacer {
-  height: 20px;
+  height: 30px;
 }
 
 /* Question text */
 #question-text {
-  font-size: 20px;
+  font-size: 28px; /* bigger font */
   font-weight: bold;
+  line-height: 1.5;
 }
 
 /* Radio buttons styling */
 .options {
   display: flex;
-  gap: 20px;
-  font-size: 18px;
+  gap: 40px; /* more space between Yes/No */
+  font-size: 24px; /* bigger font */
 }
 
 .options label {
@@ -48,31 +49,33 @@ body {
 
 /* Risk text in orange cloud shape */
 .risk-cloud {
-  padding: 20px;
+  padding: 30px;
   background: #fff5e6;
-  border: 2px solid orange;
+  border: 3px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
   font-style: italic;
-  font-size: 16px;
+  font-size: 22px; /* bigger font */
   text-align: center;
   max-width: 100%;
+  line-height: 1.6;
 }
 
 /* Navigation buttons */
 .buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .buttons button {
-  padding: 10px 25px;
-  font-size: 16px;
-  border-radius: 5px;
+  padding: 15px 35px; /* bigger buttons */
+  font-size: 20px; /* bigger font */
+  border-radius: 8px;
   border: none;
   background-color: #0078d4;
   color: white;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .buttons button:hover {
