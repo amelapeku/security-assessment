@@ -62,7 +62,7 @@ body {
   font-size: 26px;
   text-align: center;
   line-height: 2;
-  margin-bottom: 100px; /* space before buttons */
+  margin-bottom: 80px; /* space before buttons */
 }
 
 /* Navigation buttons */
@@ -85,3 +85,4 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
