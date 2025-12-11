@@ -33,7 +33,7 @@ body {
 
 /* Spacer classes for vertical space */
 .spacer-large {
-  height: 60px; /* space between question and options */
+  height: 20px; /* space between question and options */
 }
 
 .spacer-very-large {
@@ -91,3 +91,4 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
