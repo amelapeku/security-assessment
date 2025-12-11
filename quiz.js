@@ -57,3 +57,4 @@ nextBtn.addEventListener("click", () => {
 
 // Initialize
 loadQuestion();
+
