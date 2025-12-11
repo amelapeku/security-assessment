@@ -8,7 +8,7 @@ body {
 
 /* Center quiz container */
 .quiz-container {
-  max-width: 900px;
+  max-width: 900px; /* desktop-friendly */
   margin: 60px auto;
   padding: 20px;
   display: flex;
@@ -16,7 +16,7 @@ body {
   gap: 40px;
 }
 
-/* Only the question is in gray box */
+/* Question in gray box only */
 .question-box {
   background-color: #f2f2f2;
   padding: 40px;
@@ -31,21 +31,14 @@ body {
   text-align: center;
 }
 
-/* Spacer classes for vertical space */
-.spacer-large {
-  height: 10px; /* space between question and options */
-}
-
-.spacer-very-large {
-  height: 100px; /* extra space before risk and before buttons */
-}
-
 /* Yes/No options */
 .options {
   display: flex;
   justify-content: center;
-  gap: 60px;
-  font-size: 28px;
+  gap: 60px;          /* space between Yes/No buttons */
+  font-size: 28px;     /* bigger text */
+  margin-top: 20px;    /* closer to question */
+  margin-bottom: 100px; /* large space before risk bubble */
 }
 
 .options label {
@@ -59,7 +52,7 @@ body {
   margin-right: 15px;
 }
 
-/* Risk text in orange cloud shape */
+/* Risk text in orange bubble */
 .risk-cloud {
   padding: 40px;
   background: #fff5e6;
@@ -69,6 +62,7 @@ body {
   font-size: 26px;
   text-align: center;
   line-height: 2;
+  margin-bottom: 100px; /* space before buttons */
 }
 
 /* Navigation buttons */
@@ -91,5 +85,3 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
