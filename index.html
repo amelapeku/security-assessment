@@ -1,42 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Assessment Quiz</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Security Quiz</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div id="quiz-container">
-
-    <div id="progress">
-        <div id="progress-text">Question 1 of 70</div>
-        <div id="progress-bar"><div id="progress-fill"></div></div>
+  <div class="quiz-container">
+    <div id="question-container" class="question-box">
+      <p id="question-text"></p>
+      <div class="risk-cloud" id="risk-text"></div>
+      <div class="options">
+        <label><input type="radio" name="answer" value="yes"> Yes</label>
+        <label><input type="radio" name="answer" value="no"> No</label>
+      </div>
+      <div class="buttons">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+      </div>
     </div>
-
-    <div id="question-box">
-        <h2 id="question-text">Loading question...</h2>
-    </div>
-
-    <div id="buttons">
-        <button id="yes-btn" class="answer-btn yes">YES</button>
-        <button id="no-btn" class="answer-btn no">NO</button>
-    </div>
-
-    <div id="nav">
-        <button id="prev-btn" class="nav-btn">Previous</button>
-        <button id="next-btn" class="nav-btn">Next</button>
-    </div>
-
-</div>
-
-<div id="result-screen" class="hidden">
-    <h1>Your Score</h1>
-    <p id="final-score"></p>
-</div>
-
-<script src="quiz.js"></script>
-
-</body>
-</html>
+  </div>
+  <script src="quiz.js"></sc
