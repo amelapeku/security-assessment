@@ -1,10 +1,7 @@
-const questions = [
-  { q: "Enable threat detection for cloud services?", risk: "Risk: Lack of threat detection on compute, storage, databases, and identities." },
-  { q: "Activate Microsoft Defender for Cloud on all Azure services?", risk: "Risk: Azure services not fully protected by Microsoft Defender for Cloud." },
-  { q: "Are security teams familiar with alert types?", risk: "Risk: Security team unaware of alert types and severity leading to slow responses." },
-  { q: "Are there gaps in detection for services without native protection?", risk: "Risk: Gaps in detection for services without native protection." },
-  { q: "Alerts are tuned to reduce false positives?", risk: "Risk: High false positives or missed alerts due to poor tuning." }
-];
+const questions = Array.from({ length: 70 }, (_, i) => ({
+  q: `This is question ${i + 1}. What would you choose?`,
+  risk: `Risk info for question ${i + 1}.`
+}));
 
 let currentQuestion = 0;
 let answers = Array(questions.length).fill(null);
@@ -49,7 +46,6 @@ nextBtn.addEventListener("click", () => {
     currentQuestion++;
     loadQuestion();
   } else {
-    // Show score
     const score = answers.filter(a => a === "yes").length * 5;
     alert(`You scored ${score} points`);
   }
@@ -57,4 +53,3 @@ nextBtn.addEventListener("click", () => {
 
 // Initialize
 loadQuestion();
-
