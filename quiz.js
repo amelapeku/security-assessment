@@ -6,33 +6,26 @@ const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
-const optionsDiv = document.querySelector(".options");
-const riskDiv = document.querySelector(".risk-cloud");
 
 function loadItem() {
   const item = questions[currentIndex];
 
   if (item.type === "section") {
-    // SECTION SCREEN
-    sectionTitle.style.display = "none"; // optional, you can hide the small h2
-    questionText.textContent = item.title; // show section title in gray box
-    riskDiv.style.display = "none";       // hide orange bubble
-    optionsDiv.style.display = "none";    // hide Yes/No
-  } else {
-    // QUESTION SCREEN
-    sectionTitle.style.display = "none"; // optional
-    questionText.textContent = item.q;
-    riskText.textContent = item.risk;
-    riskDiv.style.display = "block";     // show orange bubble
-    optionsDiv.style.display = "flex";   // show Yes/No
-
-    // Set radio buttons
-    const radios = Array.from(document.getElementsByName("answer"));
-    radios.forEach(rb => { rb.checked = answers[currentIndex] === rb.value; });
+    sectionTitle.textContent = item.title;
+    questionText.textContent = "";
+    riskText.textContent = "";
+    document.querySelector(".options").style.display = "none";
+    return;
   }
 
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.textContent = currentIndex === questions.length - 1 ? "Finish" : "Next";
+  // Question
+  sectionTitle.textContent = "";
+  questionText.textContent = item.q;
+  riskText.textContent = item.risk;
+  document.querySelector(".options").style.display = "flex";
+
+  const radios = Array.from(document.getElementsByName("answer"));
+  radios.forEach(rb => { rb.checked = answers[currentIndex] === rb.value; });
 }
 
 function saveAnswer() {
