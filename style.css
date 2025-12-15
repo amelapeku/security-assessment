@@ -29,6 +29,9 @@ body {
   font-weight: bold;
   line-height: 1.8;
   text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+
+  
 }
 
 /* Yes/No options */
@@ -85,6 +88,7 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
 
 
