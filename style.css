@@ -8,7 +8,7 @@ body {
 
 /* Center quiz container */
 .quiz-container {
-  max-width: 18000px; /* desktop-friendly */
+  max-width: 11000px; /* desktop-friendly */
   margin: 60px auto;
   padding: 20px;
   display: flex;
@@ -88,6 +88,7 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
 
 
