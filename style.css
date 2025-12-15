@@ -1,13 +1,14 @@
+/* General page style */
 body {
   background-color: white;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: Verdana, Arial, sans-serif; /* Verdana */
   margin: 0;
   padding: 0;
 }
 
-/* Container */
+/* Center quiz container */
 .quiz-container {
-  max-width: 1100px;
+  max-width: 1000px; /* wider container */
   margin: 60px auto;
   padding: 20px;
   display: flex;
@@ -15,27 +16,49 @@ body {
   gap: 40px;
 }
 
-/* Question box */
+/* Section title */
+#section-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Question in gray box */
 .question-box {
   background-color: #f2f2f2;
-  padding: 50px;
+  padding: 40px;
   border-radius: 15px;
 }
 
-/* Question / Section text */
+/* Question text */
 #question-text {
-  font-size: 30px;
+  font-size: 28px; /* smaller than 36px */
   font-weight: bold;
   line-height: 1.6;
   text-align: center;
 }
 
-/* Options */
+/* Risk text in orange bubble */
+.risk-cloud {
+  padding: 40px;
+  background: #fff5e6;
+  border: 4px solid orange;
+  border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
+  font-style: italic;
+  font-size: 24px;
+  text-align: center;
+  line-height: 1.8;
+  margin-bottom: 80px;
+}
+
+/* Yes/Partial/No options */
 .options {
   display: flex;
   justify-content: center;
   gap: 60px;
-  font-size: 24px;
+  font-size: 26px;
+  margin-top: 20px;
+  margin-bottom: 100px;
 }
 
 .options label {
@@ -44,37 +67,26 @@ body {
 }
 
 .options input[type="radio"] {
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
+  width: 28px;
+  height: 28px;
+  margin-right: 15px;
 }
 
-/* Risk bubble */
-.risk-cloud {
-  padding: 40px;
-  background: #fff5e6;
-  border: 4px solid orange;
-  border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
-  font-style: italic;
-  font-size: 22px;
-  text-align: center;
-  line-height: 1.8;
-}
-
-/* Buttons */
+/* Navigation buttons */
 .buttons {
   display: flex;
   justify-content: space-between;
 }
 
 .buttons button {
-  padding: 18px 50px;
-  font-size: 22px;
+  padding: 20px 50px;
+  font-size: 24px;
   border-radius: 10px;
   border: none;
   background-color: #0078d4;
   color: white;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .buttons button:hover {
