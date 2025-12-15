@@ -1,6 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Security Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <div class="quiz-container">
 
-  <!-- Section title (hidden for now, title goes in gray box) -->
+  <!-- Section title -->
   <h2 id="section-title"></h2>
 
   <!-- Question inside gray box -->
@@ -8,15 +17,15 @@
     <p id="question-text">This is where the question will appear.</p>
   </div>
 
-  <!-- Yes/No options (moved above risk bubble) -->
-  <div class="options">
-    <label><input type="radio" name="answer" value="yes"> Yes</label>
-    <label><input type="radio" name="answer" value="no"> No</label>
-  </div>
-
   <!-- Orange risk bubble -->
   <div class="risk-cloud" id="risk-text">
     This is the risk or additional info text.
+  </div>
+
+  <!-- Yes/No options -->
+  <div class="options">
+    <label><input type="radio" name="answer" value="yes"> Yes</label>
+    <label><input type="radio" name="answer" value="no"> No</label>
   </div>
 
   <!-- Navigation buttons -->
@@ -26,3 +35,8 @@
   </div>
 
 </div>
+
+<script src="questions.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>
