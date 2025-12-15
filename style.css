@@ -43,7 +43,7 @@ body {
 }
 
 .options label {
-  font-weight: normal;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -86,6 +86,7 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
 
 
