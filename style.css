@@ -38,7 +38,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 60px;          /* space between Yes/No buttons */
-  font-size: 28px;     /* bigger text */
+  font-size: 26px;     /* bigger text */
   margin-top: 20px;    /* closer to question */
   margin-bottom: 100px; /* large space before risk bubble */
 }
@@ -87,6 +87,7 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
 
 
