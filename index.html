@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Security Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Security Controls Quiz</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div class="quiz-container">
 
-    <!-- Question inside gray box -->
-    <div class="question-box">
+    <h2 id="section-title"></h2>
+
+    <div id="question-box">
       <p id="question-text"></p>
+      <div id="risk-text"></div>
     </div>
 
-    <!-- Yes / No options -->
-    <div class="options">
-      <label>
-        <input type="radio" name="answer" value="yes"> Yes
-      </label>
-      <label>
-        <input type="radio" name="answer" value="no"> No
-      </label>
+    <div class="answers">
+      <label><input type="radio" name="answer" value="yes"> Yes</label>
+      <label><input type="radio" name="answer" value="partial"> Partial</label>
+      <label><input type="radio" name="answer" value="no"> No</label>
     </div>
 
-    <!-- Risk bubble -->
-    <div class="risk-cloud" id="risk-text"></div>
-
-    <!-- Navigation buttons -->
-    <div class="buttons">
+    <div class="navigation">
       <button id="prev-btn">Previous</button>
       <button id="next-btn">Next</button>
     </div>
 
   </div>
 
+  <script src="questions.js"></script>
   <script src="quiz.js"></script>
 </body>
 </html>
