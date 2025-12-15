@@ -26,7 +26,6 @@ body {
 /* Question text */
 #question-text {
   font-size: 28px; /* smaller than 36px */
-  font-weight: bold;
   line-height: 1.8;
   text-align: center;
 }
@@ -36,7 +35,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 60px;
-  font-size: 28px;
+  font-size: 26px;
   margin-top: 20px;
   margin-bottom: 100px;
 }
@@ -59,7 +58,7 @@ body {
   border: 4px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
   font-style: italic;
-  font-size: 26px;
+  font-size: 22px;
   text-align: center;
   line-height: 2;
   margin-bottom: 80px;
@@ -85,4 +84,5 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
