@@ -6,29 +6,33 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <div class="quiz-container">
 
     <!-- Question inside gray box -->
     <div class="question-box">
-      <p id="question-text">This is where the question will appear.</p>
+      <p id="question-text"></p>
     </div>
 
-    <!-- Yes/No options -->
+    <!-- Yes / No options -->
     <div class="options">
-      <label><input type="radio" name="answer" value="yes"> Yes</label>
-      <label><input type="radio" name="answer" value="no"> No</label>
+      <label>
+        <input type="radio" name="answer" value="yes"> Yes
+      </label>
+      <label>
+        <input type="radio" name="answer" value="no"> No
+      </label>
     </div>
 
-    <!-- Orange risk bubble -->
-    <div class="risk-cloud" id="risk-text">
-      This is the risk or additional info text.
-    </div>
+    <!-- Risk bubble -->
+    <div class="risk-cloud" id="risk-text"></div>
 
     <!-- Navigation buttons -->
     <div class="buttons">
       <button id="prev-btn">Previous</button>
       <button id="next-btn">Next</button>
     </div>
+
   </div>
 
   <script src="quiz.js"></script>
