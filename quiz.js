@@ -13,29 +13,28 @@ function loadItem() {
 
   if (item.type === "section") {
     // SECTION SCREEN
-    questionBox.style.display = "block"; // show gray box
-    optionsDiv.style.display = "none";   // hide Yes/No
-    riskText.style.display = "none";     // hide orange bubble
-
-    // Section text inside gray box
-    questionText.textContent = item.title;
-    questionText.style.fontSize = "28px"; // same font as questions
+    questionBox.style.display = "block";  // gray box visible
+    questionText.textContent = item.title; // show section text
+    questionText.style.fontSize = "28px";
     questionText.style.fontWeight = "bold";
     questionText.style.textAlign = "center";
 
+    optionsDiv.style.display = "none"; // hide Yes/No
+    riskText.style.display = "none";   // hide orange bubble
+
   } else {
     // QUESTION SCREEN
-    questionBox.style.display = "block"; // show gray box
+    questionBox.style.display = "block";
     questionText.style.fontSize = "28px";
     questionText.style.fontWeight = "bold";
     questionText.style.textAlign = "center";
 
     questionText.textContent = item.q;
     riskText.textContent = item.risk;
-    optionsDiv.style.display = "flex";    // show Yes/No
-    riskText.style.display = "block";     // show orange bubble
+    optionsDiv.style.display = "flex";  // Yes/No above orange bubble
+    riskText.style.display = "block";   // show orange bubble
 
-    // Restore previously selected answer
+    // Restore previous answer
     const radios = Array.from(document.getElementsByName("answer"));
     radios.forEach(rb => { rb.checked = answers[currentIndex] === rb.value; });
   }
