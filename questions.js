@@ -1,5 +1,4 @@
 const questions = [
-
   // SECTION 1
   { type: "section", title: "LT-1: Enable threat detection capabilities" },
 
@@ -11,7 +10,7 @@ const questions = [
     q: "Is Microsoft Defender for Cloud enabled to provide threat detection for all critical Azure services?",
     risk: "⚠️ Unprotected Azure services may allow attacker activity to go undetected."
   },
-  // … add up to 10 questions for LT-1
+  // ... up to 10 questions
 
   // SECTION 2
   { type: "section", title: "LT-2: Enable threat detection for identity and access management" },
@@ -20,7 +19,7 @@ const questions = [
     q: "Is Microsoft Entra ID Protection enabled to detect identity-based risks?",
     risk: "⚠️ Undetected identity risks increase the likelihood of account compromise."
   },
-  // … add 8 questions for LT-2
+  // ... up to 8 questions
 
   // SECTION 3
   { type: "section", title: "LT-3: Enable logging for security investigation" },
@@ -30,5 +29,5 @@ const questions = [
     risk: "⚠️ Missing audit logs prevent investigation of identity-related security incidents."
   },
 
-  // Continue for LT-4 … LT-7
+  // Continue LT-4 ... LT-7 with the remaining questions
 ];
