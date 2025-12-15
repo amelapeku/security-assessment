@@ -1,17 +1,28 @@
 // Manually define all 70 questions with their risk text
 const questions = [
-  { q: "Do you enforce strong passwords?", risk: "Weak passwords are easy to crack." },
-  { q: "Is MFA enabled for admins?", risk: "Admin accounts are high-value targets." },
-  { q: "Are backups tested regularly?", risk: "Untested backups may fail in incidents." },
-  { q: "Do you conduct regular phishing training?", risk: "Employees may fall for phishing attacks." },
-  { q: "Is endpoint protection software installed?", risk: "Unprotected devices are vulnerable to malware." },
-  { q: "Do you review user access rights periodically?", risk: "Old permissions can give former employees access." },
-  { q: "Is data encrypted at rest?", risk: "Unencrypted data can be read if storage is stolen." },
-  { q: "Do you have a password manager policy?", risk: "Weak password habits can compromise multiple accounts." },
-  { q: "Is remote access secured with VPN?", risk: "Unsecured remote access can lead to breaches." },
-  { q: "Are software updates applied promptly?", risk: "Delayed updates leave known vulnerabilities exposed." },
-  // … continue up to 70 objects
+{
+    q: "Have you deployed the cloud-native threat detection capabilities of your cloud security posture management platform for compute, storage, database, and identity services, including behavioral analytics and threat intelligence-driven monitoring?",
+    risk: "Without cloud-native threat detection, attacks on your cloud resources may go unnoticed and escalate before response."
+  },
+  {
+    q: "Have you enabled threat detection for all critical Azure services using Microsoft Defender for Cloud, covering virtual machines, storage accounts, databases, containers, and Key Vault instances?",
+    risk: "Critical services without threat detection can be exploited without alerts, increasing security risk."
+  },
+  {
+    q: "Have your security teams reviewed and familiarized themselves with the available detection capabilities using the Microsoft Defender for Cloud security alerts reference guide, including alert types, severity levels, and response requirements?",
+    risk: "Teams unaware of detection capabilities may not recognize alerts or respond appropriately, leading to delayed incident response."
+  },
+  {
+    q: "For services without native threat detection capability, are data plane logs collected and routed to Microsoft Sentinel for custom analytics rules and behavioral detection?",
+    risk: "Without custom detection for unsupported services, malicious activity may go undetected."
+  },
+  {
+    q: "Have you configured alert filtering and analytics rules to reduce false positives and extract high-quality alerts from log data, tuning detection sensitivity based on workload criticality and risk tolerance?",
+    risk: "Poorly tuned alerts generate noise or miss critical incidents, reducing the effectiveness of threat monitoring."
+  }
 ];
+  // … continue up to 70 objects
+
 
 let currentQuestion = 0;
 let answers = Array(questions.length).fill(null);
@@ -79,3 +90,4 @@ nextBtn.addEventListener("click", () => {
 
 // Initialize
 loadQuestion();
+
