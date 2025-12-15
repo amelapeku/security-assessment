@@ -1,106 +1,224 @@
-// Manually define all 70 questions with their risk text
+// ================= QUESTIONS =================
 const questions = [
-{
-    q: "Have you deployed the cloud-native threat detection capabilities of your cloud security posture management platform for compute, storage, database, and identity services, including behavioral analytics and threat intelligence-driven monitoring?",
-    risk: "Without cloud-native threat detection, attacks on your cloud resources may go unnoticed and escalate before response."
+  // ---- Threat Detection & XDR ----
+  {
+    q: "Have you deployed cloud-native threat detection capabilities for compute, storage, database, and identity services?",
+    risk: "Without cloud-native threat detection, attacks may go unnoticed and escalate."
   },
   {
-    q: "Have you enabled threat detection for all critical Azure services using Microsoft Defender for Cloud, covering virtual machines, storage accounts, databases, containers, and Key Vault instances?",
-    risk: "Critical services without threat detection can be exploited without alerts, increasing security risk."
+    q: "Have you enabled Microsoft Defender for Cloud for all critical Azure services?",
+    risk: "Critical services without threat detection can be exploited silently."
   },
   {
-    q: "Have your security teams reviewed and familiarized themselves with the available detection capabilities using the Microsoft Defender for Cloud security alerts reference guide, including alert types, severity levels, and response requirements?",
-    risk: "Teams unaware of detection capabilities may not recognize alerts or respond appropriately, leading to delayed incident response."
+    q: "Have security teams reviewed Microsoft Defender for Cloud alert types and response guidance?",
+    risk: "Unfamiliarity with alerts can delay or prevent effective incident response."
   },
   {
-    q: "For services without native threat detection capability, are data plane logs collected and routed to Microsoft Sentinel for custom analytics rules and behavioral detection?",
-    risk: "Without custom detection for unsupported services, malicious activity may go undetected."
+    q: "Are logs from services without native threat detection routed to Microsoft Sentinel?",
+    risk: "Unsupported services may become blind spots for attackers."
   },
   {
-    q: "Have you configured alert filtering and analytics rules to reduce false positives and extract high-quality alerts from log data, tuning detection sensitivity based on workload criticality and risk tolerance?",
-    risk: "Poorly tuned alerts generate noise or miss critical incidents, reducing the effectiveness of threat monitoring."
+    q: "Have detection rules been tuned to reduce false positives?",
+    risk: "Alert fatigue can hide real security incidents."
+  },
+  {
+    q: "Is security telemetry centralized in Azure Monitor or Microsoft Sentinel?",
+    risk: "Dispersed telemetry limits correlation and detection accuracy."
+  },
+  {
+    q: "Have you deployed Microsoft Defender XDR for cross-domain correlation?",
+    risk: "Threats spanning endpoints, identity, and cloud may go undetected."
+  },
+  {
+    q: "Have you built custom detection rules for organization-specific threats?",
+    risk: "Unique attack patterns may bypass built-in detections."
+  },
+  {
+    q: "Is Microsoft Defender Threat Intelligence integrated for alert enrichment?",
+    risk: "Lack of threat context reduces response effectiveness."
+  },
+  {
+    q: "Are threat intelligence indicators actively matched in Sentinel?",
+    risk: "Known malicious infrastructure may not be detected."
+
+  },
+
+  // ---- Identity Threat Detection ----
+  {
+    q: "Have you enabled Microsoft Entra ID Protection to detect leaked credentials and risky sign-ins?",
+    risk: "Compromised identities may remain active without detection."
+  },
+  {
+    q: "Have you implemented risk-based Conditional Access policies?",
+    risk: "High-risk authentications may succeed without additional controls."
+  },
+  {
+    q: "Are anomalous service principal and deprecated account activities monitored?",
+    risk: "Non-human identities may be abused for persistence."
+  },
+
+  // ---- Identity Monitoring & Logging ----
+  {
+    q: "Are Microsoft Entra sign-in logs enabled for all authentication types?",
+    risk: "Missing authentication logs reduce identity visibility."
+  },
+  {
+    q: "Are Microsoft Entra audit logs enabled for identity changes?",
+    risk: "Privilege escalation may occur without traceability."
+  },
+  {
+    q: "Are Entra logs retained beyond the default 30-day period?",
+    risk: "Delayed attacks may not be investigable."
+  },
+  {
+    q: "Is Entra Connect Health integrated for hybrid identity monitoring?",
+    risk: "Hybrid sync failures and attacks may go unnoticed."
+  },
+
+  // ---- Management Plane Logging ----
+  {
+    q: "Are Azure Activity Logs enabled for all subscriptions?",
+    risk: "Administrative actions may not be auditable."
+  },
+  {
+    q: "Are Activity Logs centralized in Log Analytics?",
+    risk: "Cross-subscription investigations become difficult."
+  },
+  {
+    q: "Is Azure Policy enforcing diagnostic settings?",
+    risk: "Logging gaps may appear as subscriptions grow."
+  },
+
+  // ---- Data Plane Logging ----
+  {
+    q: "Are data plane logs enabled across Azure services?",
+    risk: "Unauthorized data access may go undetected."
+  },
+  {
+    q: "Are Azure Storage access logs enabled?",
+    risk: "Storage misuse or exfiltration may not be traceable."
+  },
+  {
+    q: "Is Azure SQL auditing enabled?",
+    risk: "Database abuse may occur without evidence."
+  },
+  {
+    q: "Are Key Vault access logs enabled?",
+    risk: "Secret compromise may not be detected."
+  },
+  {
+    q: "Are Cosmos DB diagnostic logs enabled?",
+    risk: "Suspicious NoSQL access patterns may be missed."
+  },
+  {
+    q: "Are diagnostics enabled for all data platforms?",
+    risk: "Unmonitored data services create blind spots."
+  },
+
+  // ---- Application & Compute Logging ----
+  {
+    q: "Are App Service diagnostics enabled?",
+    risk: "Application attacks may not be traceable."
+  },
+  {
+    q: "Are API Management logs enabled?",
+    risk: "API abuse may go undetected."
+  },
+  {
+    q: "Are Azure Functions monitored with Application Insights?",
+    risk: "Serverless attacks may lack visibility."
+  },
+  {
+    q: "Are Logic App executions logged?",
+    risk: "Workflow abuse may go unnoticed."
+  },
+  {
+    q: "Is Azure Monitor Agent deployed on all VMs?",
+    risk: "Host-level attacks may not be detected."
+  },
+  {
+    q: "Are Windows security event logs collected?",
+    risk: "Authentication and privilege abuse may be missed."
+  },
+  {
+    q: "Are Linux authentication and system logs collected?",
+    risk: "Linux compromise may go undetected."
+  },
+  {
+    q: "Is endpoint protection telemetry enabled?",
+    risk: "Malware infections may persist."
+  },
+
+  // ---- Application Security Logging ----
+  {
+    q: "Is structured application logging implemented with security context?",
+    risk: "Logs may lack forensic value."
+  },
+  {
+    q: "Is APM telemetry enabled for applications?",
+    risk: "Application-layer attacks may go unnoticed."
+  },
+  {
+    q: "Are application security events logged?",
+    risk: "Business logic abuse may be undetected."
+  },
+  {
+    q: "Are web security events such as CSP violations logged?",
+    risk: "Client-side attacks may be missed."
+  },
+  {
+    q: "Are WAF and API gateway logs enabled?",
+    risk: "Layer 7 attacks may bypass detection."
+  },
+
+  // ---- Network Logging ----
+  {
+    q: "Are NSG flow logs enabled?",
+    risk: "Lateral movement may go undetected."
+  },
+  {
+    q: "Are Azure Firewall and DNS logs enabled?",
+    risk: "Malicious outbound traffic may not be detected."
+  },
+
+  // ---- SIEM & Log Management ----
+  {
+    q: "Are logs aggregated centrally for correlation?",
+    risk: "Disparate logs reduce detection effectiveness."
+  },
+  {
+    q: "Is Microsoft Sentinel deployed as a SIEM/SOAR?",
+    risk: "Threat response may remain manual and slow."
+  },
+  {
+    q: "Are analytics rules configured in Sentinel?",
+    risk: "Threats may not generate incidents."
+  },
+  {
+    q: "Are automated response playbooks implemented?",
+    risk: "Incident containment may be delayed."
+  },
+  {
+    q: "Are Sentinel dashboards deployed?",
+    risk: "Security posture visibility may be limited."
+  },
+
+  // ---- Retention & Time ----
+  {
+    q: "Are log retention and archival strategies defined?",
+    risk: "Compliance and investigation requirements may not be met."
+  },
+  {
+    q: "Are logs forwarded externally when required?",
+    risk: "Multi-cloud visibility may be incomplete."
+  },
+  {
+    q: "Are systems synchronized to reliable NTP sources?",
+    risk: "Time drift can break log correlation."
   }
-
- {
-    q: "Have you centralized security telemetry by aggregating alerts and log data from cloud security platforms, endpoint protection, identity systems, and application services into Azure Monitor or Microsoft Sentinel for unified analysis and correlation?",
-    risk: "Without centralized telemetry, security events may be missed or difficult to correlate, reducing detection and response effectiveness."
-  },
-  {
-    q: "Have you deployed a unified XDR platform such as Microsoft Defender XDR to correlate threat detection across Microsoft 365 Defender, Microsoft Defender for Cloud, and Microsoft Entra ID with cross-domain incident grouping and automated investigation workflows?",
-    risk: "Without a unified XDR platform, threats may go undetected across domains and response may be slower."
-  },
-  {
-    q: "Have you built custom detection rules to match organization-specific threat patterns, attack indicators, and business logic violations that pre-built detections cannot address?",
-    risk: "Relying only on pre-built detections may leave gaps for threats unique to your organization."
-  },
-  {
-    q: "Have you integrated Microsoft Defender Threat Intelligence to enrich alerts with threat actor attribution, infrastructure reputation, vulnerability exploitation intelligence, and compromised indicator correlation?",
-    risk: "Without threat intelligence enrichment, alerts may lack context, making it harder to prioritize and respond effectively."
-  },
-  {
-    q: "Have you implemented threat intelligence indicators in Microsoft Sentinel for automated matching of observables such as IP addresses, domains, file hashes, and URLs against known malicious infrastructure and threat actor campaigns?",
-    risk: "Without automated matching of threat indicators, malicious activity may go undetected or require manual investigation."
-  }
-
-{
-    q: "Are stolen, leaked, or brute-forced credentials used for extended periods without detection because sign-in anomalies and risk scoring are absent?",
-    risk: "Undetected credential compromise allows attackers to maintain persistent access for weeks or months."
-  },
-  {
-    q: "Are successful authentications from geographically distant locations within impossible timeframes going unmonitored due to lack of baseline analysis?",
-    risk: "Impossible travel attacks can go unnoticed, enabling credential sharing or compromise without detection."
-  },
-  {
-    q: "Are orphaned accounts, former employees, or unused service principals present, providing persistence footholds that attackers can exploit?",
-    risk: "Deprecated accounts allow attackers to maintain access while avoiding scrutiny of normal user behavior."
-  },
-  {
-    q: "Can attackers add themselves to administrative roles, create new privileged identities, or modify group memberships without triggering audit alerts or anomaly detection?",
-    risk: "Privilege escalation without detection enables attackers to gain elevated access silently."
-  },
-  {
-    q: "Can low-and-slow password guessing attacks (password sprays) avoid account lockout thresholds and evade detection due to lack of aggregated authentication failure analytics?",
-    risk: "Password spray attacks can succeed without triggering alerts, compromising multiple accounts."
-  },
-  {
-    q: "Are adversaries able to bypass MFA using legacy authentication protocols, session replay, or MFA fatigue attacks because risky sign-in behaviors aren't flagged or blocked?",
-    risk: "MFA bypass techniques leave accounts vulnerable to compromise despite multi-factor protection."
-  },
-  {
-    q: "Can malicious insiders with legitimate credentials exfiltrate data or abuse privileged access while blending with normal activity patterns absent user behavior analytics (UBA)?",
-    risk: "Insider threats may go undetected, causing data loss or unauthorized actions within the organization."
-  }
-
-
-
-{
-    q: "Have you enabled Microsoft Entra audit logs to provide complete traceability for all changes to identity resources, including user and group management, role assignments, application registrations, and policy modifications?",
-    risk: "Without comprehensive audit logging, changes to identity resources may go unnoticed, preventing accountability and traceability."
-  },
-  {
-    q: "Do you monitor authentication activities by tracking sign-in reports for all managed applications and user accounts to establish baselines and identify anomalies?",
-    risk: "Failure to monitor authentication activities can allow unusual or malicious access to go undetected."
-  },
-  {
-    q: "Have you enabled monitoring of risky sign-ins to flag authentication attempts from suspicious sources, impossible travel scenarios, unfamiliar locations, or leaked credential usage?",
-    risk: "Without detecting risky sign-in patterns, compromised accounts may remain active, increasing security exposure."
-  },
-  {
-    q: "Do you monitor users flagged for risk to detect compromised accounts showing multiple risk indicators requiring immediate investigation and remediation?",
-    risk: "Failure to identify compromised accounts can allow attackers to maintain access and perform malicious actions."
-  },
-  {
-    q: "Have you integrated Microsoft Entra ID logs with Azure Monitor, Microsoft Sentinel, or third-party SIEM platforms for advanced correlation, long-term retention, and cross-domain threat detection analytics?",
-    risk: "Without SIEM integration, important logs may not be analyzed effectively, reducing visibility into threats and incidents."
-  }
-
-
-
-    
 ];
-  // … continue up to 70 objects
 
-
+// ================= QUIZ LOGIC =================
 let currentQuestion = 0;
 let answers = Array(questions.length).fill(null);
 
@@ -116,7 +234,6 @@ function loadQuestion() {
   questionText.textContent = q.q;
   riskText.textContent = q.risk;
 
-  // Reset radios
   radioButtons.forEach(rb => rb.checked = false);
   if (answers[currentQuestion]) {
     radioButtons.forEach(rb => {
@@ -126,17 +243,13 @@ function loadQuestion() {
 
   prevBtn.disabled = currentQuestion === 0;
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Finish" : "Next";
+  nextBtn.disabled = answers[currentQuestion] === null;
 
-  // Update progress
   if (progress) {
     progress.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
   }
-
-  // Disable Next if no answer selected
-  nextBtn.disabled = answers[currentQuestion] === null;
 }
 
-// Save answer
 radioButtons.forEach(rb => {
   rb.addEventListener("change", () => {
     answers[currentQuestion] = rb.value;
@@ -167,5 +280,3 @@ nextBtn.addEventListener("click", () => {
 
 // Initialize
 loadQuestion();
-
-
