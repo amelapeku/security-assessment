@@ -7,34 +7,35 @@
 </head>
 <body>
 
-  <div class="quiz-container">
+<div class="quiz-container">
 
-    <!-- Question inside gray box -->
-    <div class="question-box">
-      <p id="question-text"></p>
-    </div>
+  <!-- Section title -->
+  <h2 id="section-title"></h2>
 
-    <!-- Yes / No options -->
-    <div class="options">
-      <label>
-        <input type="radio" name="answer" value="yes"> Yes
-      </label>
-      <label>
-        <input type="radio" name="answer" value="no"> No
-      </label>
-    </div>
-
-    <!-- Risk bubble -->
-    <div class="risk-cloud" id="risk-text"></div>
-
-    <!-- Navigation buttons -->
-    <div class="buttons">
-      <button id="prev-btn">Previous</button>
-      <button id="next-btn">Next</button>
-    </div>
-
+  <!-- Question inside gray box -->
+  <div class="question-box">
+    <p id="question-text"></p>
   </div>
 
-  <script src="quiz.js"></script>
+  <!-- Risk bubble -->
+  <div class="risk-cloud" id="risk-text"></div>
+
+  <!-- Yes/Partial/No options -->
+  <div class="options">
+    <label><input type="radio" name="answer" value="yes"> Yes</label>
+    <label><input type="radio" name="answer" value="partial"> Partial</label>
+    <label><input type="radio" name="answer" value="no"> No</label>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="buttons">
+    <button id="prev-btn">Previous</button>
+    <button id="next-btn">Next</button>
+  </div>
+
+</div>
+
+<script src="questions.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>
