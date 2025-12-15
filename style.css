@@ -1,10 +1,12 @@
 body {
   font-family: Verdana, sans-serif;
   background-color: #f5f5f5;
+  font-family: Verdana, sans-serif;
+
 }
 
 .quiz-container {
-  width: 900px;
+  width: 1200px;
   margin: 40px auto;
   background: white;
   padding: 30px;
@@ -45,3 +47,4 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
