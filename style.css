@@ -28,6 +28,8 @@ body {
   font-size: 24px; /* smaller than 36px */
   line-height: 1.8;
   text-align: center;
+  
+  font-weight: normal; 
 }
 
 /* Yes/No options */
@@ -84,4 +86,5 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
