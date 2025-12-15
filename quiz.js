@@ -15,7 +15,7 @@ function loadItem() {
     // SECTION SCREEN
     questionBox.style.display = "block";  // gray box visible
     questionText.textContent = item.title; // show section text
-    questionText.style.fontSize = "24px";
+    questionText.style.fontSize = "22px";
     questionText.style.textAlign = "center";
 
     optionsDiv.style.display = "none"; // hide Yes/No
@@ -24,7 +24,7 @@ function loadItem() {
   } else {
     // QUESTION SCREEN
     questionBox.style.display = "block";
-    questionText.style.fontSize = "24px";
+    questionText.style.fontSize = "22px";
     questionText.style.textAlign = "center";
 
     questionText.textContent = item.q;
@@ -70,5 +70,6 @@ prevBtn.addEventListener("click", () => {
 
 // Initialize
 loadItem();
+
 
 
