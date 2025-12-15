@@ -16,7 +16,6 @@ function loadItem() {
     questionBox.style.display = "block";  // gray box visible
     questionText.textContent = item.title; // show section text
     questionText.style.fontSize = "28px";
-    questionText.style.fontWeight = "bold";
     questionText.style.textAlign = "center";
 
     optionsDiv.style.display = "none"; // hide Yes/No
@@ -26,7 +25,6 @@ function loadItem() {
     // QUESTION SCREEN
     questionBox.style.display = "block";
     questionText.style.fontSize = "28px";
-    questionText.style.fontWeight = "bold";
     questionText.style.textAlign = "center";
 
     questionText.textContent = item.q;
@@ -59,7 +57,6 @@ nextBtn.addEventListener("click", () => {
     document.body.innerHTML = `
       <div style="max-width:600px;margin:100px auto;text-align:center;font-family:Verdana,Arial,sans-serif">
         <h1>Your Score</h1>
-        <p style="font-size:32px;font-weight:bold;">${score} points</p>
         <p>You answered “Yes” to ${score / 5} out of ${questions.length} questions.</p>
       </div>
     `;
@@ -73,3 +70,4 @@ prevBtn.addEventListener("click", () => {
 
 // Initialize
 loadItem();
+
