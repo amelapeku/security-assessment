@@ -1,14 +1,13 @@
-/* General page style */
 body {
   background-color: white;
-  font-family: Arial, sans-serif;
+  font-family: Verdana, Geneva, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* Center quiz container */
+/* Container */
 .quiz-container {
-  max-width: 11000px; /* desktop-friendly */
+  max-width: 1100px;
   margin: 60px auto;
   padding: 20px;
   display: flex;
@@ -16,31 +15,27 @@ body {
   gap: 40px;
 }
 
-/* Question in gray box only */
+/* Question box */
 .question-box {
   background-color: #f2f2f2;
-  padding: 40px;
+  padding: 50px;
   border-radius: 15px;
 }
 
-/* Question text */
+/* Question / Section text */
 #question-text {
-  font-size: 24px;
-  line-height: 1.8;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.6;
   text-align: center;
-    font-family: Verdana, Geneva, sans-serif;
-
-  
 }
 
-/* Yes/No options */
+/* Options */
 .options {
   display: flex;
   justify-content: center;
-  gap: 60px;          /* space between Yes/No buttons */
-  font-size: 26px;     /* bigger text */
-  margin-top: 20px;    /* closer to question */
-  margin-bottom: 100px; /* large space before risk bubble */
+  gap: 60px;
+  font-size: 24px;
 }
 
 .options label {
@@ -49,50 +44,39 @@ body {
 }
 
 .options input[type="radio"] {
-  width: 28px;
-  height: 28px;
-  margin-right: 15px;
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
 }
 
-/* Risk text in orange bubble */
+/* Risk bubble */
 .risk-cloud {
   padding: 40px;
   background: #fff5e6;
   border: 4px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
   font-style: italic;
-  font-size: 18px;
+  font-size: 22px;
   text-align: center;
-  line-height: 2;
-  margin-bottom: 80px; /* space before buttons */
+  line-height: 1.8;
 }
 
-/* Navigation buttons */
+/* Buttons */
 .buttons {
   display: flex;
   justify-content: space-between;
 }
 
 .buttons button {
-  padding: 20px 50px;
-  font-size: 24px;
+  padding: 18px 50px;
+  font-size: 22px;
   border-radius: 10px;
   border: none;
   background-color: #0078d4;
   color: white;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
-
-
-
-
-
-
-
