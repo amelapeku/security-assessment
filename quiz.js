@@ -1,28 +1,32 @@
 let currentIndex = 0;
 const answers = {};
 
+const sectionTitle = document.getElementById("section-title");
 const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
-const optionsDiv = document.querySelector(".options");
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
+const optionsDiv = document.querySelector(".options");
+const riskDiv = document.querySelector(".risk-cloud");
 
 function loadItem() {
   const item = questions[currentIndex];
 
   if (item.type === "section") {
     // SECTION SCREEN
-    questionText.textContent = item.title; // show section title inside gray box
-    optionsDiv.style.display = "none";     // hide Yes/No options
-    riskText.style.display = "none";       // hide risk bubble
+    sectionTitle.style.display = "none"; // optional, you can hide the small h2
+    questionText.textContent = item.title; // show section title in gray box
+    riskDiv.style.display = "none";       // hide orange bubble
+    optionsDiv.style.display = "none";    // hide Yes/No
   } else {
     // QUESTION SCREEN
-    questionText.textContent = item.q;      // show question
-    riskText.textContent = item.risk;      // show risk
-    optionsDiv.style.display = "flex";     // show Yes/No
-    riskText.style.display = "block";      // show risk
+    sectionTitle.style.display = "none"; // optional
+    questionText.textContent = item.q;
+    riskText.textContent = item.risk;
+    riskDiv.style.display = "block";     // show orange bubble
+    optionsDiv.style.display = "flex";   // show Yes/No
 
-    // Restore previously selected answer
+    // Set radio buttons
     const radios = Array.from(document.getElementsByName("answer"));
     radios.forEach(rb => { rb.checked = answers[currentIndex] === rb.value; });
   }
