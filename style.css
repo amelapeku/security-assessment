@@ -27,6 +27,7 @@ body {
   background-color: #f2f2f2;
   padding: 40px;
   border-radius: 15px;
+  padding-bottom: 120px; /* extra space to prevent overlap with fixed buttons */
 }
 
 /* Extra spacing ONLY for section screens */
@@ -90,17 +91,24 @@ body {
 }
 
 /* =========================
-   Navigation buttons
+   Navigation buttons - fixed at bottom
 ========================= */
 .buttons {
   display: flex;
   justify-content: space-between;
-  gap: 20px;       /* optional spacing between buttons */
+  gap: 20px;
+  position: fixed;      /* fixed at bottom */
+  bottom: 40px;         /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;           /* optional: adjust width */
+  max-width: 800px;
+  z-index: 1000;        /* above other content */
 }
 
 .buttons button {
-  flex: 1;                  /* makes both buttons equal width */
-  max-width: 300px;         /* optional: limit size on wide screens */
+  flex: 1;                  /* make both buttons equal width */
+  max-width: 300px;
   padding: 20px 50px;
   font-size: 24px;
   border-radius: 10px;
