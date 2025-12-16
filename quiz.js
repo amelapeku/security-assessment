@@ -1,7 +1,8 @@
-let currentIndex = 0;
+let currentIndex = -1; // -1 represents the intro page
 const answers = {};
 
-const questionBox = document.querySelector(".question-box");
+const introPage = document.getElementById("intro-page");
+const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
 const optionsDiv = document.querySelector(".options");
@@ -10,36 +11,47 @@ const prevBtn = document.getElementById("prev-btn");
 const radios = Array.from(document.getElementsByName("answer"));
 
 function loadItem() {
-  const item = questions[currentIndex];
-
-  if (item.type === "section") {
-    // SECTION VIEW
-    questionBox.classList.add("section-view");
-    questionText.textContent = item.title;
-
+  if (currentIndex === -1) {
+    // Show intro page
+    introPage.style.display = "block";
+    questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
-
+    prevBtn.style.display = "none";
     nextBtn.disabled = false;
   } else {
-    // QUESTION VIEW
-    questionBox.classList.remove("section-view");
-    questionText.textContent = item.q;
+    introPage.style.display = "none";
+    questionBox.style.display = "block";
+    prevBtn.style.display = "inline-block";
 
-    optionsDiv.style.display = "flex";
-    riskText.textContent = item.risk;
-    riskText.style.display = "block";
+    const item = questions[currentIndex];
 
-    radios.forEach(rb => {
-      rb.checked = answers[currentIndex] === rb.value;
-    });
+    if (item.type === "section") {
+      // Section view
+      questionBox.classList.add("section-view");
+      questionText.textContent = item.title;
+      optionsDiv.style.display = "none";
+      riskText.style.display = "none";
+      nextBtn.disabled = false;
+    } else {
+      // Question view
+      questionBox.classList.remove("section-view");
+      questionText.textContent = item.q;
+      optionsDiv.style.display = "flex";
+      riskText.textContent = item.risk;
+      riskText.style.display = "block";
 
-    nextBtn.disabled = answers[currentIndex] == null;
+      radios.forEach(rb => {
+        rb.checked = answers[currentIndex] === rb.value;
+      });
+
+      nextBtn.disabled = answers[currentIndex] == null;
+    }
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.textContent =
+      currentIndex === questions.length - 1 ? "Finish" : "Next";
   }
-
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.textContent =
-    currentIndex === questions.length - 1 ? "Finish" : "Next";
 }
 
 // Enable Next when answered
@@ -52,6 +64,13 @@ radios.forEach(rb => {
 
 // Navigation
 nextBtn.addEventListener("click", () => {
+  if (currentIndex === -1) {
+    // Move from intro page to first item
+    currentIndex = 0;
+    loadItem();
+    return;
+  }
+
   if (currentIndex < questions.length - 1) {
     currentIndex++;
     loadItem();
@@ -76,4 +95,5 @@ prevBtn.addEventListener("click", () => {
   }
 });
 
+// Initialize with intro page
 loadItem();
