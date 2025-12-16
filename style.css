@@ -32,13 +32,13 @@ body {
   background-color: #f2f2f2;
   padding: 20px 50px;
   border-radius: 15px;
-  width: 95%;           /* wider container */
-  max-width: 1400px;    /* wider max */
+  width: 95%;
+  max-width: 1400px;
   position: fixed;
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  height: 160px;        /* accommodate 2-3 lines comfortably */
+  height: 160px;        /* accommodates 2-3 lines */
   display: flex;
   align-items: center;
   justify-content: flex-start; 
@@ -61,7 +61,7 @@ body {
   font-size: 22px;
   line-height: 1.8;
   font-weight: normal;
-  max-width: 1350px;   /* wider text area */
+  max-width: 1350px;
   margin: 0 auto;
 }
 
@@ -74,7 +74,7 @@ body {
   gap: 60px;
   font-size: 24px;
   position: fixed;
-  top: 320px;           /* increased gap from question */
+  top: 320px;           /* gap from question */
   left: 50%;
   transform: translateX(-50%);
 }
@@ -102,13 +102,13 @@ body {
   font-size: 20px;
   line-height: 1.5;
   text-align: left;
-  width: 90%;                        
-  max-width: 1320px;
+  width: 95%;                        
+  max-width: 1400px;               /* same as gray container */
   position: fixed;
-  top: 500px;           /* increased gap from Yes/No options */
+  top: 500px;                        /* increased gap from Yes/No options */
   left: 50%;
   transform: translateX(-50%);
-  height: 80px;         /* slightly narrower vertically */
+  height: 70px;                     /* slightly narrower vertically */
   display: flex;
   align-items: center;
 }
@@ -127,6 +127,11 @@ body {
   margin: 0 auto;
   gap: 20px;
   z-index: 1000;
+}
+
+/* Align Next button to right for intro page */
+.buttons.intro-next {
+  justify-content: flex-end;
 }
 
 .buttons button {
