@@ -32,7 +32,7 @@ body {
 #question-text {
   font-size: 22px;
   line-height: 1.8;
-  text-align: center;
+  text-align: left;
   font-weight: normal;
 }
 
@@ -89,4 +89,5 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
