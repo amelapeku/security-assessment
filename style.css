@@ -42,7 +42,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  text-align: left;
 }
 
 /* Section view adjustments (LT-1, LT-2, etc.) */
@@ -61,7 +61,7 @@ body {
   font-weight: normal;
   max-width: 1300px;
   margin: 0 auto;
-  text-align: center; /* center for all section and question boxes */
+  text-align: left; /* center for all section and question boxes */
 }
 
 /* =========================
@@ -142,4 +142,5 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
 
