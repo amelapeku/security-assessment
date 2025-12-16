@@ -20,6 +20,7 @@ function loadItem() {
     prevBtn.style.display = "none";
     nextBtn.disabled = false;
   } else {
+    // Hide intro page
     introPage.style.display = "none";
     questionBox.style.display = "block";
     prevBtn.style.display = "inline-block";
