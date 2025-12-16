@@ -1,12 +1,16 @@
-/* General page style */
+/* =========================
+   Base page styling
+========================= */
 body {
-  background-color: white;
+  background-color: #ffffff;
   font-family: Verdana, Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* Center quiz container */
+/* =========================
+   Main quiz container
+========================= */
 .quiz-container {
   max-width: 1500px;
   margin: 60px auto;
@@ -16,7 +20,9 @@ body {
   gap: 40px;
 }
 
-/* Gray box */
+/* =========================
+   Gray question / section box
+========================= */
 .question-box {
   background-color: #f2f2f2;
   padding: 40px;
@@ -28,15 +34,21 @@ body {
   margin-bottom: 140px;
 }
 
-/* Question / section text */
+/* =========================
+   Question / section text
+========================= */
 #question-text {
   font-size: 22px;
   line-height: 1.8;
   text-align: left;
   font-weight: normal;
+  max-width: 1200px;   /* keeps text readable on wide screens */
+  margin: 0 auto;
 }
 
-/* Yes / No options */
+/* =========================
+   Yes / No options
+========================= */
 .options {
   display: flex;
   justify-content: center;
@@ -57,20 +69,24 @@ body {
   margin-right: 15px;
 }
 
-/* Risk bubble */
+/* =========================
+   Risk text (orange bubble)
+========================= */
 .risk-cloud {
   padding: 40px;
-  background: #fff5e6;
+  background-color: #fff5e6;
   border: 4px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
   font-style: italic;
   font-size: 20px;
-  text-align: left;
   line-height: 2;
+  text-align: left;
   margin-bottom: 80px;
 }
 
-/* Buttons */
+/* =========================
+   Navigation buttons
+========================= */
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -82,12 +98,11 @@ body {
   border-radius: 10px;
   border: none;
   background-color: #0078d4;
-  color: white;
+  color: #ffffff;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
