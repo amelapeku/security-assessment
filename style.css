@@ -1,7 +1,7 @@
 /* General page style */
 body {
   background-color: white;
-  font-family: Verdana, Arial, sans-serif; /* ✅ Verdana */
+  font-family: Verdana, Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -16,23 +16,27 @@ body {
   gap: 40px;
 }
 
-/* Question in gray box */
+/* Gray box */
 .question-box {
   background-color: #f2f2f2;
   padding: 40px;
   border-radius: 15px;
 }
 
-/* Question text */
-#question-text {
-  font-size: 22px; /* smaller than 36px */
-  line-height: 1.8;
-  text-align: center;
-  
-  font-weight: normal; 
+/* Extra spacing ONLY for section screens */
+.question-box.section-view {
+  margin-bottom: 140px;
 }
 
-/* Yes/No options */
+/* Question / section text */
+#question-text {
+  font-size: 22px;
+  line-height: 1.8;
+  text-align: center;
+  font-weight: normal;
+}
+
+/* Yes / No options */
 .options {
   display: flex;
   justify-content: center;
@@ -53,7 +57,7 @@ body {
   margin-right: 15px;
 }
 
-/* Risk text in orange bubble */
+/* Risk bubble */
 .risk-cloud {
   padding: 40px;
   background: #fff5e6;
@@ -66,7 +70,7 @@ body {
   margin-bottom: 80px;
 }
 
-/* Navigation buttons */
+/* Buttons */
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -80,15 +84,8 @@ body {
   background-color: #0078d4;
   color: white;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
-
-
-
-
