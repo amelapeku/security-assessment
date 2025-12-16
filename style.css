@@ -7,7 +7,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  overflow: hidden; /* prevent scroll since everything is fixed */
+  overflow: hidden;
 }
 
 /* =========================
@@ -33,22 +33,24 @@ body {
   padding: 20px 40px;
   border-radius: 15px;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1000px;
   position: fixed;
   top: 80px;  /* distance from top */
   left: 50%;
   transform: translateX(-50%);
-  height: 120px; /* fixed height for 2–3 lines of text */
+  height: 120px; /* fixed height for 2–3 lines of question text */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* default: questions align left */
   text-align: left;
 }
 
 /* Section view adjustments (LT-1, LT-2, etc.) */
 .question-box.section-view {
-  height: auto; /* allow larger text to wrap if needed */
+  height: auto; 
   padding: 30px 40px;
+  justify-content: center; /* center text horizontally */
+  text-align: center;
   top: 100px;
 }
 
@@ -59,9 +61,8 @@ body {
   font-size: 22px;
   line-height: 1.8;
   font-weight: normal;
-  max-width: 1300px;
+  max-width: 900px;
   margin: 0 auto;
-  text-align: left; /* center for all section and question boxes */
 }
 
 /* =========================
@@ -73,7 +74,7 @@ body {
   gap: 60px;
   font-size: 24px;
   position: fixed;
-  top: 220px; /* below question box */
+  top: 280px; /* increased gap below question box */
   left: 50%;
   transform: translateX(-50%);
 }
@@ -101,9 +102,9 @@ body {
   font-size: 20px;
   line-height: 1.5;
   text-align: left;
-  max-width: 1300px;
+  max-width: 800px;
   position: fixed;
-  top: 300px;  /* below Yes/No options */
+  top: 400px;  /* increased gap below Yes/No options */
   left: 50%;
   transform: translateX(-50%);
   height: 60px;  /* fixed height to fit 2 lines of text */
@@ -142,5 +143,3 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
