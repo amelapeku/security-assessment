@@ -40,10 +40,15 @@ body {
 #question-text {
   font-size: 22px;
   line-height: 1.8;
-  text-align: left;
+  text-align: left;          /* default: left for questions */
   font-weight: normal;
-  max-width: 1200px;   /* keeps text readable on wide screens */
+  max-width: 1400px;   
   margin: 0 auto;
+}
+
+/* Center text ONLY for section screens (LT-1, LT-2, etc.) */
+.question-box.section-view #question-text {
+  text-align: center;
 }
 
 /* =========================
@@ -106,4 +111,3 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
-
