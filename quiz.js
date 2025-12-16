@@ -11,29 +11,24 @@ const prevBtn = document.getElementById("prev-btn");
 const radios = Array.from(document.getElementsByName("answer"));
 
 function loadItem() {
-  // Intro page
+  // Hide all info boxes
+  const infoBoxes = document.querySelectorAll(".info-box");
+  infoBoxes.forEach(box => box.style.display = "none");
+
   if (currentIndex === -1) {
     introPage.style.display = "block";
     questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
     prevBtn.style.display = "none";
-
     nextBtn.disabled = false;
     nextBtn.textContent = "Next";
-
-    // Align Next button to right
-    document.querySelector(".buttons").classList.add("intro-next");
     return;
-  } 
+  }
 
-  // Other pages
   introPage.style.display = "none";
   questionBox.style.display = "block";
   prevBtn.style.display = "inline-block";
-
-  // Remove intro-next class
-  document.querySelector(".buttons").classList.remove("intro-next");
 
   const item = questions[currentIndex];
 
@@ -44,6 +39,11 @@ function loadItem() {
     riskText.style.display = "none";
     nextBtn.disabled = false;
     nextBtn.textContent = "Next";
+
+    // Show the respective LT info box
+    const infoBox = document.getElementById(`${item.id}-info`);
+    if (infoBox) infoBox.style.display = "block";
+
   } else {
     questionBox.classList.remove("section-view");
     questionText.textContent = item.q;
@@ -56,14 +56,13 @@ function loadItem() {
     });
 
     nextBtn.disabled = answers[currentIndex] == null;
-    nextBtn.textContent =
-      currentIndex === questions.length - 1 ? "Finish" : "Next";
+    nextBtn.textContent = currentIndex === questions.length - 1 ? "Finish" : "Next";
   }
 
   prevBtn.disabled = currentIndex === -1;
 }
 
-// Enable Next when answered for questions
+// Enable Next when answered
 radios.forEach(rb => {
   rb.addEventListener("change", () => {
     answers[currentIndex] = rb.value;
@@ -74,11 +73,10 @@ radios.forEach(rb => {
 // Navigation
 nextBtn.addEventListener("click", () => {
   if (currentIndex === -1) {
-    currentIndex = 0; // move from intro to first section
+    currentIndex = 0;
     loadItem();
     return;
   }
-
   if (currentIndex < questions.length - 1) {
     currentIndex++;
     loadItem();
