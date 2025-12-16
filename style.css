@@ -21,7 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
 }
 
@@ -30,23 +30,26 @@ body {
 ========================= */
 .question-box {
   background-color: #f2f2f2;
-  padding: 30px 40px;
+  padding: 20px 40px;
   border-radius: 15px;
   width: 100%;
   max-width: 1000px;
   position: fixed;
-  top: 100px;  /* adjust as needed */
+  top: 80px;  /* distance from top */
   left: 50%;
   transform: translateX(-50%);
-  min-height: 100px;
+  height: 120px; /* fixed height for 2–3 lines of text */
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
-/* Extra spacing ONLY for section screens */
+/* Section view adjustments (LT-1, LT-2, etc.) */
 .question-box.section-view {
-  top: 120px;
+  height: auto; /* allow larger text to wrap if needed */
+  padding: 30px 40px;
+  top: 100px;
 }
 
 /* =========================
@@ -55,14 +58,10 @@ body {
 #question-text {
   font-size: 22px;
   line-height: 1.8;
-  text-align: left;
   font-weight: normal;
   max-width: 900px;
-}
-
-/* Center text ONLY for section screens */
-.question-box.section-view #question-text {
-  text-align: center;
+  margin: 0 auto;
+  text-align: center; /* center for all section and question boxes */
 }
 
 /* =========================
@@ -74,7 +73,7 @@ body {
   gap: 60px;
   font-size: 24px;
   position: fixed;
-  top: 280px; /* position below question box */
+  top: 220px; /* below question box */
   left: 50%;
   transform: translateX(-50%);
 }
@@ -94,19 +93,22 @@ body {
    Risk text (orange bubble)
 ========================= */
 .risk-cloud {
-  padding: 30px;
+  padding: 10px 30px;
   background-color: #fff5e6;
   border: 4px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
   font-style: italic;
   font-size: 20px;
-  line-height: 2;
+  line-height: 1.5;
   text-align: left;
   max-width: 800px;
   position: fixed;
-  top: 380px;  /* position below Yes/No */
+  top: 300px;  /* below Yes/No options */
   left: 50%;
   transform: translateX(-50%);
+  height: 60px;  /* fixed height to fit 2 lines of text */
+  display: flex;
+  align-items: center;  /* vertically center the text */
 }
 
 /* =========================
@@ -126,7 +128,7 @@ body {
 }
 
 .buttons button {
-  flex: 0 0 200px;  /* fixed width */
+  flex: 0 0 200px;  /* fixed width for both buttons */
   padding: 20px 0;
   font-size: 24px;
   border-radius: 10px;
