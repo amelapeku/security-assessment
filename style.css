@@ -74,7 +74,7 @@ body {
   gap: 60px;
   font-size: 24px;
   position: fixed;
-  top: 300px; 
+  top: 320px;           /* increased gap from question */
   left: 50%;
   transform: translateX(-50%);
 }
@@ -105,7 +105,7 @@ body {
   width: 90%;                        /* narrower than gray container */
   max-width: 1320px;
   position: fixed;
-  top: 440px;                        /* increased gap from Yes/No options */
+  top: 460px;                        /* increased gap from Yes/No options */
   left: 50%;
   transform: translateX(-50%);
   height: 100px;                     /* accommodates 2-line risk text */
