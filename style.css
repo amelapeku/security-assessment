@@ -1,6 +1,4 @@
-/* =========================
-   Base page styling
-========================= */
+/* Base page styling */
 body {
   background-color: #ffffff;
   font-family: Verdana, Arial, sans-serif;
@@ -10,9 +8,7 @@ body {
   overflow: hidden;
 }
 
-/* =========================
-   Main quiz container
-========================= */
+/* Main quiz container */
 .quiz-container {
   max-width: 1800px;
   margin: 0 auto;
@@ -25,9 +21,7 @@ body {
   position: relative;
 }
 
-/* =========================
-   Gray question / section box
-========================= */
+/* Gray question box */
 .question-box {
   background-color: #f2f2f2;
   padding: 20px 50px;
@@ -43,55 +37,20 @@ body {
   align-items: center;
   justify-content: flex-start; 
   text-align: left;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 }
 
+/* Section view */
 .question-box.section-view {
   height: auto;
   padding: 30px 50px;
   justify-content: center;
   text-align: center;
   top: 100px;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* =========================
-   Info box under LT sections
-========================= */
-.info-box {
-  background-color: #f2f2f2;
-  padding: 30px 50px;
-  border-radius: 15px;
-  width: 95%;
-  max-width: 1400px;
-  position: fixed;
-  top: 260px;  /* below main question box */
-  left: 50%;
-  transform: translateX(-50%);
-  height: 400px; /* tall container for all content */
-  overflow-y: auto; /* scroll if content exceeds height */
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 }
 
-.info-box p {
-  font-size: 20px;
-  line-height: 1.6;
-  margin: 10px 0;
-}
-
-.info-box ul {
-  margin: 10px 0 0 20px;
-  padding: 0;
-  font-size: 18px;
-}
-
-.info-box ul li {
-  margin-bottom: 6px;
-}
-
-/* =========================
-   Question / section text
-========================= */
+/* Question text */
 #question-text {
   font-size: 22px;
   line-height: 1.8;
@@ -100,16 +59,14 @@ body {
   margin: 0 auto;
 }
 
-/* =========================
-   Yes / No options
-========================= */
+/* Yes/No options */
 .options {
   display: flex;
   justify-content: center;
   gap: 60px;
   font-size: 24px;
   position: fixed;
-  top: 320px;           /* gap from question */
+  top: 320px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -125,9 +82,7 @@ body {
   margin-right: 15px;
 }
 
-/* =========================
-   Risk text (orange bubble)
-========================= */
+/* Risk bubble */
 .risk-cloud {
   padding: 20px 40px;               
   background-color: #fff5e6;
@@ -146,12 +101,28 @@ body {
   height: 70px;
   display: flex;
   align-items: center;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.12);
 }
 
-/* =========================
-   Navigation buttons
-========================= */
+/* LT Section info boxes */
+.info-box {
+  background-color: #f2f2f2;
+  padding: 25px 50px;
+  border-radius: 15px;
+  width: 95%;
+  max-width: 1400px;
+  position: fixed;
+  top: 260px; /* below question box */
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  display: none;
+  z-index: 10;
+  max-height: 600px; /* or adjust as needed */
+  overflow-y: auto;
+}
+
+/* Navigation buttons */
 .buttons {
   display: flex;
   justify-content: space-between; 
@@ -163,10 +134,6 @@ body {
   margin: 0 auto;
   gap: 20px;
   z-index: 1000;
-}
-
-.buttons.intro-next {
-  justify-content: flex-end;
 }
 
 .buttons button {
