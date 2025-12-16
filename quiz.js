@@ -14,7 +14,7 @@ function loadItem() {
 
   if (item.type === "section") {
     // SECTION VIEW
-    questionBox.style.display = "block";
+    questionBox.classList.add("section-view");
     questionText.textContent = item.title;
 
     optionsDiv.style.display = "none";
@@ -23,21 +23,17 @@ function loadItem() {
     nextBtn.disabled = false;
   } else {
     // QUESTION VIEW
-    questionBox.style.display = "block";
+    questionBox.classList.remove("section-view");
     questionText.textContent = item.q;
 
     optionsDiv.style.display = "flex";
-
-    // ✅ RESTORE RISK TEXT
     riskText.textContent = item.risk;
     riskText.style.display = "block";
 
-    // Restore previous answer
     radios.forEach(rb => {
       rb.checked = answers[currentIndex] === rb.value;
     });
 
-    // Disable Next if unanswered
     nextBtn.disabled = answers[currentIndex] == null;
   }
 
@@ -67,7 +63,7 @@ nextBtn.addEventListener("click", () => {
       <div style="max-width:600px;margin:100px auto;text-align:center;font-family:Verdana,Arial,sans-serif">
         <h1>Your Score</h1>
         <p style="font-size:32px;">${score} points</p>
-        <p>You answered “Yes” to ${score / 5} out of ${questions.length} questions.</p>
+        <p>You answered “Yes” to ${score / 5} questions.</p>
       </div>
     `;
   }
@@ -80,5 +76,4 @@ prevBtn.addEventListener("click", () => {
   }
 });
 
-// Init
 loadItem();
