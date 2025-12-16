@@ -94,7 +94,7 @@ body {
    Risk text (orange bubble)
 ========================= */
 .risk-cloud {
-  padding: 20px 50px;            
+  padding: 20px 40px;               /* slightly narrower than gray container */
   background-color: #fff5e6;
   border: 4px solid orange;
   border-radius: 50% 10% 50% 20% / 30% 50% 10% 50%;
@@ -102,13 +102,13 @@ body {
   font-size: 20px;
   line-height: 1.5;
   text-align: left;
-  width: 95%;             /* same width as gray container */
-  max-width: 1400px;
+  width: 90%;                        /* narrower than gray container */
+  max-width: 1320px;
   position: fixed;
-  top: 420px; 
+  top: 440px;                        /* increased gap from Yes/No options */
   left: 50%;
   transform: translateX(-50%);
-  height: 100px;           /* slightly taller for 2-line risk text */
+  height: 100px;                     /* accommodates 2-line risk text */
   display: flex;
   align-items: center;
 }
