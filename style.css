@@ -38,17 +38,14 @@ body {
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  height: 160px;        /* accommodates 2-3 lines */
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: flex-start; 
   text-align: left;
-
-  /* Shadow below the container */
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Section view adjustments (LT-1, LT-2, etc.) */
 .question-box.section-view {
   height: auto;
   padding: 30px 50px;
@@ -56,6 +53,40 @@ body {
   text-align: center;
   top: 100px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   Info box under LT sections
+========================= */
+.info-box {
+  background-color: #f2f2f2;
+  padding: 30px 50px;
+  border-radius: 15px;
+  width: 95%;
+  max-width: 1400px;
+  position: fixed;
+  top: 260px;  /* below main question box */
+  left: 50%;
+  transform: translateX(-50%);
+  height: 400px; /* tall container for all content */
+  overflow-y: auto; /* scroll if content exceeds height */
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.info-box p {
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.info-box ul {
+  margin: 10px 0 0 20px;
+  padding: 0;
+  font-size: 18px;
+}
+
+.info-box ul li {
+  margin-bottom: 6px;
 }
 
 /* =========================
@@ -107,16 +138,14 @@ body {
   line-height: 1.5;
   text-align: left;
   width: 95%;                        
-  max-width: 1400px;               /* same as gray container */
+  max-width: 1400px;
   position: fixed;
-  top: 500px;                        /* gap from Yes/No options */
+  top: 500px;
   left: 50%;
   transform: translateX(-50%);
-  height: 70px;                     /* slightly narrower vertically */
+  height: 70px;
   display: flex;
   align-items: center;
-
-  /* Shadow below the bubble */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
 }
 
@@ -136,7 +165,6 @@ body {
   z-index: 1000;
 }
 
-/* Align Next button to right for intro page */
 .buttons.intro-next {
   justify-content: flex-end;
 }
