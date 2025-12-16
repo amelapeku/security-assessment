@@ -95,9 +95,12 @@ body {
 .buttons {
   display: flex;
   justify-content: space-between;
+  gap: 20px;       /* optional spacing between buttons */
 }
 
 .buttons button {
+  flex: 1;                  /* makes both buttons equal width */
+  max-width: 300px;         /* optional: limit size on wide screens */
   padding: 20px 50px;
   font-size: 24px;
   border-radius: 10px;
@@ -111,10 +114,3 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
-
-
-
-
-
-
-
