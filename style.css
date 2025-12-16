@@ -43,6 +43,9 @@ body {
   align-items: center;
   justify-content: flex-start; 
   text-align: left;
+
+  /* Shadow below the container */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Section view adjustments (LT-1, LT-2, etc.) */
@@ -52,6 +55,7 @@ body {
   justify-content: center;
   text-align: center;
   top: 100px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* =========================
@@ -105,12 +109,15 @@ body {
   width: 95%;                        
   max-width: 1400px;               /* same as gray container */
   position: fixed;
-  top: 500px;                        /* increased gap from Yes/No options */
+  top: 500px;                        /* gap from Yes/No options */
   left: 50%;
   transform: translateX(-50%);
   height: 70px;                     /* slightly narrower vertically */
   display: flex;
   align-items: center;
+
+  /* Shadow below the bubble */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================
