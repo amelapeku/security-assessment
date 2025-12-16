@@ -18,19 +18,26 @@ function loadItem() {
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
     prevBtn.style.display = "none";
+
     nextBtn.disabled = false;
     nextBtn.textContent = "Next";
+
+    // Align Next button to right
+    document.querySelector(".buttons").classList.add("intro-next");
     return;
   } 
 
+  // Other pages
   introPage.style.display = "none";
   questionBox.style.display = "block";
   prevBtn.style.display = "inline-block";
 
+  // Remove intro-next class
+  document.querySelector(".buttons").classList.remove("intro-next");
+
   const item = questions[currentIndex];
 
   if (item.type === "section") {
-    // Section view
     questionBox.classList.add("section-view");
     questionText.textContent = item.title;
     optionsDiv.style.display = "none";
@@ -38,7 +45,6 @@ function loadItem() {
     nextBtn.disabled = false;
     nextBtn.textContent = "Next";
   } else {
-    // Question view
     questionBox.classList.remove("section-view");
     questionText.textContent = item.q;
     optionsDiv.style.display = "flex";
@@ -68,7 +74,7 @@ radios.forEach(rb => {
 // Navigation
 nextBtn.addEventListener("click", () => {
   if (currentIndex === -1) {
-    currentIndex = 0; // move from intro to first section (LT-1)
+    currentIndex = 0; // move from intro to first section
     loadItem();
     return;
   }
@@ -77,9 +83,7 @@ nextBtn.addEventListener("click", () => {
     currentIndex++;
     loadItem();
   } else {
-    // Finished quiz
     const score = Object.values(answers).filter(a => a === "yes").length * 5;
-
     document.body.innerHTML = `
       <div style="max-width:600px;margin:100px auto;text-align:center;font-family:Verdana,Arial,sans-serif">
         <h1>Your Score</h1>
