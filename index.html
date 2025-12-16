@@ -8,8 +8,30 @@
 <body>
   <div class="quiz-container">
 
+    <!-- Intro page -->
+    <div class="question-box section-view" id="intro-page">
+      <p id="question-text">
+        <strong>Welcome to the Logging & Threat Detection Assessment</strong><br><br>
+        This assessment evaluates your organization's implementation of security controls based on 
+        <strong>Microsoft Cloud Security Benchmark (MCSB) v2</strong>, focusing specifically on 
+        <strong>Logging and Threat Detection</strong> controls.<br><br>
+
+        <strong>Why this matters:</strong> Logging and threat detection enable organizations to identify, investigate, and respond to security incidents 
+        before they escalate into full-scale breaches. Continuous monitoring, behavioral analytics, and centralized correlation across identity, network, 
+        data, and application layers are required to detect multi-stage attacks. Organizations implementing comprehensive logging and threat detection 
+        achieve rapid incident response and forensic readiness, while those neglecting these controls face prolonged adversary dwell time, undetected 
+        privilege escalation, and inability to reconstruct breach timelines.<br><br>
+
+        <strong>Risks if not implemented:</strong> Undetected threats for extended periods, incomplete forensic evidence preventing incident reconstruction, 
+        and regulatory compliance gaps.<br><br>
+
+        <strong>Core pillar:</strong> Enable detection capabilities: Deploy intelligent detection systems that continuously monitor for known attack patterns, 
+        anomalous behaviors, and indicators of compromise across all critical resource types (compute, data, identity, network).<br><br>
+      </p>
+    </div>
+
     <!-- Question inside gray box -->
-    <div class="question-box">
+    <div class="question-box" id="question-box">
       <p id="question-text">This is where the question will appear.</p>
     </div>
 
@@ -29,6 +51,7 @@
       <button id="prev-btn">Previous</button>
       <button id="next-btn">Next</button>
     </div>
+
   </div>
 
   <script src="questions.js"></script>
