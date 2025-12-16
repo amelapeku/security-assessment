@@ -17,7 +17,7 @@ function loadItem() {
     questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
-    prevBtn.style.display = "none";
+    prevBtn.style.display = "none"; // no previous on intro
     nextBtn.disabled = false;
   } else {
     // Hide intro page
@@ -49,52 +49,22 @@ function loadItem() {
       nextBtn.disabled = answers[currentIndex] == null;
     }
 
-    prevBtn.disabled = currentIndex === 0;
+    // ✅ Allow going back to intro page
+    prevBtn.disabled = currentIndex === -1;  
     nextBtn.textContent =
       currentIndex === questions.length - 1 ? "Finish" : "Next";
   }
 }
 
-// Enable Next when answered
-radios.forEach(rb => {
-  rb.addEventListener("change", () => {
-    answers[currentIndex] = rb.value;
-    nextBtn.disabled = false;
-  });
-});
-
-// Navigation
-nextBtn.addEventListener("click", () => {
-  if (currentIndex === -1) {
-    // Move from intro page to first item
-    currentIndex = 0;
-    loadItem();
-    return;
-  }
-
-  if (currentIndex < questions.length - 1) {
-    currentIndex++;
-    loadItem();
-  } else {
-    const score =
-      Object.values(answers).filter(a => a === "yes").length * 5;
-
-    document.body.innerHTML = `
-      <div style="max-width:600px;margin:100px auto;text-align:center;font-family:Verdana,Arial,sans-serif">
-        <h1>Your Score</h1>
-        <p style="font-size:32px;">${score} points</p>
-        <p>You answered “Yes” to ${score / 5} questions.</p>
-      </div>
-    `;
-  }
-});
-
+// Navigation for Previous
 prevBtn.addEventListener("click", () => {
-  if (currentIndex > 0) {
+  if (currentIndex > -1) {  // can go back to intro page
     currentIndex--;
     loadItem();
   }
 });
 
+
 // Initialize with intro page
 loadItem();
+
