@@ -4,77 +4,101 @@ const answers = {};
 const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
-const ltInfo = document.getElementById("lt-info");
 const riskText = document.getElementById("risk-text");
 const optionsDiv = document.querySelector(".options");
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const radios = Array.from(document.getElementsByName("answer"));
 
-const ltDetails = {
-  "LT-1": document.getElementById("lt1-info")?.innerHTML,
-  "LT-2": document.getElementById("lt2-info")?.innerHTML,
-  "LT-3": document.getElementById("lt3-info")?.innerHTML,
-  "LT-4": document.getElementById("lt4-info")?.innerHTML,
-  "LT-5": document.getElementById("lt5-info")?.innerHTML,
-  "LT-6": document.getElementById("lt6-info")?.innerHTML,
-  "LT-7": document.getElementById("lt7-info")?.innerHTML
+// Map section titles to existing info boxes
+const ltIdMap = {
+  "LT-1: Enable threat detection capabilities": "lt1-info",
+  "LT-2: Enable threat detection for identity and access management": "lt2-info",
+  "LT-3: Enable logging for security investigation": "lt3-info",
+  "LT-4: Enable network logging for security investigation": "lt4-info",
+  "LT-5: Centralize security log management and analysis": "lt5-info",
+  "LT-6: Configure log storage retention": "lt6-info",
+  "LT-7: Use approved time synchronization sources": "lt7-info"
 };
 
 function hideAllLTInfo() {
-  ltInfo.style.display = "none";
-  ltInfo.innerHTML = "";
+  Object.values(ltIdMap).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
 }
 
 function loadItem() {
-  // INTRO
+  // =====================
+  // INTRO PAGE
+  // =====================
   if (currentIndex === -1) {
     introPage.style.display = "block";
     questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
     hideAllLTInfo();
-    prevBtn.style.display = "none";
+
+    // KEEP BUTTON LAYOUT STABLE
+    prevBtn.style.display = "inline-block";
+    prevBtn.disabled = true;
+
     nextBtn.disabled = false;
+    nextBtn.textContent = "Next";
     return;
   }
 
+  // =====================
+  // NON-INTRO
+  // =====================
   introPage.style.display = "none";
   questionBox.style.display = "block";
   prevBtn.style.display = "inline-block";
+  prevBtn.disabled = false;
 
   const item = questions[currentIndex];
+  hideAllLTInfo();
 
-  // SECTION (LT)
+  // =====================
+  // SECTION VIEW
+  // =====================
   if (item.type === "section") {
     questionBox.classList.add("section-view");
     questionText.textContent = item.title;
 
-    const key = item.title.split(":")[0];
-    ltInfo.innerHTML = document.getElementById(key.toLowerCase() + "-info")?.innerHTML || "";
-    ltInfo.style.display = "block";
+    const infoId = ltIdMap[item.title];
+    if (infoId) {
+      const infoBox = document.getElementById(infoId);
+      if (infoBox) infoBox.style.display = "block";
+    }
 
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
     nextBtn.disabled = false;
+    nextBtn.textContent = "Next";
     return;
   }
 
-  // QUESTION
+  // =====================
+  // QUESTION VIEW
+  // =====================
   questionBox.classList.remove("section-view");
   questionText.textContent = item.q;
-
-  hideAllLTInfo();
 
   optionsDiv.style.display = "flex";
   riskText.textContent = item.risk;
   riskText.style.display = "block";
 
-  radios.forEach(r => r.checked = answers[currentIndex] === r.value);
+  radios.forEach(r => {
+    r.checked = answers[currentIndex] === r.value;
+  });
+
   nextBtn.disabled = answers[currentIndex] == null;
+  nextBtn.textContent =
+    currentIndex === questions.length - 1 ? "Finish" : "Next";
 }
 
-// Enable Next on answer
+// Enable Next when answered
 radios.forEach(radio => {
   radio.addEventListener("change", () => {
     answers[currentIndex] = radio.value;
@@ -84,13 +108,17 @@ radios.forEach(radio => {
 
 // Navigation
 nextBtn.addEventListener("click", () => {
-  currentIndex++;
-  loadItem();
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    loadItem();
+  }
 });
 
 prevBtn.addEventListener("click", () => {
-  currentIndex--;
-  loadItem();
+  if (currentIndex > -1) {
+    currentIndex--;
+    loadItem();
+  }
 });
 
 // Init
