@@ -10,7 +10,6 @@ const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const radios = Array.from(document.getElementsByName("answer"));
 
-// Map section titles to existing info boxes
 const ltIdMap = {
   "LT-1: Enable threat detection capabilities": "lt1-info",
   "LT-2: Enable threat detection for identity and access management": "lt2-info",
@@ -39,8 +38,8 @@ function loadItem() {
     riskText.style.display = "none";
     hideAllLTInfo();
 
-    // KEEP BUTTON LAYOUT STABLE
-    prevBtn.style.display = "inline-block";
+    // HIDE previous, keep layout
+    prevBtn.style.visibility = "hidden";
     prevBtn.disabled = true;
 
     nextBtn.disabled = false;
@@ -53,15 +52,14 @@ function loadItem() {
   // =====================
   introPage.style.display = "none";
   questionBox.style.display = "block";
-  prevBtn.style.display = "inline-block";
+
+  // SHOW previous normally
+  prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 
   const item = questions[currentIndex];
   hideAllLTInfo();
 
-  // =====================
-  // SECTION VIEW
-  // =====================
   if (item.type === "section") {
     questionBox.classList.add("section-view");
     questionText.textContent = item.title;
@@ -79,9 +77,6 @@ function loadItem() {
     return;
   }
 
-  // =====================
-  // QUESTION VIEW
-  // =====================
   questionBox.classList.remove("section-view");
   questionText.textContent = item.q;
 
@@ -98,7 +93,6 @@ function loadItem() {
     currentIndex === questions.length - 1 ? "Finish" : "Next";
 }
 
-// Enable Next when answered
 radios.forEach(radio => {
   radio.addEventListener("change", () => {
     answers[currentIndex] = radio.value;
@@ -106,7 +100,6 @@ radios.forEach(radio => {
   });
 });
 
-// Navigation
 nextBtn.addEventListener("click", () => {
   if (currentIndex < questions.length - 1) {
     currentIndex++;
@@ -121,5 +114,4 @@ prevBtn.addEventListener("click", () => {
   }
 });
 
-// Init
 loadItem();
