@@ -1,139 +1,97 @@
-let currentIndex = -1; // -1 = intro page
+let currentIndex = -1;
 const answers = {};
 
 const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
+const ltInfo = document.getElementById("lt-info");
 const riskText = document.getElementById("risk-text");
 const optionsDiv = document.querySelector(".options");
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const radios = Array.from(document.getElementsByName("answer"));
 
-// Mapping LT section titles to info-box IDs
-const ltIdMap = {
-  "LT-1: Enable threat detection capabilities": "lt1-info",
-  "LT-2: Enable threat detection for identity and access management": "lt2-info",
-  "LT-3: Enable logging for security investigation": "lt3-info",
-  "LT-4: Enable network logging for security investigation": "lt4-info",
-  "LT-5: Centralize security log management and analysis": "lt5-info",
-  "LT-6: Configure log storage retention": "lt6-info",
-  "LT-7: Use approved time synchronization sources": "lt7-info"
+const ltDetails = {
+  "LT-1": document.getElementById("lt1-info")?.innerHTML,
+  "LT-2": document.getElementById("lt2-info")?.innerHTML,
+  "LT-3": document.getElementById("lt3-info")?.innerHTML,
+  "LT-4": document.getElementById("lt4-info")?.innerHTML,
+  "LT-5": document.getElementById("lt5-info")?.innerHTML,
+  "LT-6": document.getElementById("lt6-info")?.innerHTML,
+  "LT-7": document.getElementById("lt7-info")?.innerHTML
 };
 
-function hideAllLtInfo() {
-  Object.values(ltIdMap).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
+function hideAllLTInfo() {
+  ltInfo.style.display = "none";
+  ltInfo.innerHTML = "";
 }
 
 function loadItem() {
-  // =====================
-  // Intro page
-  // =====================
+  // INTRO
   if (currentIndex === -1) {
     introPage.style.display = "block";
     questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
-    hideAllLtInfo();
-
-    // KEEP layout consistent
-    prevBtn.style.display = "inline-block";
-    prevBtn.disabled = true;
-
+    hideAllLTInfo();
+    prevBtn.style.display = "none";
     nextBtn.disabled = false;
-    nextBtn.textContent = "Next";
     return;
   }
 
-  // =====================
-  // Non-intro pages
-  // =====================
   introPage.style.display = "none";
   questionBox.style.display = "block";
   prevBtn.style.display = "inline-block";
-  prevBtn.disabled = false;
 
   const item = questions[currentIndex];
 
-  hideAllLtInfo();
-
+  // SECTION (LT)
   if (item.type === "section") {
-    // Section title view
     questionBox.classList.add("section-view");
     questionText.textContent = item.title;
 
-    const infoId = ltIdMap[item.title];
-    if (infoId) document.getElementById(infoId).style.display = "block";
+    const key = item.title.split(":")[0];
+    ltInfo.innerHTML = document.getElementById(key.toLowerCase() + "-info")?.innerHTML || "";
+    ltInfo.style.display = "block";
 
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
-
     nextBtn.disabled = false;
-    nextBtn.textContent = "Next";
-
-  } else {
-    // Question view
-    questionBox.classList.remove("section-view");
-    questionText.textContent = item.q;
-
-    optionsDiv.style.display = "flex";
-    riskText.textContent = item.risk;
-    riskText.style.display = "block";
-
-    radios.forEach(rb => {
-      rb.checked = answers[currentIndex] === rb.value;
-    });
-
-    nextBtn.disabled = answers[currentIndex] == null;
-    nextBtn.textContent =
-      currentIndex === questions.length - 1 ? "Finish" : "Next";
+    return;
   }
+
+  // QUESTION
+  questionBox.classList.remove("section-view");
+  questionText.textContent = item.q;
+
+  hideAllLTInfo();
+
+  optionsDiv.style.display = "flex";
+  riskText.textContent = item.risk;
+  riskText.style.display = "block";
+
+  radios.forEach(r => r.checked = answers[currentIndex] === r.value);
+  nextBtn.disabled = answers[currentIndex] == null;
 }
 
-// Enable Next button when answered
-radios.forEach(rb => {
-  rb.addEventListener("change", () => {
-    answers[currentIndex] = rb.value;
+// Enable Next on answer
+radios.forEach(radio => {
+  radio.addEventListener("change", () => {
+    answers[currentIndex] = radio.value;
     nextBtn.disabled = false;
   });
 });
 
-// =====================
 // Navigation
-// =====================
 nextBtn.addEventListener("click", () => {
-  if (currentIndex === -1) {
-    currentIndex = 0;
-    loadItem();
-    return;
-  }
-
-  if (currentIndex < questions.length - 1) {
-    currentIndex++;
-    loadItem();
-  } else {
-    // Finished quiz
-    const score = Object.values(answers).filter(a => a === "yes").length * 5;
-
-    document.body.innerHTML = `
-      <div style="max-width:600px;margin:100px auto;text-align:center;font-family:Verdana,Arial,sans-serif">
-        <h1>Your Score</h1>
-        <p style="font-size:32px;">${score} points</p>
-        <p>You answered “Yes” to ${score / 5} questions.</p>
-      </div>
-    `;
-  }
+  currentIndex++;
+  loadItem();
 });
 
 prevBtn.addEventListener("click", () => {
-  if (currentIndex > -1) {
-    currentIndex--;
-    loadItem();
-  }
+  currentIndex--;
+  loadItem();
 });
 
-// Initialize
+// Init
 loadItem();
