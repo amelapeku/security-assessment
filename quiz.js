@@ -24,42 +24,50 @@ const ltIdMap = {
 function hideAllLtInfo() {
   Object.values(ltIdMap).forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.style.display = "none";
+    if (el) el.style.display = "none";
   });
 }
 
 function loadItem() {
+  // =====================
   // Intro page
+  // =====================
   if (currentIndex === -1) {
     introPage.style.display = "block";
     questionBox.style.display = "none";
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
     hideAllLtInfo();
-    prevBtn.style.display = "none";
+
+    // KEEP layout consistent
+    prevBtn.style.display = "inline-block";
+    prevBtn.disabled = true;
+
     nextBtn.disabled = false;
     nextBtn.textContent = "Next";
     return;
   }
 
+  // =====================
+  // Non-intro pages
+  // =====================
   introPage.style.display = "none";
   questionBox.style.display = "block";
   prevBtn.style.display = "inline-block";
+  prevBtn.disabled = false;
 
   const item = questions[currentIndex];
 
   hideAllLtInfo();
 
   if (item.type === "section") {
-    // Show section title
+    // Section title view
     questionBox.classList.add("section-view");
     questionText.textContent = item.title;
 
-    // Show the corresponding info box
     const infoId = ltIdMap[item.title];
-    if(infoId) document.getElementById(infoId).style.display = "block";
+    if (infoId) document.getElementById(infoId).style.display = "block";
 
-    // Hide question options and risk
     optionsDiv.style.display = "none";
     riskText.style.display = "none";
 
@@ -83,8 +91,6 @@ function loadItem() {
     nextBtn.textContent =
       currentIndex === questions.length - 1 ? "Finish" : "Next";
   }
-
-  prevBtn.disabled = currentIndex === -1;
 }
 
 // Enable Next button when answered
@@ -95,7 +101,9 @@ radios.forEach(rb => {
   });
 });
 
+// =====================
 // Navigation
+// =====================
 nextBtn.addEventListener("click", () => {
   if (currentIndex === -1) {
     currentIndex = 0;
