@@ -95,7 +95,7 @@ body {
   width: 95%;                        
   max-width: 1400px;
   position: fixed;
-  top: 500px;
+  top: 600px;
   left: 50%;
   transform: translateX(-50%);
   height: 70px;
@@ -151,3 +151,4 @@ body {
 .buttons button:hover {
   background-color: #005a9e;
 }
+
