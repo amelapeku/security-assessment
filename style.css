@@ -1,10 +1,17 @@
+/* ===== Base ===== */
 body {
   font-family: Verdana, Arial, sans-serif;
   margin: 0;
-  overflow: hidden;
+  background: #ffffff;
+  overflow-x: hidden;
 }
 
-/* Sidebar */
+.quiz-container {
+  width: 100%;
+  height: 100vh;
+}
+
+/* ===== Sidebar ===== */
 .sidebar {
   position: fixed;
   left: 0;
@@ -13,17 +20,9 @@ body {
   height: 100vh;
   background: #f2f2f2;
   padding: 20px;
-  box-shadow: 4px 0 8px rgba(0,0,0,0.1);
-  transition: width 0.3s ease;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.1);
   z-index: 10;
-}
-
-.sidebar.hidden {
-  display: none;
-}
-
-.sidebar.collapsed {
-  width: 90px;
+  overflow-y: auto;
 }
 
 .sidebar button {
@@ -34,49 +33,85 @@ body {
   line-height: 1.4;
   text-align: left;
   cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  transition: background 0.2s;
 }
 
-/* Question box */
+.sidebar button:hover {
+  background: #e6e6e6;
+}
+
+.sidebar hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+/* ===== Main content ===== */
+.section-view,
+.question-box,
+.info-box,
+.results-container {
+  width: calc(100% - 340px);
+  margin-left: 320px;
+}
+
+/* ===== Welcome / Question box ===== */
 .question-box {
   background: #f2f2f2;
   padding: 30px;
   border-radius: 15px;
-  width: calc(100% - 340px);
-  margin-left: 320px;
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  font-size: 20px;
 }
 
-/* Yes / No options */
+/* ===== Section intro (controls & criticality) ===== */
+.info-box {
+  background: #f2f2f2;
+  padding: 30px;
+  border-radius: 15px;
+  margin-top: 120px;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  font-size: 18px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* ===== Options (Yes / No) ===== */
 .options {
   display: flex;
   justify-content: center;
   gap: 80px;
   font-size: 24px;
-  margin-left: 320px;
-  margin-top: 60px;   /* ⬅ increased gap */
+  margin-top: 60px;   /* space from question */
 }
 
-/* Risk bubble */
+.options label {
+  cursor: pointer;
+}
+
+/* ===== Risk bubble ===== */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
   padding: 25px 35px;
   border-radius: 25px;
-  width: calc(100% - 340px);
-  margin-left: 320px;
-  margin-top: 80px;   /* ⬅ increased gap */
+  margin-top: 80px;   /* big gap from Yes/No */
   font-size: 20px;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
 }
 
-/* Navigation buttons */
+/* ===== Navigation buttons ===== */
 .buttons {
   position: fixed;
   bottom: 30px;
   left: 320px;
   right: 40px;
   display: flex;
-  justify-content: space-between;  /* ⬅ separation */
+  justify-content: space-between;
   z-index: 20;
 }
 
@@ -88,4 +123,43 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.buttons button:hover {
+  background: #005fa3;
+}
+
+/* ===== Results ===== */
+.results-container {
+  margin-top: 80px;
+  height: 70vh;
+  overflow-y: auto;
+  padding-bottom: 60px;
+}
+
+.results-container h2 {
+  font-size: 28px;
+}
+
+.results-container h4 {
+  margin-top: 30px;
+  color: #0078d4;
+}
+
+.results-container p {
+  font-size: 18px;
+}
+
+/* ===== Scrollbar (nice touch) ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
