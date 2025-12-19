@@ -28,9 +28,6 @@ function hideAllLTInfo() {
 }
 
 function loadItem() {
-  // =====================
-  // INTRO PAGE
-  // =====================
   if (currentIndex === -1) {
     introPage.style.display = "block";
     questionBox.style.display = "none";
@@ -38,7 +35,6 @@ function loadItem() {
     riskText.style.display = "none";
     hideAllLTInfo();
 
-    // HIDE previous, keep layout
     prevBtn.style.visibility = "hidden";
     prevBtn.disabled = true;
 
@@ -47,13 +43,9 @@ function loadItem() {
     return;
   }
 
-  // =====================
-  // NON-INTRO
-  // =====================
   introPage.style.display = "none";
   questionBox.style.display = "block";
 
-  // SHOW previous normally
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 
@@ -104,6 +96,8 @@ nextBtn.addEventListener("click", () => {
   if (currentIndex < questions.length - 1) {
     currentIndex++;
     loadItem();
+  } else {
+    showResults();
   }
 });
 
@@ -115,3 +109,70 @@ prevBtn.addEventListener("click", () => {
 });
 
 loadItem();
+
+// ========================
+// Show results
+// ========================
+function showResults() {
+  introPage.style.display = "none";
+  questionBox.style.display = "none";
+  optionsDiv.style.display = "none";
+  riskText.style.display = "none";
+  hideAllLTInfo();
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+
+  const resultsContainer = document.getElementById("results-container");
+  resultsContainer.style.display = "block";
+
+  // Calculate % Yes
+  const totalQuestions = questions.filter(q => !q.type).length;
+  const yesAnswers = Object.values(answers).filter(a => a === "yes").length;
+  const percentYes = Math.round((yesAnswers / totalQuestions) * 100);
+
+  document.getElementById("score-text").textContent = `You answered "Yes" to ${percentYes}% of questions`;
+
+  // List "No" answers grouped by section
+  const noAnswersContainer = document.getElementById("no-answers-container");
+  noAnswersContainer.innerHTML = "";
+
+  let currentSection = "";
+  let sectionDiv = null;
+
+  questions.forEach((item, index) => {
+    if (item.type === "section") {
+      currentSection = item.title;
+    } else {
+      if (answers[index] === "no") {
+        if (!sectionDiv || sectionDiv.dataset.section !== currentSection) {
+          sectionDiv = document.createElement("div");
+          sectionDiv.classList.add("no-answer-section");
+          sectionDiv.dataset.section = currentSection;
+
+          const sectionTitle = document.createElement("h3");
+          sectionTitle.textContent = currentSection;
+          sectionDiv.appendChild(sectionTitle);
+
+          const ul = document.createElement("ul");
+          sectionDiv.appendChild(ul);
+
+          noAnswersContainer.appendChild(sectionDiv);
+        }
+
+        const ul = sectionDiv.querySelector("ul");
+
+        const infoId = ltIdMap[currentSection];
+        const infoBox = infoId ? document.getElementById(infoId) : null;
+        let controlsText = "";
+        if (infoBox) {
+          const clonedList = infoBox.querySelector("ul").cloneNode(true);
+          controlsText = clonedList.innerHTML;
+        }
+
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>Question:</strong> ${item.q}<br><strong>Relevant controls:</strong> <ul>${controlsText}</ul>`;
+        ul.appendChild(li);
+      }
+    }
+  });
+}
