@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Security Quiz</title>
+  <title>Security Assessment</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,51 +10,57 @@
 <div class="quiz-container">
 
   <!-- Sidebar -->
-  <div id="sidebar" class="sidebar hidden">
+  <div id="sidebar" class="sidebar">
+
+    <button id="welcome-btn">
+      <strong>Welcome</strong><br>
+      Assessment overview
+    </button>
+
+    <hr>
+
     <button data-section="LT-1: Enable threat detection capabilities">
-      <strong>LT-1</strong><br>
-      Enable threat detection capabilities
+      <strong>LT-1</strong><br>Threat detection
     </button>
-
     <button data-section="LT-2: Enable threat detection for identity and access management">
-      <strong>LT-2</strong><br>
-      Identity & access threat detection
+      <strong>LT-2</strong><br>Identity threat detection
     </button>
-
     <button data-section="LT-3: Enable logging for security investigation">
-      <strong>LT-3</strong><br>
-      Logging for security investigation
+      <strong>LT-3</strong><br>Security logging
     </button>
-
     <button data-section="LT-4: Enable network logging for security investigation">
-      <strong>LT-4</strong><br>
-      Network logging & visibility
+      <strong>LT-4</strong><br>Network logging
     </button>
-
     <button data-section="LT-5: Centralize security log management and analysis">
-      <strong>LT-5</strong><br>
-      Centralized log management
+      <strong>LT-5</strong><br>Centralized logging
     </button>
-
     <button data-section="LT-6: Configure log storage retention">
-      <strong>LT-6</strong><br>
-      Log storage & retention
+      <strong>LT-6</strong><br>Log retention
+    </button>
+    <button data-section="LT-7: Use approved time synchronization sources">
+      <strong>LT-7</strong><br>Time sync
     </button>
 
-    <button data-section="LT-7: Use approved time synchronization sources">
-      <strong>LT-7</strong><br>
-      Time synchronization
+    <hr>
+
+    <button id="finish-btn">
+      <strong>Finish</strong><br>
+      View results
     </button>
+
   </div>
 
   <!-- Intro -->
   <div class="question-box section-view" id="intro-page">
     <p>
       <strong>Welcome to the Logging & Threat Detection Assessment</strong><br><br>
-      This assessment evaluates your organization's implementation of security controls
-      based on <strong>Microsoft Cloud Security Benchmark (MCSB) v2</strong>.
+      This assessment evaluates your organization’s security posture based on
+      <strong>Microsoft Cloud Security Benchmark (MCSB) v2</strong>.
     </p>
   </div>
+
+  <!-- Section info (controls & criticality) -->
+  <div class="info-box" id="section-info"></div>
 
   <!-- Question -->
   <div class="question-box" id="question-box" style="display:none;">
@@ -74,6 +80,13 @@
   <div class="buttons">
     <button id="prev-btn">Previous</button>
     <button id="next-btn">Next</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results-container" id="results-container" style="display:none;">
+    <h2>Assessment Results</h2>
+    <p id="score-text"></p>
+    <div id="no-answers-container"></div>
   </div>
 
 </div>
