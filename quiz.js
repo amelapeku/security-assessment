@@ -1,4 +1,7 @@
 let currentIndex = -1;
+let activeSection = null;
+let sectionPosition = 0;
+
 const answers = {};
 
 const introPage = document.getElementById("intro-page");
@@ -6,173 +9,122 @@ const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
 const optionsDiv = document.querySelector(".options");
+const radios = Array.from(document.getElementsByName("answer"));
+const sidebar = document.getElementById("sidebar");
+
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
-const radios = Array.from(document.getElementsByName("answer"));
 
-const ltIdMap = {
-  "LT-1: Enable threat detection capabilities": "lt1-info",
-  "LT-2: Enable threat detection for identity and access management": "lt2-info",
-  "LT-3: Enable logging for security investigation": "lt3-info",
-  "LT-4: Enable network logging for security investigation": "lt4-info",
-  "LT-5: Centralize security log management and analysis": "lt5-info",
-  "LT-6: Configure log storage retention": "lt6-info",
-  "LT-7: Use approved time synchronization sources": "lt7-info"
-};
+/* =========================
+   Build section map
+========================= */
+const sections = {};
+let currentSection = null;
 
-function hideAllLTInfo() {
-  Object.values(ltIdMap).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
+questions.forEach((item, index) => {
+  if (item.type === "section") {
+    currentSection = item.title;
+    sections[currentSection] = [];
+  } else {
+    sections[currentSection].push(index);
+  }
+});
+
+/* =========================
+   Intro state
+========================= */
+function showIntro() {
+  introPage.style.display = "block";
+  questionBox.style.display = "none";
+  optionsDiv.style.display = "none";
+  riskText.style.display = "none";
+  sidebar.classList.add("hidden");
+
+  prevBtn.style.visibility = "hidden";
+  nextBtn.textContent = "Next";
 }
 
-function loadItem() {
-  if (currentIndex === -1) {
-    introPage.style.display = "block";
-    questionBox.style.display = "none";
-    optionsDiv.style.display = "none";
-    riskText.style.display = "none";
-    hideAllLTInfo();
+showIntro();
 
-    prevBtn.style.visibility = "hidden";
-    prevBtn.disabled = true;
-
-    nextBtn.disabled = false;
-    nextBtn.textContent = "Next";
-    return;
-  }
-
+/* =========================
+   Section selector
+========================= */
+function showSectionSelector() {
   introPage.style.display = "none";
+  sidebar.classList.remove("hidden");
+  sidebar.classList.remove("collapsed");
+
+  questionBox.style.display = "none";
+  optionsDiv.style.display = "none";
+  riskText.style.display = "none";
+
+  prevBtn.style.visibility = "hidden";
+  nextBtn.style.visibility = "hidden";
+}
+
+/* =========================
+   Load question
+========================= */
+function loadQuestion() {
+  const index = sections[activeSection][sectionPosition];
+  const item = questions[index];
+  currentIndex = index;
+
   questionBox.style.display = "block";
-
-  prevBtn.style.visibility = "visible";
-  prevBtn.disabled = false;
-
-  const item = questions[currentIndex];
-  hideAllLTInfo();
-
-  if (item.type === "section") {
-    questionBox.classList.add("section-view");
-    questionText.textContent = item.title;
-
-    const infoId = ltIdMap[item.title];
-    if (infoId) {
-      const infoBox = document.getElementById(infoId);
-      if (infoBox) infoBox.style.display = "block";
-    }
-
-    optionsDiv.style.display = "none";
-    riskText.style.display = "none";
-    nextBtn.disabled = false;
-    nextBtn.textContent = "Next";
-    return;
-  }
-
-  questionBox.classList.remove("section-view");
-  questionText.textContent = item.q;
-
   optionsDiv.style.display = "flex";
-  riskText.textContent = item.risk;
   riskText.style.display = "block";
 
-  radios.forEach(r => {
-    r.checked = answers[currentIndex] === r.value;
-  });
+  questionText.textContent = item.q;
+  riskText.textContent = item.risk;
 
-  nextBtn.disabled = answers[currentIndex] == null;
-  nextBtn.textContent =
-    currentIndex === questions.length - 1 ? "Finish" : "Next";
+  radios.forEach(r => r.checked = answers[currentIndex] === r.value);
+
+  prevBtn.style.visibility = "visible";
+  nextBtn.style.visibility = "visible";
+  nextBtn.textContent = sectionPosition === sections[activeSection].length - 1 ? "Back to sections" : "Next";
 }
 
-radios.forEach(radio => {
-  radio.addEventListener("change", () => {
-    answers[currentIndex] = radio.value;
-    nextBtn.disabled = false;
+/* =========================
+   Sidebar click
+========================= */
+document.querySelectorAll("#sidebar button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    activeSection = btn.dataset.section;
+    sectionPosition = 0;
+    sidebar.classList.add("collapsed");
+    loadQuestion();
   });
 });
 
+/* =========================
+   Answer handling
+========================= */
+radios.forEach(radio => {
+  radio.addEventListener("change", () => {
+    answers[currentIndex] = radio.value;
+  });
+});
+
+/* =========================
+   Navigation buttons
+========================= */
 nextBtn.addEventListener("click", () => {
-  if (currentIndex < questions.length - 1) {
-    currentIndex++;
-    loadItem();
+  if (currentIndex === -1) {
+    showSectionSelector();
+    return;
+  }
+
+  if (sectionPosition < sections[activeSection].length - 1) {
+    sectionPosition++;
+    loadQuestion();
   } else {
-    showResults();
+    showSectionSelector();
   }
 });
 
 prevBtn.addEventListener("click", () => {
-  if (currentIndex > -1) {
-    currentIndex--;
-    loadItem();
+  if (sectionPosition > 0) {
+    sectionPosition--;
+    loadQuestion();
   }
 });
-
-loadItem();
-
-// ========================
-// Show results
-// ========================
-function showResults() {
-  introPage.style.display = "none";
-  questionBox.style.display = "none";
-  optionsDiv.style.display = "none";
-  riskText.style.display = "none";
-  hideAllLTInfo();
-  prevBtn.style.display = "none";
-  nextBtn.style.display = "none";
-
-  const resultsContainer = document.getElementById("results-container");
-  resultsContainer.style.display = "block";
-
-  // Calculate % Yes
-  const totalQuestions = questions.filter(q => !q.type).length;
-  const yesAnswers = Object.values(answers).filter(a => a === "yes").length;
-  const percentYes = Math.round((yesAnswers / totalQuestions) * 100);
-
-  document.getElementById("score-text").textContent = `You answered "Yes" to ${percentYes}% of questions`;
-
-  // List "No" answers grouped by section
-  const noAnswersContainer = document.getElementById("no-answers-container");
-  noAnswersContainer.innerHTML = "";
-
-  let currentSection = "";
-  let sectionDiv = null;
-
-  questions.forEach((item, index) => {
-    if (item.type === "section") {
-      currentSection = item.title;
-    } else {
-      if (answers[index] === "no") {
-        if (!sectionDiv || sectionDiv.dataset.section !== currentSection) {
-          sectionDiv = document.createElement("div");
-          sectionDiv.classList.add("no-answer-section");
-          sectionDiv.dataset.section = currentSection;
-
-          const sectionTitle = document.createElement("h3");
-          sectionTitle.textContent = currentSection;
-          sectionDiv.appendChild(sectionTitle);
-
-          const ul = document.createElement("ul");
-          sectionDiv.appendChild(ul);
-
-          noAnswersContainer.appendChild(sectionDiv);
-        }
-
-        const ul = sectionDiv.querySelector("ul");
-
-        const infoId = ltIdMap[currentSection];
-        const infoBox = infoId ? document.getElementById(infoId) : null;
-        let controlsText = "";
-        if (infoBox) {
-          const clonedList = infoBox.querySelector("ul").cloneNode(true);
-          controlsText = clonedList.innerHTML;
-        }
-
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>Question:</strong> ${item.q}<br><strong>Relevant controls:</strong> <ul>${controlsText}</ul>`;
-        ul.appendChild(li);
-      }
-    }
-  });
-}
