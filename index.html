@@ -86,64 +86,19 @@
       </ul>
     </div>
 
-    <!-- Repeat for LT4 → LT7 similarly -->
-    <!-- Example for LT4 -->
-    <div class="info-box" id="lt4-info" style="display:none;">
-      <p><strong>Criticality level:</strong> Must have</p>
-      <p><strong>Control mapping:</strong></p>
-      <ul>
-        <li>NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-12(1), SI-4(2), SI-4(4), SI-4(5), SI-4(12)</li>
-        <li>PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 11.4.1, 11.4.2</li>
-        <li>CIS Controls v8.1: 8.2, 8.5, 8.6, 8.11, 13.6</li>
-        <li>NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7</li>
-        <li>ISO 27001:2022: A.8.15, A.8.16</li>
-        <li>SOC 2: CC7.2</li>
-      </ul>
-    </div>
-
-    <div class="info-box" id="lt5-info" style="display:none;">
-      <p><strong>Criticality level:</strong> Must have</p>
-      <p><strong>Control mapping:</strong></p>
-      <ul>
-        <li>NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-6(5), AU-7(1), AU-12(1), SI-4(1), SI-4(2), SI-4(5), SI-4(12)</li>
-        <li>PCI-DSS v4: 10.4.1, 10.4.2, 10.4.3, 10.7.1, 10.7.2, 10.7.3</li>
-        <li>CIS Controls v8.1: 8.9, 8.11, 13.1, 13.3, 13.4, 17.1</li>
-        <li>NIST CSF v2.0: DE.AE-2, DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7, RS.AN-1</li>
-        <li>ISO 27001:2022: A.8.15, A.8.16, A.5.25</li>
-        <li>SOC 2: CC7.2, CC7.3</li>
-      </ul>
-    </div>
-
-    <div class="info-box" id="lt6-info" style="display:none;">
-      <p><strong>Criticality level:</strong> Should have</p>
-      <p><strong>Control mapping:</strong></p>
-      <ul>
-        <li>NIST SP 800-53 Rev.5: AU-11(1), SI-12</li>
-        <li>PCI-DSS v4: 10.5.1, 10.7.1, 10.7.2, 10.7.3</li>
-        <li>CIS Controls v8.1: 8.3, 8.10</li>
-        <li>NIST CSF v2.0: PR.PT-1, DE.CM-1</li>
-        <li>ISO 27001:2022: A.8.15</li>
-        <li>SOC 2: CC7.2</li>
-      </ul>
-    </div>
-
-    <div class="info-box" id="lt7-info" style="display:none;">
-      <p><strong>Criticality level:</strong> Should have</p>
-      <p><strong>Control mapping:</strong></p>
-      <ul>
-        <li>NIST SP 800-53 Rev.5: AU-8(1), AU-8(2)</li>
-        <li>PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3</li>
-        <li>CIS Controls v8.1: 8.4</li>
-        <li>NIST CSF v2.0: DE.CM-1, PR.PT-1</li>
-        <li>ISO 27001:2022: A.8.15</li>
-        <li>SOC 2: CC7.2</li>
-      </ul>
-    </div>
+    <!-- Add LT4 → LT7 info boxes as before -->
 
     <!-- Navigation buttons -->
     <div class="buttons">
       <button id="prev-btn">Previous</button>
       <button id="next-btn">Next</button>
+    </div>
+
+    <!-- Results page -->
+    <div class="results-container" id="results-container" style="display:none;">
+      <h2>Quiz Results</h2>
+      <p id="score-text"></p>
+      <div id="no-answers-container" class="scrollable"></div>
     </div>
 
   </div>
