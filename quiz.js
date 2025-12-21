@@ -1,7 +1,7 @@
 let currentIndex = -1;
 let activeSection = null;
 let sectionPosition = -1;
-let inSectionIntro = true;
+let inSectionIntro = false;
 
 const answers = {};
 const sectionProgress = {}; // remembers last question per section
@@ -29,7 +29,7 @@ questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
     sections[currentSection] = { introIndex: i, questions: [] };
-    sectionProgress[currentSection] = -1;
+    sectionProgress[currentSection] = -1; // initialize
   } else {
     sections[currentSection].questions.push(i);
   }
@@ -48,12 +48,11 @@ function hideAll() {
 }
 
 /* =====================
-   WELCOME
+   WELCOME BUTTON
 ===================== */
 document.getElementById("welcome-btn").onclick = () => {
   hideAll();
   introPage.style.display = "block";
-  activeSection = null;
 };
 
 /* =====================
@@ -63,17 +62,11 @@ document.querySelectorAll("[data-section]").forEach(btn => {
   btn.onclick = () => {
     activeSection = btn.dataset.section;
 
-    const lastAnswered = sectionProgress[activeSection];
+    const savedPos = sectionProgress[activeSection];
+    sectionPosition = savedPos >= 0 ? savedPos : -1;
+    inSectionIntro = true;
 
-    if (lastAnswered >= 0) {
-      sectionPosition = lastAnswered;
-      inSectionIntro = false;
-      loadQuestion();
-    } else {
-      sectionPosition = 0;
-      inSectionIntro = true;
-      showSectionIntro();
-    }
+    showSectionIntro();
   };
 });
 
@@ -83,6 +76,7 @@ document.querySelectorAll("[data-section]").forEach(btn => {
 function showSectionIntro() {
   hideAll();
   sectionInfo.style.display = "block";
+  sectionInfo.textContent = activeSection; // show section title
   nextBtn.textContent = "Start questions";
 }
 
@@ -99,4 +93,142 @@ function loadQuestion() {
   questionBox.style.display = "block";
   optionsDiv.style.display = "flex";
   riskText.style.display = "block";
-  sectionInfo.sty
+
+  questionText.textContent = item.q;
+  riskText.textContent = item.risk;
+
+  radios.forEach(r => {
+    r.checked = answers[qIndex] === r.value;
+  });
+
+  nextBtn.textContent =
+    sectionPosition === sections[activeSection].questions.length - 1
+      ? "Next Section"
+      : "Next";
+}
+
+/* =====================
+   NAVIGATION
+===================== */
+nextBtn.onclick = () => {
+  // If we are on Welcome page
+  if (!activeSection && introPage.style.display === "block") {
+    activeSection = Object.keys(sections)[0]; // LT-1
+    inSectionIntro = true;
+    sectionPosition = 0;
+
+    showSectionIntro();
+    return;
+  }
+
+  // From section intro → first or last answered question
+  if (activeSection && inSectionIntro) {
+    inSectionIntro = false;
+    const lastAnswered = sectionProgress[activeSection];
+    sectionPosition = lastAnswered >= 0 ? lastAnswered : 0;
+    loadQuestion();
+    return;
+  }
+
+  // Require answer before continuing
+  if (!answers[currentIndex]) {
+    alert("Please answer Yes or No before continuing.");
+    return;
+  }
+
+  // Save progress
+  sectionProgress[activeSection] = sectionPosition;
+
+  // Move to next question in section
+  if (sectionPosition < sections[activeSection].questions.length - 1) {
+    sectionPosition++;
+    sectionProgress[activeSection] = sectionPosition;
+    loadQuestion();
+    return;
+  }
+
+  // Move to next section
+  const sectionKeys = Object.keys(sections);
+  const currentSectionIndex = sectionKeys.indexOf(activeSection);
+  if (currentSectionIndex < sectionKeys.length - 1) {
+    activeSection = sectionKeys[currentSectionIndex + 1];
+    inSectionIntro = true;
+    sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : -1;
+    showSectionIntro();
+    return;
+  }
+
+  // If last section and all questions answered, finish
+  const totalQuestions = questions.filter(q => !q.type).length;
+  const answeredQuestions = Object.keys(answers).length;
+
+  if (answeredQuestions === totalQuestions) {
+    showResults();
+  } else {
+    hideAll();
+    introPage.style.display = "block";
+    activeSection = null;
+  }
+
+  updateFinishAvailability();
+};
+
+prevBtn.onclick = () => {
+  if (sectionPosition > 0) {
+    sectionPosition--;
+    loadQuestion();
+  } else {
+    showSectionIntro();
+  }
+};
+
+/* =====================
+   ANSWERS
+===================== */
+radios.forEach(r => {
+  r.onchange = () => {
+    answers[currentIndex] = r.value;
+    sectionProgress[activeSection] = sectionPosition;
+    updateFinishAvailability();
+  };
+});
+
+/* =====================
+   FINISH ENABLE LOGIC
+===================== */
+function updateFinishAvailability() {
+  const total = questions.filter(q => !q.type).length;
+  const answered = Object.keys(answers).length;
+  finishBtn.disabled = answered < total;
+}
+
+finishBtn.disabled = true;
+
+/* =====================
+   FINISH / RESULTS
+===================== */
+finishBtn.onclick = showResults;
+
+function showResults() {
+  hideAll();
+  resultsContainer.style.display = "block";
+
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+
+  document.getElementById("score-text").textContent =
+    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
+
+  const container = document.getElementById("no-answers-container");
+  container.innerHTML = "";
+
+  let current = "";
+  questions.forEach((q, i) => {
+    if (q.type === "section") current = q.title;
+    else if (answers[i] === "no") {
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${current}</h4><p>${q.q}</p>`;
+      container.appendChild(div);
+    }
+  });
+}
