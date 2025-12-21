@@ -21,7 +21,7 @@ const sidebar = document.getElementById("sidebar");
 const sections = {};
 let currentSection = null;
 
-// Build sections
+// Build sections map
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
@@ -44,8 +44,74 @@ function hideAll() {
   document.querySelector(".buttons").style.display = "flex"; // reset for quiz
 }
 
-// Welcome Next → LT-1
+// Enter a section
+function enterSection(section) {
+  activeSection = section;
+  inSectionIntro = true;
+  sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
+  hideAll();
+  sidebar.style.display = "block";
+  sectionInfo.style.display = "block";
+  sectionInfo.textContent = activeSection;
+  nextBtn.textContent = "Start questions";
+  prevBtn.style.visibility = "visible";
+  prevBtn.disabled = false;
+}
+
+// Load a question
+function loadQuestion() {
+  hideAll();
+  sidebar.style.display = "block";
+  questionBox.style.display = "block";
+  optionsDiv.style.display = "flex";
+  riskText.style.display = "block";
+
+  const qIndex = sections[activeSection].questions[sectionPosition];
+  const item = questions[qIndex];
+  currentIndex = qIndex;
+
+  questionText.textContent = item.q;
+  riskText.textContent = item.risk;
+
+  radios.forEach(r => r.checked = answers[qIndex] === r.value);
+
+  nextBtn.textContent = sectionPosition === sections[activeSection].questions.length - 1 ? "Next Section" : "Next";
+}
+
+// Radio button change
+radios.forEach(r => r.onchange = () => {
+  answers[currentIndex] = r.value;
+  sectionProgress[activeSection] = sectionPosition;
+});
+
+// Show results
+function showResults() {
+  hideAll();
+  resultsContainer.style.display = "block";
+  document.querySelector(".buttons").style.display = "none";
+
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+  document.getElementById("score-text").textContent =
+    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
+
+  const container = document.getElementById("no-answers-container");
+  container.innerHTML = "";
+
+  let currentSectionTitle = "";
+  questions.forEach((q, i) => {
+    if (q.type === "section") currentSectionTitle = q.title;
+    else if (answers[i] === "no") {
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
+      container.appendChild(div);
+    }
+  });
+}
+
+// Next button logic
 nextBtn.onclick = () => {
+  // From welcome → directly enter LT-1
   if (introPage.style.display === "block") {
     hideAll();
     const firstSection = Object.keys(sections)[0];
@@ -84,6 +150,7 @@ nextBtn.onclick = () => {
   showResults();
 };
 
+// Previous button logic
 prevBtn.onclick = () => {
   if (activeSection && !inSectionIntro && sectionPosition > 0) {
     sectionPosition--;
@@ -97,64 +164,3 @@ prevBtn.onclick = () => {
     activeSection = null;
   }
 };
-
-function enterSection(section) {
-  activeSection = section;
-  inSectionIntro = true;
-  sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
-  hideAll();
-  sidebar.style.display = "block";
-  sectionInfo.style.display = "block";
-  sectionInfo.textContent = activeSection;
-  nextBtn.textContent = "Start questions";
-  prevBtn.style.visibility = "visible";
-  prevBtn.disabled = false;
-}
-
-function loadQuestion() {
-  hideAll();
-  sidebar.style.display = "block";
-  questionBox.style.display = "block";
-  optionsDiv.style.display = "flex";
-  riskText.style.display = "block";
-
-  const qIndex = sections[activeSection].questions[sectionPosition];
-  const item = questions[qIndex];
-  currentIndex = qIndex;
-
-  questionText.textContent = item.q;
-  riskText.textContent = item.risk;
-
-  radios.forEach(r => r.checked = answers[qIndex] === r.value);
-
-  nextBtn.textContent = sectionPosition === sections[activeSection].questions.length - 1 ? "Next Section" : "Next";
-}
-
-radios.forEach(r => r.onchange = () => {
-  answers[currentIndex] = r.value;
-  sectionProgress[activeSection] = sectionPosition;
-});
-
-function showResults() {
-  hideAll();
-  resultsContainer.style.display = "block";
-  document.querySelector(".buttons").style.display = "none";
-
-  const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
-  document.getElementById("score-text").textContent =
-    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
-
-  const container = document.getElementById("no-answers-container");
-  container.innerHTML = "";
-
-  let currentSectionTitle = "";
-  questions.forEach((q, i) => {
-    if (q.type === "section") currentSectionTitle = q.title;
-    else if (answers[i] === "no") {
-      const div = document.createElement("div");
-      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
-      container.appendChild(div);
-    }
-  });
-}
