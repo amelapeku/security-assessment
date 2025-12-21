@@ -10,7 +10,9 @@ body {
   height: 100vh;
 }
 
-/* Sidebar */
+/* =====================
+   SIDEBAR
+===================== */
 .sidebar {
   position: fixed;
   left: 0;
@@ -41,16 +43,21 @@ body {
   border-top: 1px solid #ccc;
 }
 
-/* Content alignment */
+/* =====================
+   CONTENT ALIGNMENT
+===================== */
 .section-view,
 .question-box,
 .info-box,
-.results-container {
+.results-container,
+.risk-cloud {
   width: calc(100% - 380px);
   margin-left: 360px;
 }
 
-/* Question box */
+/* =====================
+   QUESTION BOX (GRAY)
+===================== */
 .question-box {
   background: #f2f2f2;
   padding: 26px;
@@ -58,10 +65,14 @@ body {
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
   font-size: 18px;
+
+  /* IMPORTANT: shared width */
   max-width: 900px;
 }
 
-/* Section info */
+/* =====================
+   SECTION INFO
+===================== */
 .info-box {
   background: #f2f2f2;
   padding: 30px;
@@ -70,9 +81,12 @@ body {
   font-size: 18px;
   max-height: 60vh;
   overflow-y: auto;
+  max-width: 900px;
 }
 
-/* Options */
+/* =====================
+   OPTIONS (YES / NO)
+===================== */
 .options {
   display: flex;
   justify-content: center;
@@ -81,18 +95,26 @@ body {
   margin-top: 50px;
 }
 
-/* Risk bubble */
+/* =====================
+   RISK BUBBLE (ORANGE)
+   PERFECTLY ALIGNED
+===================== */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
-  padding: 20px 28px;
+  padding: 26px;
   border-radius: 25px;
-  margin-top: 70px;
+  margin-top: 40px;
   font-size: 18px;
+
+  /* EXACT SAME WIDTH & X POSITION AS QUESTION BOX */
   max-width: 900px;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.12);
 }
 
-/* Navigation */
+/* =====================
+   NAVIGATION BUTTONS
+===================== */
 .buttons {
   position: fixed;
   bottom: 30px;
@@ -116,11 +138,14 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Results */
+/* =====================
+   RESULTS
+===================== */
 .results-container {
   margin-top: 80px;
   height: 70vh;
   overflow-y: auto;
+  max-width: 900px;
 }
 
 .results-container h4 {
