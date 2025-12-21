@@ -1,4 +1,3 @@
-let currentIndex = -1;
 let activeSection = null;
 let sectionPosition = -1;
 let inSectionIntro = false;
@@ -10,7 +9,6 @@ const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
-const optionsDiv = document.querySelector(".options");
 const sectionInfo = document.getElementById("section-info");
 const resultsContainer = document.getElementById("results-container");
 
@@ -18,13 +16,14 @@ const radios = Array.from(document.getElementsByName("answer"));
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const finishBtn = document.getElementById("finish-btn");
+const sidebar = document.getElementById("section-sidebar");
 
 const sections = {};
 let currentSection = null;
 
-/* =====================
-   BUILD SECTION MAP
-===================== */
+// =====================
+// BUILD SECTION MAP
+// =====================
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
@@ -35,9 +34,9 @@ questions.forEach((q, i) => {
   }
 });
 
-/* =====================
-   UTILITY
-===================== */
+// =====================
+// UTILITY
+// =====================
 function hideAll() {
   introPage.style.display = "none";
   questionBox.style.display = "none";
@@ -45,60 +44,77 @@ function hideAll() {
   riskText.style.display = "none";
   sectionInfo.style.display = "none";
   resultsContainer.style.display = "none";
+  sidebar.style.display = "none";
 }
 
-/* =====================
-   WELCOME BUTTON
-===================== */
+// =====================
+// WELCOME BUTTON
+// =====================
 document.getElementById("welcome-btn").onclick = () => {
   hideAll();
   introPage.style.display = "block";
+  sidebar.style.display = "none";
   activeSection = null;
+  nextBtn.textContent = "Next";
+  nextBtn.disabled = false;
 };
 
-/* =====================
-   SECTION CLICK (SIDEBAR)
-===================== */
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    enterSection(btn.dataset.section);
-  };
-});
+// =====================
+// LOAD SECTION SIDEBAR
+// =====================
+function showSidebar() {
+  sidebar.innerHTML = "";
+  sidebar.style.display = "block";
 
-/* =====================
-   ENTER SECTION
-===================== */
+  Object.keys(sections).forEach(sec => {
+    const btn = document.createElement("button");
+    btn.textContent = sec;
+    btn.dataset.section = sec;
+    btn.className = "lt-btn";
+    btn.onclick = () => enterSection(sec);
+    sidebar.appendChild(btn);
+  });
+}
+
+// =====================
+// ENTER SECTION
+// =====================
 function enterSection(section) {
   activeSection = section;
   inSectionIntro = true;
+  sectionPosition = 0;
 
-  // Show section title once
   hideAll();
+  sidebar.style.display = "block";
   sectionInfo.style.display = "block";
-  sectionInfo.textContent = activeSection;
 
-  // Set first or last answered question
-  sectionPosition =
-    sectionProgress[activeSection] >= 0
-      ? sectionProgress[activeSection]
-      : 0;
+  // Show criticality and controls
+  const infoId = ltIdMap[section];
+  if (infoId) {
+    const infoBox = document.getElementById(infoId);
+    if (infoBox) sectionInfo.innerHTML = infoBox.innerHTML;
+  } else {
+    sectionInfo.textContent = section;
+  }
 
   nextBtn.textContent = "Start questions";
+  prevBtn.style.visibility = "visible";
+  prevBtn.disabled = false;
 }
 
-/* =====================
-   LOAD QUESTION
-===================== */
+// =====================
+// LOAD QUESTION
+// =====================
 function loadQuestion() {
   hideAll();
+  sidebar.style.display = "block";
+  questionBox.style.display = "block";
+  optionsDiv.style.display = "flex";
+  riskText.style.display = "block";
 
   const qIndex = sections[activeSection].questions[sectionPosition];
   const item = questions[qIndex];
   currentIndex = qIndex;
-
-  questionBox.style.display = "block";
-  optionsDiv.style.display = "flex";
-  riskText.style.display = "block";
 
   questionText.textContent = item.q;
   riskText.textContent = item.risk;
@@ -113,25 +129,29 @@ function loadQuestion() {
       : "Next";
 }
 
-/* =====================
-   NAVIGATION
-===================== */
+// =====================
+// NAVIGATION
+// =====================
 nextBtn.onclick = () => {
-  // From Welcome page → move to first section
+  // Welcome → show sidebar
   if (!activeSection && introPage.style.display === "block") {
-    const firstSection = Object.keys(sections)[0];
-    enterSection(firstSection);
+    hideAll();
+    showSidebar();
     return;
   }
 
-  // From section intro → first or last answered question
+  // Section intro → first question
   if (activeSection && inSectionIntro) {
     inSectionIntro = false;
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
     loadQuestion();
     return;
   }
 
-  // Require answer before continuing
+  // Require answer for questions only
   if (!answers[currentIndex]) {
     alert("Please answer Yes or No before continuing.");
     return;
@@ -140,14 +160,14 @@ nextBtn.onclick = () => {
   // Save progress
   sectionProgress[activeSection] = sectionPosition;
 
-  // Move to next question in section
+  // Next question in section
   if (sectionPosition < sections[activeSection].questions.length - 1) {
     sectionPosition++;
     loadQuestion();
     return;
   }
 
-  // Move to next section
+  // Next section
   const sectionKeys = Object.keys(sections);
   const currentSectionIndex = sectionKeys.indexOf(activeSection);
   if (currentSectionIndex < sectionKeys.length - 1) {
@@ -155,63 +175,42 @@ nextBtn.onclick = () => {
     return;
   }
 
-  // If last section and all questions answered → show results
-  const totalQuestions = questions.filter(q => !q.type).length;
-  const answeredQuestions = Object.keys(answers).length;
-
-  if (answeredQuestions === totalQuestions) {
-    showResults();
-  } else {
-    hideAll();
-    introPage.style.display = "block";
-    activeSection = null;
-  }
-
-  updateFinishAvailability();
+  // All sections done → enable finish
+  finishBtn.disabled = false;
 };
 
+// =====================
+// PREVIOUS BUTTON
+// =====================
 prevBtn.onclick = () => {
-  if (sectionPosition > 0) {
+  if (activeSection && !inSectionIntro && sectionPosition > 0) {
     sectionPosition--;
     loadQuestion();
-  } else if (activeSection) {
-    // go back to section intro
+  } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
     inSectionIntro = true;
     enterSection(activeSection);
   } else {
     hideAll();
     introPage.style.display = "block";
+    sidebar.style.display = "none";
+    activeSection = null;
   }
 };
 
-/* =====================
-   ANSWERS
-===================== */
+// =====================
+// ANSWERS
+// =====================
 radios.forEach(r => {
   r.onchange = () => {
     answers[currentIndex] = r.value;
     sectionProgress[activeSection] = sectionPosition;
-    updateFinishAvailability();
   };
 });
 
-/* =====================
-   FINISH ENABLE LOGIC
-===================== */
-function updateFinishAvailability() {
-  const total = questions.filter(q => !q.type).length;
-  const answered = Object.keys(answers).length;
-  finishBtn.disabled = answered < total;
-}
-
-finishBtn.disabled = true;
-
-/* =====================
-   FINISH / RESULTS
-===================== */
-finishBtn.onclick = showResults;
-
-function showResults() {
+// =====================
+// FINISH / RESULTS
+// =====================
+finishBtn.onclick = () => {
   hideAll();
   resultsContainer.style.display = "block";
 
@@ -233,4 +232,4 @@ function showResults() {
       container.appendChild(div);
     }
   });
-}
+};
