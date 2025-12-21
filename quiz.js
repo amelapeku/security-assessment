@@ -40,45 +40,40 @@ function hideAll() {
   riskText.style.display = "none";
   sectionInfo.style.display = "none";
   resultsContainer.style.display = "none";
-  sidebar.style.display = "block"; // always visible
+  sidebar.style.display = "none";
   document.querySelector(".buttons").style.display = "flex";
 }
 
-// Show welcome on load
-window.onload = () => {
-  hideAll();
-  introPage.style.display = "block";
-  nextBtn.textContent = "Next";
-  prevBtn.style.visibility = "hidden";
-  finishBtn.disabled = true;
-};
+// Show welcome automatically
+hideAll();
+introPage.style.display = "block";
+document.querySelector(".buttons").style.display = "flex";
 
-// Sidebar navigation
+// Sidebar buttons
 document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    const section = btn.dataset.section;
-    enterSection(section, false); // false = go to last question answered
-  };
+  btn.onclick = () => enterSection(btn.dataset.section);
 });
 
-function enterSection(section, goToIntro = true) {
+// Enter section
+function enterSection(section) {
   activeSection = section;
-  inSectionIntro = goToIntro;
+  inSectionIntro = true;
   sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
+
   hideAll();
+  sidebar.style.display = "block";
   sectionInfo.style.display = "block";
   sectionInfo.textContent = activeSection;
-  nextBtn.textContent = goToIntro ? "Start questions" : "Next";
+
+  nextBtn.textContent = "Start questions";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
-
-  if (!goToIntro) {
-    loadQuestion();
-  }
 }
 
+// Load a question
 function loadQuestion() {
   hideAll();
+  sidebar.style.display = "block";
   questionBox.style.display = "block";
   optionsDiv.style.display = "flex";
   riskText.style.display = "block";
@@ -95,41 +90,19 @@ function loadQuestion() {
   nextBtn.textContent = sectionPosition === sections[activeSection].questions.length - 1 ? "Next Section" : "Next";
 }
 
+// Record answers
 radios.forEach(r => r.onchange = () => {
   answers[currentIndex] = r.value;
   sectionProgress[activeSection] = sectionPosition;
 });
 
-function showResults() {
-  hideAll();
-  resultsContainer.style.display = "block";
-  document.querySelector(".buttons").style.display = "none";
-
-  const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
-  document.getElementById("score-text").textContent =
-    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
-
-  const container = document.getElementById("no-answers-container");
-  container.innerHTML = "";
-
-  let currentSectionTitle = "";
-  questions.forEach((q, i) => {
-    if (q.type === "section") currentSectionTitle = q.title;
-    else if (answers[i] === "no") {
-      const div = document.createElement("div");
-      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
-      container.appendChild(div);
-    }
-  });
-}
-
 // Next button
 nextBtn.onclick = () => {
-  // From Welcome → first section intro
+  // From welcome → LT-1
   if (introPage.style.display === "block") {
+    hideAll();
     const firstSection = Object.keys(sections)[0];
-    enterSection(firstSection, true);
+    enterSection(firstSection);
     return;
   }
 
@@ -155,11 +128,12 @@ nextBtn.onclick = () => {
   const keys = Object.keys(sections);
   const idx = keys.indexOf(activeSection);
   if (idx < keys.length - 1) {
-    enterSection(keys[idx + 1], true);
+    enterSection(keys[idx + 1]);
     return;
   }
 
-  // All done → results
+  // All done → show results
+  finishBtn.disabled = false;
   showResults();
 };
 
@@ -170,11 +144,35 @@ prevBtn.onclick = () => {
     loadQuestion();
   } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
     inSectionIntro = true;
-    enterSection(activeSection, true);
+    enterSection(activeSection);
   } else {
     hideAll();
     introPage.style.display = "block";
     activeSection = null;
-    prevBtn.style.visibility = "hidden";
   }
 };
+
+// Show results
+function showResults() {
+  hideAll();
+  resultsContainer.style.display = "block";
+  document.querySelector(".buttons").style.display = "none";
+
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+  document.getElementById("score-text").textContent =
+    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
+
+  const container = document.getElementById("no-answers-container");
+  container.innerHTML = "";
+
+  let currentSectionTitle = "";
+  questions.forEach((q, i) => {
+    if (q.type === "section") currentSectionTitle = q.title;
+    else if (answers[i] === "no") {
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
+      container.appendChild(div);
+    }
+  });
+}
