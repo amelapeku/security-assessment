@@ -122,8 +122,8 @@ body {
   font-size: 24px;
 
   /* FIXED vertical spacing */
-  margin-top: 0;
-  margin-bottom: 60px;
+  margin-top: 20;
+  margin-bottom: 90px;
 
   min-height: 50px;
 }
@@ -168,3 +168,4 @@ button:disabled {
   color: #0078d4;
   margin-top: 30px;
 }
+
