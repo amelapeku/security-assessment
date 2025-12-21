@@ -44,19 +44,23 @@ body {
 }
 
 /* =====================
-   CONTENT ALIGNMENT
+   MAIN CONTENT COLUMN
+   (FIXED X POSITION)
 ===================== */
 .section-view,
 .question-box,
 .info-box,
 .results-container,
-.risk-cloud {
+.risk-cloud,
+.options {
   width: calc(100% - 380px);
   margin-left: 360px;
+  max-width: 900px;
 }
 
 /* =====================
    QUESTION BOX (GRAY)
+   FIXED POSITION
 ===================== */
 .question-box {
   background: #f2f2f2;
@@ -66,8 +70,10 @@ body {
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
   font-size: 18px;
 
-  /* IMPORTANT: shared width */
-  max-width: 900px;
+  /* CRITICAL: prevent layout jumping */
+  min-height: 120px;
+  display: flex;
+  align-items: center;
 }
 
 /* =====================
@@ -79,25 +85,12 @@ body {
   border-radius: 15px;
   margin-top: 120px;
   font-size: 18px;
-  max-height: 60vh;
-  overflow-y: auto;
-  max-width: 900px;
-}
-
-/* =====================
-   OPTIONS (YES / NO)
-===================== */
-.options {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  font-size: 24px;
-  margin-top: 50px;
+  min-height: 160px;
 }
 
 /* =====================
    RISK BUBBLE (ORANGE)
-   PERFECTLY ALIGNED
+   FIXED POSITION
 ===================== */
 .risk-cloud {
   background: #fff5e6;
@@ -105,15 +98,39 @@ body {
   padding: 26px;
   border-radius: 25px;
   margin-top: 40px;
-  font-size: 18px;
 
-  /* EXACT SAME WIDTH & X POSITION AS QUESTION BOX */
-  max-width: 900px;
+  /* BIGGER GAP BELOW */
+  margin-bottom: 80px;
+
+  font-size: 18px;
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+
+  /* Prevent jumping */
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+/* =====================
+   YES / NO OPTIONS
+   FIXED POSITION
+===================== */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  font-size: 24px;
+
+  /* FIXED vertical spacing */
+  margin-top: 0;
+  margin-bottom: 60px;
+
+  min-height: 50px;
 }
 
 /* =====================
    NAVIGATION BUTTONS
+   FIXED POSITION
 ===================== */
 .buttons {
   position: fixed;
@@ -145,7 +162,6 @@ button:disabled {
   margin-top: 80px;
   height: 70vh;
   overflow-y: auto;
-  max-width: 900px;
 }
 
 .results-container h4 {
