@@ -103,19 +103,16 @@ function loadQuestion() {
 
 // Next button logic
 nextBtn.onclick = () => {
-  // From Welcome → enter first section directly
+  // From welcome → go directly to first section (LT-1)
   if (!activeSection && introPage.style.display === "block") {
-    enterSection(Object.keys(sections)[0]); // Start LT-1
+    const firstSection = Object.keys(sections)[0];
+    enterSection(firstSection);
     return;
   }
 
   // Section intro → first or last answered question
   if (activeSection && inSectionIntro) {
     inSectionIntro = false;
-    sectionPosition =
-      sectionProgress[activeSection] >= 0
-        ? sectionProgress[activeSection]
-        : 0;
     loadQuestion();
     return;
   }
@@ -186,19 +183,22 @@ finishBtn.onclick = () => {
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
-  // Show each section only once for "No" questions
-  Object.keys(sections).forEach(section => {
-    const noQuestions = sections[section].questions.filter(
-      i => answers[i] === "no"
-    );
-    if (noQuestions.length > 0) {
-      const div = document.createElement("div");
-      let html = `<h4>${section}</h4>`;
-      noQuestions.forEach(i => {
-        html += `<p>${questions[i].q}</p>`;
-      });
-      div.innerHTML = html;
-      container.appendChild(div);
+  // Collect "No" answers grouped by section
+  const sectionMap = {};
+  let current = "";
+  questions.forEach((q, i) => {
+    if (q.type === "section") current = q.title;
+    else if (answers[i] === "no") {
+      if (!sectionMap[current]) sectionMap[current] = [];
+      sectionMap[current].push(q.q);
     }
+  });
+
+  // Display sections only once
+  Object.keys(sectionMap).forEach(sec => {
+    const div = document.createElement("div");
+    div.innerHTML = `<h4>${sec}</h4><ul>${sectionMap[sec]
+      .map(qText => `<li>${qText}</li>`).join("")}</ul>`;
+    container.appendChild(div);
   });
 };
