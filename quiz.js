@@ -4,8 +4,7 @@ let inSectionIntro = false;
 let currentIndex = null;
 
 const answers = {};
-const sectionProgress = {}; // remembers last question per section
-
+const sectionProgress = {};
 const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
@@ -13,7 +12,6 @@ const riskText = document.getElementById("risk-text");
 const sectionInfo = document.getElementById("section-info");
 const resultsContainer = document.getElementById("results-container");
 const optionsDiv = document.querySelector(".options");
-
 const radios = Array.from(document.getElementsByName("answer"));
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
@@ -23,7 +21,7 @@ const sidebar = document.getElementById("sidebar");
 const sections = {};
 let currentSection = null;
 
-// Build sections map
+// Build sections
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
@@ -43,40 +41,76 @@ function hideAll() {
   sectionInfo.style.display = "none";
   resultsContainer.style.display = "none";
   sidebar.style.display = "none";
+  document.querySelector(".buttons").style.display = "flex"; // reset for quiz
 }
 
-// Welcome button
-document.getElementById("welcome-btn").onclick = () => {
-  hideAll();
-  introPage.style.display = "block";
-  sidebar.style.display = "none";
-  activeSection = null;
-  nextBtn.textContent = "Next";
-  nextBtn.disabled = false;
+// Welcome Next → LT-1
+nextBtn.onclick = () => {
+  if (introPage.style.display === "block") {
+    hideAll();
+    const firstSection = Object.keys(sections)[0];
+    enterSection(firstSection);
+    return;
+  }
+
+  if (activeSection && inSectionIntro) {
+    inSectionIntro = false;
+    loadQuestion();
+    return;
+  }
+
+  if (!answers[currentIndex]) {
+    alert("Please answer Yes or No before continuing.");
+    return;
+  }
+
+  sectionProgress[activeSection] = sectionPosition;
+
+  if (sectionPosition < sections[activeSection].questions.length - 1) {
+    sectionPosition++;
+    loadQuestion();
+    return;
+  }
+
+  const keys = Object.keys(sections);
+  const idx = keys.indexOf(activeSection);
+  if (idx < keys.length - 1) {
+    enterSection(keys[idx + 1]);
+    return;
+  }
+
+  // All done → show results
+  finishBtn.disabled = false;
+  showResults();
 };
 
-// Enter section from sidebar
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => enterSection(btn.dataset.section);
-});
+prevBtn.onclick = () => {
+  if (activeSection && !inSectionIntro && sectionPosition > 0) {
+    sectionPosition--;
+    loadQuestion();
+  } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
+    inSectionIntro = true;
+    enterSection(activeSection);
+  } else {
+    hideAll();
+    introPage.style.display = "block";
+    activeSection = null;
+  }
+};
 
 function enterSection(section) {
   activeSection = section;
   inSectionIntro = true;
-  sectionPosition =
-    sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
-
+  sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
   hideAll();
   sidebar.style.display = "block";
   sectionInfo.style.display = "block";
-
   sectionInfo.textContent = activeSection;
   nextBtn.textContent = "Start questions";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 }
 
-// Load a question
 function loadQuestion() {
   hideAll();
   sidebar.style.display = "block";
@@ -91,114 +125,36 @@ function loadQuestion() {
   questionText.textContent = item.q;
   riskText.textContent = item.risk;
 
-  radios.forEach(r => {
-    r.checked = answers[qIndex] === r.value;
-  });
+  radios.forEach(r => r.checked = answers[qIndex] === r.value);
 
-  nextBtn.textContent =
-    sectionPosition === sections[activeSection].questions.length - 1
-      ? "Next Section"
-      : "Next";
+  nextBtn.textContent = sectionPosition === sections[activeSection].questions.length - 1 ? "Next Section" : "Next";
 }
 
-// Next button logic
-nextBtn.onclick = () => {
-  // From welcome → go directly to first section (LT-1)
-  if (!activeSection && introPage.style.display === "block") {
-    const firstSection = Object.keys(sections)[0];
-    enterSection(firstSection);
-    return;
-  }
-
-  // Section intro → first or last answered question
-  if (activeSection && inSectionIntro) {
-    inSectionIntro = false;
-    loadQuestion();
-    return;
-  }
-
-  // Must answer before moving
-  if (!answers[currentIndex]) {
-    alert("Please answer Yes or No before continuing.");
-    return;
-  }
-
-  // Save progress
+radios.forEach(r => r.onchange = () => {
+  answers[currentIndex] = r.value;
   sectionProgress[activeSection] = sectionPosition;
-
-  // Next question
-  if (sectionPosition < sections[activeSection].questions.length - 1) {
-    sectionPosition++;
-    loadQuestion();
-    return;
-  }
-
-  // Next section
-  const keys = Object.keys(sections);
-  const idx = keys.indexOf(activeSection);
-  if (idx < keys.length - 1) {
-    enterSection(keys[idx + 1]);
-    return;
-  }
-
-  // All done → enable finish
-  finishBtn.disabled = false;
-};
-
-// Previous button logic
-prevBtn.onclick = () => {
-  if (activeSection && !inSectionIntro && sectionPosition > 0) {
-    sectionPosition--;
-    loadQuestion();
-  } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
-    inSectionIntro = true;
-    enterSection(activeSection);
-  } else {
-    hideAll();
-    introPage.style.display = "block";
-    sidebar.style.display = "none";
-    activeSection = null;
-  }
-};
-
-// Record answers
-radios.forEach(r => {
-  r.onchange = () => {
-    answers[currentIndex] = r.value;
-    sectionProgress[activeSection] = sectionPosition;
-  };
 });
 
-// Finish / results
-finishBtn.onclick = () => {
+function showResults() {
   hideAll();
   resultsContainer.style.display = "block";
+  document.querySelector(".buttons").style.display = "none";
 
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
-
   document.getElementById("score-text").textContent =
     `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
 
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
-  // Collect "No" answers grouped by section
-  const sectionMap = {};
-  let current = "";
+  let currentSectionTitle = "";
   questions.forEach((q, i) => {
-    if (q.type === "section") current = q.title;
+    if (q.type === "section") currentSectionTitle = q.title;
     else if (answers[i] === "no") {
-      if (!sectionMap[current]) sectionMap[current] = [];
-      sectionMap[current].push(q.q);
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
+      container.appendChild(div);
     }
   });
-
-  // Display sections only once
-  Object.keys(sectionMap).forEach(sec => {
-    const div = document.createElement("div");
-    div.innerHTML = `<h4>${sec}</h4><ul>${sectionMap[sec]
-      .map(qText => `<li>${qText}</li>`).join("")}</ul>`;
-    container.appendChild(div);
-  });
-};
+}
