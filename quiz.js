@@ -14,15 +14,19 @@ const resultsContainer = document.getElementById("results-container");
 const radios = Array.from(document.getElementsByName("answer"));
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
+const finishBtn = document.getElementById("finish-btn");
 
 const sections = {};
-let currentSection = null;
+const sectionOrder = [];
+let currentSectionIndex = -1;
 
 /* Build section map */
+let currentSection = null;
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
-    sections[currentSection] = { introIndex: i, questions: [] };
+    sectionOrder.push(currentSection);
+    sections[currentSection] = { questions: [] };
   } else {
     sections[currentSection].questions.push(i);
   }
@@ -38,35 +42,53 @@ function hideAll() {
   resultsContainer.style.display = "none";
 }
 
+/* Button states */
+function updateNextState() {
+  if (currentIndex === -1) {
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.disabled = !answers[currentIndex];
+  }
+}
+
+function updateFinishState() {
+  const total = questions.filter(q => !q.type).length;
+  finishBtn.disabled = Object.keys(answers).length !== total;
+}
+
 /* Welcome */
 document.getElementById("welcome-btn").onclick = () => {
   hideAll();
   introPage.style.display = "block";
+  activeSection = null;
+  currentIndex = -1;
+  updateNextState();
 };
 
-/* Section click */
+/* Sidebar section click */
 document.querySelectorAll("[data-section]").forEach(btn => {
   btn.onclick = () => {
     activeSection = btn.dataset.section;
+    currentSectionIndex = sectionOrder.indexOf(activeSection);
     sectionPosition = -1;
     showSectionIntro();
   };
 });
 
-/* Section intro (controls & criticality) */
+/* Section intro */
 function showSectionIntro() {
   hideAll();
   sectionInfo.style.display = "block";
-  sectionInfo.innerHTML = document.getElementById(
-    activeSection.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + "-info"
-  )?.innerHTML || "<strong>Section overview</strong>";
-
+  sectionInfo.innerHTML = `<strong>${activeSection}</strong><br><br>Controls & criticality overview.`;
   nextBtn.textContent = "Start questions";
+  currentIndex = -1;
+  updateNextState();
 }
 
 /* Load question */
 function loadQuestion() {
   hideAll();
+
   const qIndex = sections[activeSection].questions[sectionPosition];
   const item = questions[qIndex];
   currentIndex = qIndex;
@@ -82,25 +104,48 @@ function loadQuestion() {
 
   nextBtn.textContent =
     sectionPosition === sections[activeSection].questions.length - 1
-      ? "Back to sections"
+      ? "Next section"
       : "Next";
+
+  updateNextState();
 }
 
 /* Navigation */
 nextBtn.onclick = () => {
-  if (activeSection && sectionPosition === -1) {
+  if (currentIndex !== -1 && !answers[currentIndex]) return;
+
+  /* Welcome → LT-1 */
+  if (!activeSection) {
+    currentSectionIndex = 0;
+    activeSection = sectionOrder[0];
+    sectionPosition = -1;
+    showSectionIntro();
+    return;
+  }
+
+  /* Section intro → first question */
+  if (sectionPosition === -1) {
     sectionPosition = 0;
     loadQuestion();
     return;
   }
 
-  if (activeSection && sectionPosition < sections[activeSection].questions.length - 1) {
+  /* Next question */
+  if (sectionPosition < sections[activeSection].questions.length - 1) {
     sectionPosition++;
     loadQuestion();
+    return;
+  }
+
+  /* End of section */
+  if (currentSectionIndex < sectionOrder.length - 1) {
+    currentSectionIndex++;
+    activeSection = sectionOrder[currentSectionIndex];
+    sectionPosition = -1;
+    showSectionIntro();
   } else {
-    activeSection = null;
-    hideAll();
-    introPage.style.display = "block";
+    /* END OF LT-7 → GO TO FINISH */
+    showResults();
   }
 };
 
@@ -108,18 +153,26 @@ prevBtn.onclick = () => {
   if (sectionPosition > 0) {
     sectionPosition--;
     loadQuestion();
-  } else {
+  } else if (sectionPosition === 0) {
     showSectionIntro();
   }
 };
 
 /* Answers */
 radios.forEach(r => {
-  r.onchange = () => answers[currentIndex] = r.value;
+  r.onchange = () => {
+    answers[currentIndex] = r.value;
+    updateNextState();
+    updateFinishState();
+  };
 });
 
 /* Finish */
-document.getElementById("finish-btn").onclick = showResults;
+finishBtn.onclick = () => {
+  if (!finishBtn.disabled) {
+    showResults();
+  }
+};
 
 /* Results */
 function showResults() {
@@ -127,7 +180,8 @@ function showResults() {
   resultsContainer.style.display = "block";
 
   const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
+  const yes = Object.values(answers).filter(v => v === "yes").length;
+
   document.getElementById("score-text").textContent =
     `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
 
@@ -144,3 +198,7 @@ function showResults() {
     }
   });
 }
+
+/* Init */
+finishBtn.disabled = true;
+updateNextState();
