@@ -21,7 +21,7 @@ const sidebar = document.getElementById("sidebar");
 const sections = {};
 let currentSection = null;
 
-// Build sections map
+// Build sections
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
@@ -40,11 +40,11 @@ function hideAll() {
   riskText.style.display = "none";
   sectionInfo.style.display = "none";
   resultsContainer.style.display = "none";
-  sidebar.style.display = "block"; // always show sidebar
+  sidebar.style.display = "block"; // always visible
   document.querySelector(".buttons").style.display = "flex";
 }
 
-// Automatically show welcome page on load
+// Show welcome on load
 window.onload = () => {
   hideAll();
   introPage.style.display = "block";
@@ -53,16 +53,28 @@ window.onload = () => {
   finishBtn.disabled = true;
 };
 
-function enterSection(section) {
+// Sidebar navigation
+document.querySelectorAll("[data-section]").forEach(btn => {
+  btn.onclick = () => {
+    const section = btn.dataset.section;
+    enterSection(section, false); // false = go to last question answered
+  };
+});
+
+function enterSection(section, goToIntro = true) {
   activeSection = section;
-  inSectionIntro = true;
+  inSectionIntro = goToIntro;
   sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
   hideAll();
   sectionInfo.style.display = "block";
   sectionInfo.textContent = activeSection;
-  nextBtn.textContent = "Start questions";
+  nextBtn.textContent = goToIntro ? "Start questions" : "Next";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
+
+  if (!goToIntro) {
+    loadQuestion();
+  }
 }
 
 function loadQuestion() {
@@ -112,12 +124,12 @@ function showResults() {
   });
 }
 
-// Next button logic
+// Next button
 nextBtn.onclick = () => {
-  // From Welcome → first section
+  // From Welcome → first section intro
   if (introPage.style.display === "block") {
     const firstSection = Object.keys(sections)[0];
-    enterSection(firstSection);
+    enterSection(firstSection, true);
     return;
   }
 
@@ -143,22 +155,22 @@ nextBtn.onclick = () => {
   const keys = Object.keys(sections);
   const idx = keys.indexOf(activeSection);
   if (idx < keys.length - 1) {
-    enterSection(keys[idx + 1]);
+    enterSection(keys[idx + 1], true);
     return;
   }
 
-  // All done → show results
+  // All done → results
   showResults();
 };
 
-// Previous button logic
+// Previous button
 prevBtn.onclick = () => {
   if (activeSection && !inSectionIntro && sectionPosition > 0) {
     sectionPosition--;
     loadQuestion();
   } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
     inSectionIntro = true;
-    enterSection(activeSection);
+    enterSection(activeSection, true);
   } else {
     hideAll();
     introPage.style.display = "block";
