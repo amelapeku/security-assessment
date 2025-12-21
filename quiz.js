@@ -40,17 +40,24 @@ function hideAll() {
   riskText.style.display = "none";
   sectionInfo.style.display = "none";
   resultsContainer.style.display = "none";
-  sidebar.style.display = "none";
-  document.querySelector(".buttons").style.display = "flex"; // reset for quiz
+  sidebar.style.display = "block"; // always show sidebar
+  document.querySelector(".buttons").style.display = "flex";
 }
 
-// Enter a section
+// Automatically show welcome page on load
+window.onload = () => {
+  hideAll();
+  introPage.style.display = "block";
+  nextBtn.textContent = "Next";
+  prevBtn.style.visibility = "hidden";
+  finishBtn.disabled = true;
+};
+
 function enterSection(section) {
   activeSection = section;
   inSectionIntro = true;
   sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
   hideAll();
-  sidebar.style.display = "block";
   sectionInfo.style.display = "block";
   sectionInfo.textContent = activeSection;
   nextBtn.textContent = "Start questions";
@@ -58,10 +65,8 @@ function enterSection(section) {
   prevBtn.disabled = false;
 }
 
-// Load a question
 function loadQuestion() {
   hideAll();
-  sidebar.style.display = "block";
   questionBox.style.display = "block";
   optionsDiv.style.display = "flex";
   riskText.style.display = "block";
@@ -78,13 +83,11 @@ function loadQuestion() {
   nextBtn.textContent = sectionPosition === sections[activeSection].questions.length - 1 ? "Next Section" : "Next";
 }
 
-// Radio button change
 radios.forEach(r => r.onchange = () => {
   answers[currentIndex] = r.value;
   sectionProgress[activeSection] = sectionPosition;
 });
 
-// Show results
 function showResults() {
   hideAll();
   resultsContainer.style.display = "block";
@@ -111,9 +114,8 @@ function showResults() {
 
 // Next button logic
 nextBtn.onclick = () => {
-  // From welcome → directly enter LT-1
+  // From Welcome → first section
   if (introPage.style.display === "block") {
-    hideAll();
     const firstSection = Object.keys(sections)[0];
     enterSection(firstSection);
     return;
@@ -146,7 +148,6 @@ nextBtn.onclick = () => {
   }
 
   // All done → show results
-  finishBtn.disabled = false;
   showResults();
 };
 
@@ -162,5 +163,6 @@ prevBtn.onclick = () => {
     hideAll();
     introPage.style.display = "block";
     activeSection = null;
+    prevBtn.style.visibility = "hidden";
   }
 };
