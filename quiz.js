@@ -1,7 +1,6 @@
 let currentIndex = -1;
 let activeSection = null;
-let sectionPosition = -1;
-let inSectionIntro = false;
+let sectionPosition = 0;
 
 const answers = {};
 const sectionProgress = {}; // remembers last question per section
@@ -28,7 +27,7 @@ let currentSection = null;
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
-    sections[currentSection] = { introIndex: i, questions: [] };
+    sections[currentSection] = { questions: [] };
     sectionProgress[currentSection] = -1; // initialize
   } else {
     sections[currentSection].questions.push(i);
@@ -47,51 +46,14 @@ function hideAll() {
   resultsContainer.style.display = "none";
 }
 
-/* =====================
-   WELCOME BUTTON
-===================== */
-document.getElementById("welcome-btn").onclick = () => {
-  hideAll();
-  introPage.style.display = "block";
-  optionsDiv.style.display = "none"; // hide Yes/No
-  activeSection = null; // ensure we start fresh
-};
-
-/* =====================
-   SECTION CLICK (SIDEBAR)
-===================== */
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    activeSection = btn.dataset.section;
-
-    const savedPos = sectionProgress[activeSection];
-    sectionPosition = savedPos >= 0 ? savedPos : -1;
-    inSectionIntro = true;
-
-    showSectionIntro();
-  };
-});
-
-/* =====================
-   SECTION INTRO
-===================== */
-function showSectionIntro() {
-  hideAll();
-  optionsDiv.style.display = "none"; // never show radios on intro
-  sectionInfo.style.display = "block";
-  sectionInfo.textContent = activeSection;
-  nextBtn.textContent = "Start questions";
-}
-
-/* =====================
-   LOAD QUESTION
-===================== */
 function loadQuestion() {
   hideAll();
+  sectionInfo.style.display = "block";
+  sectionInfo.textContent = activeSection;
 
   const qIndex = sections[activeSection].questions[sectionPosition];
-  const item = questions[qIndex];
   currentIndex = qIndex;
+  const item = questions[qIndex];
 
   questionBox.style.display = "block";
   optionsDiv.style.display = "flex";
@@ -111,6 +73,28 @@ function loadQuestion() {
 }
 
 /* =====================
+   WELCOME BUTTON
+===================== */
+document.getElementById("welcome-btn").onclick = () => {
+  hideAll();
+  introPage.style.display = "block";
+};
+
+/* =====================
+   SECTION CLICK (SIDEBAR)
+===================== */
+document.querySelectorAll("[data-section]").forEach(btn => {
+  btn.onclick = () => {
+    activeSection = btn.dataset.section;
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
+    loadQuestion();
+  };
+});
+
+/* =====================
    NAVIGATION
 ===================== */
 nextBtn.onclick = () => {
@@ -118,17 +102,10 @@ nextBtn.onclick = () => {
   if (!activeSection && introPage.style.display === "block") {
     hideAll();
     activeSection = Object.keys(sections)[0]; // LT-1
-    inSectionIntro = true;
-    sectionPosition = 0;
-    showSectionIntro();
-    return;
-  }
-
-  // From section intro → first or last answered question
-  if (activeSection && inSectionIntro) {
-    inSectionIntro = false;
-    const lastAnswered = sectionProgress[activeSection];
-    sectionPosition = lastAnswered >= 0 ? lastAnswered : 0;
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
     loadQuestion();
     return;
   }
@@ -145,7 +122,6 @@ nextBtn.onclick = () => {
   // Move to next question in section
   if (sectionPosition < sections[activeSection].questions.length - 1) {
     sectionPosition++;
-    sectionProgress[activeSection] = sectionPosition;
     loadQuestion();
     return;
   }
@@ -155,13 +131,15 @@ nextBtn.onclick = () => {
   const currentSectionIndex = sectionKeys.indexOf(activeSection);
   if (currentSectionIndex < sectionKeys.length - 1) {
     activeSection = sectionKeys[currentSectionIndex + 1];
-    inSectionIntro = true;
-    sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : -1;
-    showSectionIntro();
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
+    loadQuestion();
     return;
   }
 
-  // If last section and all questions answered, finish
+  // Last section finished
   const totalQuestions = questions.filter(q => !q.type).length;
   const answeredQuestions = Object.keys(answers).length;
 
@@ -177,11 +155,14 @@ nextBtn.onclick = () => {
 };
 
 prevBtn.onclick = () => {
+  if (!activeSection) return;
   if (sectionPosition > 0) {
     sectionPosition--;
     loadQuestion();
   } else {
-    showSectionIntro();
+    hideAll();
+    introPage.style.display = "block";
+    activeSection = null;
   }
 };
 
