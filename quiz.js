@@ -1,6 +1,7 @@
 let activeSection = null;
 let sectionPosition = -1;
 let inSectionIntro = false;
+let currentIndex = null;
 
 const answers = {};
 const sectionProgress = {}; // remembers last question per section
@@ -11,32 +12,29 @@ const questionText = document.getElementById("question-text");
 const riskText = document.getElementById("risk-text");
 const sectionInfo = document.getElementById("section-info");
 const resultsContainer = document.getElementById("results-container");
+const optionsDiv = document.querySelector(".options");
 
 const radios = Array.from(document.getElementsByName("answer"));
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const finishBtn = document.getElementById("finish-btn");
-const sidebar = document.getElementById("section-sidebar");
+const sidebar = document.getElementById("sidebar");
 
 const sections = {};
 let currentSection = null;
 
-// =====================
-// BUILD SECTION MAP
-// =====================
+// Build sections map
 questions.forEach((q, i) => {
   if (q.type === "section") {
     currentSection = q.title;
     sections[currentSection] = { introIndex: i, questions: [] };
-    sectionProgress[currentSection] = -1; // initialize
+    sectionProgress[currentSection] = -1;
   } else {
     sections[currentSection].questions.push(i);
   }
 });
 
-// =====================
-// UTILITY
-// =====================
+// Hide all main views
 function hideAll() {
   introPage.style.display = "none";
   questionBox.style.display = "none";
@@ -47,9 +45,7 @@ function hideAll() {
   sidebar.style.display = "none";
 }
 
-// =====================
-// WELCOME BUTTON
-// =====================
+// Welcome button
 document.getElementById("welcome-btn").onclick = () => {
   hideAll();
   introPage.style.display = "block";
@@ -59,52 +55,28 @@ document.getElementById("welcome-btn").onclick = () => {
   nextBtn.disabled = false;
 };
 
-// =====================
-// LOAD SECTION SIDEBAR
-// =====================
-function showSidebar() {
-  sidebar.innerHTML = "";
-  sidebar.style.display = "block";
+// Enter section from sidebar
+document.querySelectorAll("[data-section]").forEach(btn => {
+  btn.onclick = () => enterSection(btn.dataset.section);
+});
 
-  Object.keys(sections).forEach(sec => {
-    const btn = document.createElement("button");
-    btn.textContent = sec;
-    btn.dataset.section = sec;
-    btn.className = "lt-btn";
-    btn.onclick = () => enterSection(sec);
-    sidebar.appendChild(btn);
-  });
-}
-
-// =====================
-// ENTER SECTION
-// =====================
 function enterSection(section) {
   activeSection = section;
   inSectionIntro = true;
-  sectionPosition = 0;
+  sectionPosition =
+    sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
 
   hideAll();
   sidebar.style.display = "block";
   sectionInfo.style.display = "block";
 
-  // Show criticality and controls
-  const infoId = ltIdMap[section];
-  if (infoId) {
-    const infoBox = document.getElementById(infoId);
-    if (infoBox) sectionInfo.innerHTML = infoBox.innerHTML;
-  } else {
-    sectionInfo.textContent = section;
-  }
-
+  sectionInfo.textContent = activeSection;
   nextBtn.textContent = "Start questions";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 }
 
-// =====================
-// LOAD QUESTION
-// =====================
+// Load a question
 function loadQuestion() {
   hideAll();
   sidebar.style.display = "block";
@@ -129,29 +101,23 @@ function loadQuestion() {
       : "Next";
 }
 
-// =====================
-// NAVIGATION
-// =====================
+// Next button logic
 nextBtn.onclick = () => {
-  // Welcome → show sidebar
+  // From welcome → show sidebar first
   if (!activeSection && introPage.style.display === "block") {
     hideAll();
-    showSidebar();
+    sidebar.style.display = "block";
     return;
   }
 
-  // Section intro → first question
+  // Section intro → first or last answered question
   if (activeSection && inSectionIntro) {
     inSectionIntro = false;
-    sectionPosition =
-      sectionProgress[activeSection] >= 0
-        ? sectionProgress[activeSection]
-        : 0;
     loadQuestion();
     return;
   }
 
-  // Require answer for questions only
+  // Must answer before moving
   if (!answers[currentIndex]) {
     alert("Please answer Yes or No before continuing.");
     return;
@@ -160,7 +126,7 @@ nextBtn.onclick = () => {
   // Save progress
   sectionProgress[activeSection] = sectionPosition;
 
-  // Next question in section
+  // Next question
   if (sectionPosition < sections[activeSection].questions.length - 1) {
     sectionPosition++;
     loadQuestion();
@@ -168,20 +134,18 @@ nextBtn.onclick = () => {
   }
 
   // Next section
-  const sectionKeys = Object.keys(sections);
-  const currentSectionIndex = sectionKeys.indexOf(activeSection);
-  if (currentSectionIndex < sectionKeys.length - 1) {
-    enterSection(sectionKeys[currentSectionIndex + 1]);
+  const keys = Object.keys(sections);
+  const idx = keys.indexOf(activeSection);
+  if (idx < keys.length - 1) {
+    enterSection(keys[idx + 1]);
     return;
   }
 
-  // All sections done → enable finish
+  // All done → enable finish
   finishBtn.disabled = false;
 };
 
-// =====================
-// PREVIOUS BUTTON
-// =====================
+// Previous button logic
 prevBtn.onclick = () => {
   if (activeSection && !inSectionIntro && sectionPosition > 0) {
     sectionPosition--;
@@ -197,9 +161,7 @@ prevBtn.onclick = () => {
   }
 };
 
-// =====================
-// ANSWERS
-// =====================
+// Record answers
 radios.forEach(r => {
   r.onchange = () => {
     answers[currentIndex] = r.value;
@@ -207,9 +169,7 @@ radios.forEach(r => {
   };
 });
 
-// =====================
-// FINISH / RESULTS
-// =====================
+// Finish / results
 finishBtn.onclick = () => {
   hideAll();
   resultsContainer.style.display = "block";
