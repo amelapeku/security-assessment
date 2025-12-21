@@ -53,6 +53,8 @@ function hideAll() {
 document.getElementById("welcome-btn").onclick = () => {
   hideAll();
   introPage.style.display = "block";
+  optionsDiv.style.display = "none"; // hide Yes/No
+  activeSection = null; // ensure we start fresh
 };
 
 /* =====================
@@ -75,8 +77,9 @@ document.querySelectorAll("[data-section]").forEach(btn => {
 ===================== */
 function showSectionIntro() {
   hideAll();
+  optionsDiv.style.display = "none"; // never show radios on intro
   sectionInfo.style.display = "block";
-  sectionInfo.textContent = activeSection; // show section title
+  sectionInfo.textContent = activeSection;
   nextBtn.textContent = "Start questions";
 }
 
@@ -113,10 +116,10 @@ function loadQuestion() {
 nextBtn.onclick = () => {
   // If we are on Welcome page
   if (!activeSection && introPage.style.display === "block") {
+    hideAll();
     activeSection = Object.keys(sections)[0]; // LT-1
     inSectionIntro = true;
     sectionPosition = 0;
-
     showSectionIntro();
     return;
   }
