@@ -103,16 +103,19 @@ function loadQuestion() {
 
 // Next button logic
 nextBtn.onclick = () => {
-  // From welcome → show sidebar first
+  // From Welcome → enter first section directly
   if (!activeSection && introPage.style.display === "block") {
-    hideAll();
-    sidebar.style.display = "block";
+    enterSection(Object.keys(sections)[0]); // Start LT-1
     return;
   }
 
   // Section intro → first or last answered question
   if (activeSection && inSectionIntro) {
     inSectionIntro = false;
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
     loadQuestion();
     return;
   }
@@ -183,12 +186,18 @@ finishBtn.onclick = () => {
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
-  let current = "";
-  questions.forEach((q, i) => {
-    if (q.type === "section") current = q.title;
-    else if (answers[i] === "no") {
+  // Show each section only once for "No" questions
+  Object.keys(sections).forEach(section => {
+    const noQuestions = sections[section].questions.filter(
+      i => answers[i] === "no"
+    );
+    if (noQuestions.length > 0) {
       const div = document.createElement("div");
-      div.innerHTML = `<h4>${current}</h4><p>${q.q}</p>`;
+      let html = `<h4>${section}</h4>`;
+      noQuestions.forEach(i => {
+        html += `<p>${questions[i].q}</p>`;
+      });
+      div.innerHTML = html;
       container.appendChild(div);
     }
   });
