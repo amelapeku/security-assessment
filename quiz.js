@@ -1,9 +1,10 @@
 let currentIndex = -1;
 let activeSection = null;
 let sectionPosition = -1;
+let inSectionIntro = false;
 
 const answers = {};
-const sectionProgress = {}; // ⭐ remembers last question per section
+const sectionProgress = {}; // remembers last question per section
 
 const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
@@ -47,34 +48,37 @@ function hideAll() {
 }
 
 /* =====================
-   WELCOME
+   WELCOME BUTTON
 ===================== */
 document.getElementById("welcome-btn").onclick = () => {
+  activeSection = null;
   hideAll();
   introPage.style.display = "block";
 };
 
 /* =====================
-   SECTION CLICK (SIDEBAR)
+   SECTION BUTTONS (SIDEBAR)
 ===================== */
 document.querySelectorAll("[data-section]").forEach(btn => {
   btn.onclick = () => {
     activeSection = btn.dataset.section;
 
-    // Restore last position or move to first unanswered
+    // Restore last position or start at intro
     const savedPos = sectionProgress[activeSection];
     sectionPosition = savedPos >= 0 ? savedPos : -1;
+    inSectionIntro = true;
 
     showSectionIntro();
   };
 });
 
 /* =====================
-   SECTION INTRO
+   SHOW SECTION INTRO
 ===================== */
 function showSectionIntro() {
   hideAll();
   sectionInfo.style.display = "block";
+  sectionInfo.innerHTML = `<h2>${activeSection}</h2>`;
   nextBtn.textContent = "Start questions";
 }
 
@@ -106,19 +110,24 @@ function loadQuestion() {
 }
 
 /* =====================
-   NAVIGATION
+   NAVIGATION BUTTONS
 ===================== */
 nextBtn.onclick = () => {
-  // From section intro → first or saved question
-  if (activeSection && sectionPosition === -1) {
+
+  // Section intro → start questions
+  if (activeSection && inSectionIntro) {
+    inSectionIntro = false;
+
+    // Go to last answered or first question
     sectionPosition = sectionProgress[activeSection] >= 0
       ? sectionProgress[activeSection]
       : 0;
+
     loadQuestion();
     return;
   }
 
-  // Require answer before progressing
+  // Require answer before next
   if (!answers[currentIndex]) {
     alert("Please answer Yes or No before continuing.");
     return;
@@ -132,9 +141,20 @@ nextBtn.onclick = () => {
     sectionProgress[activeSection] = sectionPosition;
     loadQuestion();
   } else {
-    activeSection = null;
-    hideAll();
-    introPage.style.display = "block";
+    // End of section → check if all answered
+    const totalQuestions = questions.filter(q => !q.type).length;
+    const answeredQuestions = Object.keys(answers).length;
+
+    if (answeredQuestions === totalQuestions) {
+      // All answered → finish enabled
+      showResults();
+    } else {
+      // Not all answered → go back to Welcome / choose another section
+      activeSection = null;
+      inSectionIntro = false;
+      hideAll();
+      introPage.style.display = "block";
+    }
   }
 
   updateFinishAvailability();
@@ -145,6 +165,7 @@ prevBtn.onclick = () => {
     sectionPosition--;
     loadQuestion();
   } else {
+    inSectionIntro = true;
     showSectionIntro();
   }
 };
