@@ -1,6 +1,6 @@
 let currentIndex = -1;
 let activeSection = null;
-let sectionPosition = 0;
+let sectionPosition = -1;
 
 const answers = {};
 const sectionProgress = {}; // remembers last question per section
@@ -46,14 +46,41 @@ function hideAll() {
   resultsContainer.style.display = "none";
 }
 
+/* =====================
+   WELCOME BUTTON
+===================== */
+document.getElementById("welcome-btn").onclick = () => {
+  hideAll();
+  introPage.style.display = "block";
+  activeSection = null;
+};
+
+/* =====================
+   SECTION CLICK (SIDEBAR)
+===================== */
+document.querySelectorAll("[data-section]").forEach(btn => {
+  btn.onclick = () => {
+    activeSection = btn.dataset.section;
+    sectionPosition =
+      sectionProgress[activeSection] >= 0
+        ? sectionProgress[activeSection]
+        : 0;
+    loadQuestion();
+  };
+});
+
+/* =====================
+   LOAD QUESTION
+===================== */
 function loadQuestion() {
   hideAll();
-  sectionInfo.style.display = "block";
-  sectionInfo.textContent = activeSection;
 
   const qIndex = sections[activeSection].questions[sectionPosition];
-  currentIndex = qIndex;
   const item = questions[qIndex];
+  currentIndex = qIndex;
+
+  sectionInfo.style.display = "block";
+  sectionInfo.textContent = activeSection;
 
   questionBox.style.display = "block";
   optionsDiv.style.display = "flex";
@@ -73,35 +100,13 @@ function loadQuestion() {
 }
 
 /* =====================
-   WELCOME BUTTON
-===================== */
-document.getElementById("welcome-btn").onclick = () => {
-  hideAll();
-  introPage.style.display = "block";
-};
-
-/* =====================
-   SECTION CLICK (SIDEBAR)
-===================== */
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    activeSection = btn.dataset.section;
-    sectionPosition =
-      sectionProgress[activeSection] >= 0
-        ? sectionProgress[activeSection]
-        : 0;
-    loadQuestion();
-  };
-});
-
-/* =====================
    NAVIGATION
 ===================== */
 nextBtn.onclick = () => {
-  // If we are on Welcome page
-  if (!activeSection && introPage.style.display === "block") {
+  // Move from Welcome to first section
+  if (introPage.style.display !== "none") {
     hideAll();
-    activeSection = Object.keys(sections)[0]; // LT-1
+    activeSection = Object.keys(sections)[0];
     sectionPosition =
       sectionProgress[activeSection] >= 0
         ? sectionProgress[activeSection]
@@ -155,7 +160,6 @@ nextBtn.onclick = () => {
 };
 
 prevBtn.onclick = () => {
-  if (!activeSection) return;
   if (sectionPosition > 0) {
     sectionPosition--;
     loadQuestion();
