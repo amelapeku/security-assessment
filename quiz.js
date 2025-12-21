@@ -3,6 +3,9 @@ let activeSection = null;
 let sectionPosition = -1;
 const answers = {};
 
+/* NEW: remember last position per section */
+const sectionProgress = {};
+
 const introPage = document.getElementById("intro-page");
 const questionBox = document.getElementById("question-box");
 const questionText = document.getElementById("question-text");
@@ -27,6 +30,7 @@ questions.forEach((q, i) => {
     currentSection = q.title;
     sectionOrder.push(currentSection);
     sections[currentSection] = { questions: [] };
+    sectionProgress[currentSection] = -1; // init
   } else {
     sections[currentSection].questions.push(i);
   }
@@ -70,8 +74,15 @@ document.querySelectorAll("[data-section]").forEach(btn => {
   btn.onclick = () => {
     activeSection = btn.dataset.section;
     currentSectionIndex = sectionOrder.indexOf(activeSection);
-    sectionPosition = -1;
-    showSectionIntro();
+
+    /* RESTORE last position */
+    sectionPosition = sectionProgress[activeSection];
+
+    if (sectionPosition === -1) {
+      showSectionIntro();
+    } else {
+      loadQuestion();
+    }
   };
 });
 
@@ -118,14 +129,16 @@ nextBtn.onclick = () => {
   if (!activeSection) {
     currentSectionIndex = 0;
     activeSection = sectionOrder[0];
-    sectionPosition = -1;
-    showSectionIntro();
+    sectionPosition = sectionProgress[activeSection];
+    if (sectionPosition === -1) showSectionIntro();
+    else loadQuestion();
     return;
   }
 
   /* Section intro → first question */
   if (sectionPosition === -1) {
     sectionPosition = 0;
+    sectionProgress[activeSection] = 0;
     loadQuestion();
     return;
   }
@@ -133,6 +146,7 @@ nextBtn.onclick = () => {
   /* Next question */
   if (sectionPosition < sections[activeSection].questions.length - 1) {
     sectionPosition++;
+    sectionProgress[activeSection] = sectionPosition;
     loadQuestion();
     return;
   }
@@ -141,10 +155,10 @@ nextBtn.onclick = () => {
   if (currentSectionIndex < sectionOrder.length - 1) {
     currentSectionIndex++;
     activeSection = sectionOrder[currentSectionIndex];
-    sectionPosition = -1;
-    showSectionIntro();
+    sectionPosition = sectionProgress[activeSection];
+    if (sectionPosition === -1) showSectionIntro();
+    else loadQuestion();
   } else {
-    /* END OF LT-7 → GO TO FINISH */
     showResults();
   }
 };
@@ -152,8 +166,11 @@ nextBtn.onclick = () => {
 prevBtn.onclick = () => {
   if (sectionPosition > 0) {
     sectionPosition--;
+    sectionProgress[activeSection] = sectionPosition;
     loadQuestion();
   } else if (sectionPosition === 0) {
+    sectionPosition = -1;
+    sectionProgress[activeSection] = -1;
     showSectionIntro();
   }
 };
@@ -162,6 +179,10 @@ prevBtn.onclick = () => {
 radios.forEach(r => {
   r.onchange = () => {
     answers[currentIndex] = r.value;
+
+    /* SAVE PROGRESS ON ANSWER */
+    sectionProgress[activeSection] = sectionPosition;
+
     updateNextState();
     updateFinishState();
   };
