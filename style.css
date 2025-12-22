@@ -83,7 +83,7 @@ body {
   display: flex;
   align-items: center;
 
-  width: calc(100% - 360px); /* stretches to right edge */
+  width: calc(100% - 400px); /* stretches to right edge */
 }
 
 /* =====================
@@ -97,7 +97,7 @@ body {
   font-size: 18px;
   min-height: 160px;
 
-  width: calc(100% - 360px); /* optional, keeps same stretching */
+  width: calc(100% - 400px); /* optional, keeps same stretching */
 }
 
 /* =====================
@@ -120,7 +120,7 @@ body {
   display: flex;
   align-items: center;
 
-  width: calc(100% - 360px); /* stretches same as question box */
+  width: calc(100% - 400px); /* stretches same as question box */
 }
 
 /* =====================
@@ -170,7 +170,8 @@ button:disabled {
   height: 70vh;
   overflow-y: auto;
 
-  width: calc(100% - 360px); /* optional, keeps same stretching */
+  width: calc(100% - 400px); /* optional, keeps same stretching */
 }
 
 .res
+
