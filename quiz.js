@@ -345,3 +345,48 @@ function showResults() {
   });
 }
 
+// ===============================
+// DOWNLOAD PDF
+// ===============================
+document.getElementById("download-btn").onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10; // initial vertical position
+
+  // Yes % summary
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+  doc.setFontSize(14);
+  doc.text(`You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`, 10, y);
+  y += 10;
+
+  // Loop through sections and No answers
+  Object.keys(sections).forEach(sectionTitle => {
+    const sectionIndices = sections[sectionTitle].questions;
+    const noQuestions = sectionIndices
+      .filter(i => answers[i] === "no")
+      .map(i => questions[i].q);
+
+    if (noQuestions.length > 0) {
+      y += 10;
+      doc.setFontSize(12);
+      doc.text(sectionTitle, 10, y);
+      y += 6;
+      noQuestions.forEach(qText => {
+        // Wrap long text
+        const lines = doc.splitTextToSize(`- ${qText}`, 180);
+        doc.text(lines, 12, y);
+        y += lines.length * 6;
+        // Add new page if needed
+        if (y > 280) { 
+          doc.addPage();
+          y = 10;
+        }
+      });
+    }
+  });
+
+  doc.save("assessment_results.pdf");
+};
+
