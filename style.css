@@ -80,10 +80,24 @@ body {
 
   min-height: 220px;
   display: flex;
-  align-items: center;
+  flex-direction: column; /* allows vertical alignment */
+  justify-content: flex-start;
+  position: relative;  /* needed for absolute positioning of counter */
 
-  width: 1050px;        /* fixed width for all questions */
-  max-width: 90%;      /* ensures it fits smaller screens */
+  width: 1050px;        
+  max-width: 90%;      
+}
+
+/* =====================
+   QUESTION COUNTER FIXED FROM BOTTOM
+===================== */
+.question-counter {
+  position: absolute;
+  bottom: 15px;   /* fixed distance from bottom of gray box */
+  right: 30px;    /* distance from right edge */
+  font-size: 14px;
+  color: #555555;
+  font-weight: 600;
 }
 
 /* =====================
@@ -97,7 +111,7 @@ body {
   font-size: 18px;
   min-height: 220px;
 
-  width: 1050px;        /* match question box width */
+  width: 1050px;        
   max-width: 90%;
 }
 
@@ -121,7 +135,7 @@ body {
   display: flex;
   align-items: center;
 
-  width: 1050px;        /* match question box width */
+  width: 1050px;        
   max-width: 90%;
 }
 
@@ -172,7 +186,7 @@ button:disabled {
   height: 70vh;
   overflow-y: auto;
 
-  width: 1050px;        /* match question box width */
+  width: 1050px;        
   max-width: 90%;
 }
 
@@ -199,11 +213,3 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
-
-
-
-
-
-
-
-
