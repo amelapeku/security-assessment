@@ -296,47 +296,39 @@ function showResults() {
   setActiveSidebar(null);
   document.querySelector(".buttons").style.display = "none";
 
+  // ===============================
+  // Show Yes % summary
+  // ===============================
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
-  // Show Yes % summary
   document.getElementById("score-text").textContent =
     `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
 
+  // ===============================
+  // Show "No" answers grouped by section
+  // ===============================
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
-  let currentSectionTitle = "";
-  let sectionQuestions = [];
+  // Loop through sections
+  Object.keys(sections).forEach(sectionTitle => {
+    const sectionIndices = sections[sectionTitle].questions;
+    const noQuestions = sectionIndices
+      .filter(i => answers[i] === "no")
+      .map(i => questions[i].q);
 
-  questions.forEach((q, i) => {
-    if (q.type === "section") {
-      if (sectionQuestions.length > 0) {
-        const sectionDiv = document.createElement("div");
-        sectionDiv.innerHTML = `<h4>${currentSectionTitle}</h4>`;
-        sectionQuestions.forEach(questionText => {
-          const p = document.createElement("p");
-          p.textContent = questionText;
-          sectionDiv.appendChild(p);
-        });
-        container.appendChild(sectionDiv);
-      }
-      currentSectionTitle = q.title;
-      sectionQuestions = [];
-    } else if (answers[i] === "no") {
-      sectionQuestions.push(q.q);
+    if (noQuestions.length > 0) {
+      const sectionDiv = document.createElement("div");
+      sectionDiv.innerHTML = `<h4>${sectionTitle}</h4>`;
+      
+      noQuestions.forEach(qText => {
+        const p = document.createElement("p");
+        p.textContent = qText;
+        sectionDiv.appendChild(p);
+      });
+
+      container.appendChild(sectionDiv);
     }
   });
-
-  // Append last section if needed
-  if (sectionQuestions.length > 0) {
-    const sectionDiv = document.createElement("div");
-    sectionDiv.innerHTML = `<h4>${currentSectionTitle}</h4>`;
-    sectionQuestions.forEach(questionText => {
-      const p = document.createElement("p");
-      p.textContent = questionText;
-      sectionDiv.appendChild(p);
-    });
-    container.appendChild(sectionDiv);
-  }
 }
