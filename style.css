@@ -93,7 +93,7 @@ body {
 ===================== */
 .question-counter {
   position: absolute;
-  bottom: 15px;   /* fixed distance from bottom of gray box */
+  bottom: 10px;   /* fixed distance from bottom of gray box */
   right: 30px;    /* distance from right edge */
   font-size: 14px;
   color: #555555;
@@ -203,7 +203,7 @@ button:disabled {
   border-radius: 10px;
   width: 100%;
   height: 10px;
-  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 #progress-bar {
@@ -213,4 +213,5 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
 
