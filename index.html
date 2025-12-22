@@ -4,6 +4,61 @@
   <meta charset="UTF-8">
   <title>Security Assessment</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* =====================
+       QUESTION BOX (GRAY) - FIXED WIDTH
+    ====================== */
+    .question-box {
+      background: #f2f2f2;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 100px;
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+      font-size: 18px;
+
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;  /* for absolute positioning of counter and progress bar */
+
+      width: 1050px;
+      max-width: 90%;
+    }
+
+    /* =====================
+       QUESTION COUNTER FIXED FROM BOTTOM
+    ====================== */
+    .question-counter {
+      position: absolute;
+      bottom: 10px;   /* fixed distance from bottom of gray box */
+      right: 30px;    /* distance from right edge */
+      font-size: 14px;
+      color: #555555;
+      font-weight: 600;
+    }
+
+    /* =====================
+       PROGRESS BAR FIXED ABOVE COUNTER
+    ====================== */
+    #progress-bar-container {
+      position: absolute;
+      bottom: 40px;  /* fixed gap above counter */
+      left: 30px;
+      right: 30px;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 10px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #0078d4;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+  </style>
 </head>
 <body>
 
@@ -66,13 +121,13 @@
   <div class="question-box" id="question-box" style="display:none;">
     <p id="question-text"></p>
 
+    <!-- Progress bar -->
+    <div id="progress-bar-container">
+      <div id="progress-bar"></div>
+    </div>
+
     <!-- Question counter fixed from bottom -->
     <div id="progress-text" class="question-counter"></div>
-
-    <!-- Visual progress bar -->
-    <div id="progress-bar-container" style="background:#e0e0e0; border-radius:10px; width:100%; height:10px; margin-top:10px;">
-      <div id="progress-bar" style="background:#0078d4; height:100%; width:0%; border-radius:10px;"></div>
-    </div>
   </div>
 
   <!-- Options -->
