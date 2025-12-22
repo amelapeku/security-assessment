@@ -207,6 +207,17 @@ function loadQuestion() {
   riskText.textContent = item.risk;
   radios.forEach(r => (r.checked = answers[qIndex] === r.value));
 
+  // ===== Progress indicator =====
+  const totalQuestions = sections[activeSection].questions.length;
+  const currentQuestionNumber = sectionPosition + 1;
+
+  document.getElementById("progress-text").textContent =
+    `Question ${currentQuestionNumber} of ${totalQuestions}`;
+
+  // Visual progress bar
+  const progressPercent = Math.round((currentQuestionNumber / totalQuestions) * 100);
+  document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+
   const isLastQuestion =
     sectionPosition === sections[activeSection].questions.length - 1;
   const isLastSection =
@@ -217,6 +228,7 @@ function loadQuestion() {
     ? (isLastSection ? "Finish" : "Next Section")
     : "Next";
 }
+
 
 // ===============================
 // RECORD ANSWERS
@@ -332,3 +344,4 @@ function showResults() {
     }
   });
 }
+
