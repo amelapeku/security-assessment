@@ -15,13 +15,11 @@
       margin-top: 100px;
       box-shadow: 0 8px 12px rgba(0,0,0,0.15);
       font-size: 18px;
-
       min-height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       position: relative;  /* for absolute positioning of counter and progress bar */
-
       width: 1050px;
       max-width: 90%;
     }
@@ -66,7 +64,6 @@
 
   <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-
     <button id="welcome-btn">
       <strong>Welcome</strong><br>
       Assessment overview
@@ -150,9 +147,14 @@
     <h2>Assessment Results</h2>
     <p id="score-text"></p>
     <div id="no-answers-container"></div>
+    <!-- PDF download button -->
+    <button id="download-btn">Download Results (PDF)</button>
   </div>
 
 </div>
+
+<!-- jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script src="questions.js"></script>
 <script src="quiz.js"></script>
