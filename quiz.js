@@ -23,69 +23,67 @@ const sidebar = document.getElementById("sidebar");
 // ===============================
 const sectionIntroData = {
   "LT-1: Enable threat detection capabilities": `
-   <p>  <strong>Criticality level:</strong> Must have.<br> </p>
-   
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: SI-4(1), SI-4(2), SI-4(5), SI-4(12), SI-4(23), AU-6(1), AU-6(3)<br>
-    PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3, 10.8.1, 11.5.1<br>
-    CIS Controls v8.1: 8.11, 13.1, 13.2<br>
-    NIST CSF v2.0: DE.CM-1, DE.CM-4, DE.CM-7<br>
-    ISO 27001:2022: A.8.16, A.5.24<br>
-    SOC 2: CC7.2, CC7.3 
+   <p><strong>Criticality level:</strong> Must have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: SI-4(1), SI-4(2), SI-4(5), SI-4(12), SI-4(23), AU-6(1), AU-6(3)<br>
+   PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3, 10.8.1, 11.5.1<br>
+   CIS Controls v8.1: 8.11, 13.1, 13.2<br>
+   NIST CSF v2.0: DE.CM-1, DE.CM-4, DE.CM-7<br>
+   ISO 27001:2022: A.8.16, A.5.24<br>
+   SOC 2: CC7.2, CC7.3
   `,
-"LT-2: Enable threat detection for identity and access management": `
-  <p><strong>Criticality level:</strong> Must have.</p>
-   style="margin-top: 10px;"><strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
-  PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
-  CIS Controls v8.1: 6.2, 8.5, 8.11<br>
-  NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
-  ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
-  SOC 2: CC6.1, CC7.2, CC7.3</p>
-`,
-
+  "LT-2: Enable threat detection for identity and access management": `
+   <p><strong>Criticality level:</strong> Must have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
+   PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
+   CIS Controls v8.1: 6.2, 8.5, 8.11<br>
+   NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
+   ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
+   SOC 2: CC6.1, CC7.2, CC7.3
+  `,
   "LT-3: Enable logging for security investigation": `
-   <p> <strong>Criticality level:</strong> Must have.<br> </p>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-12(1), SI-4(2)<br>
-    PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 10.3.3<br>
-    CIS Controls v8.1: 8.2, 8.3, 8.5, 8.12<br>
-    NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-6, PR.PT-1<br>
-    ISO 27001:2022: A.8.15, A.8.16, A.8.17<br>
-    SOC 2: CC4.1, CC7.2, CC7.3
+   <p><strong>Criticality level:</strong> Must have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-12(1), SI-4(2)<br>
+   PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 10.3.3<br>
+   CIS Controls v8.1: 8.2, 8.3, 8.5, 8.12<br>
+   NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-6, PR.PT-1<br>
+   ISO 27001:2022: A.8.15, A.8.16, A.8.17<br>
+   SOC 2: CC4.1, CC7.2, CC7.3
   `,
   "LT-4: Enable network logging for security investigation": `
-   <p> <strong>Criticality level:</strong> Must have.<br> </p>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-12(1), SI-4(2), SI-4(4), SI-4(5), SI-4(12)<br>
-    PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 11.4.1, 11.4.2<br>
-    CIS Controls v8.1: 8.2, 8.5, 8.6, 8.11, 13.6<br>
-    NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7<br>
-    ISO 27001:2022: A.8.15, A.8.16<br>
-    SOC 2: CC7.2
+   <p><strong>Criticality level:</strong> Must have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-12(1), SI-4(2), SI-4(4), SI-4(5), SI-4(12)<br>
+   PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 11.4.1, 11.4.2<br>
+   CIS Controls v8.1: 8.2, 8.5, 8.6, 8.11, 13.6<br>
+   NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7<br>
+   ISO 27001:2022: A.8.15, A.8.16<br>
+   SOC 2: CC7.2
   `,
   "LT-5: Centralize security log management and analysis": `
-   <p> <strong>Criticality level:</strong> Must have.<br></p>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-6(5), AU-7(1), AU-12(1), SI-4(1), SI-4(2), SI-4(5), SI-4(12)<br>
-    PCI-DSS v4: 10.4.1, 10.4.2, 10.4.3, 10.7.1, 10.7.2, 10.7.3<br>
-    CIS Controls v8.1: 8.9, 8.11, 13.1, 13.3, 13.4, 17.1<br>
-    NIST CSF v2.0: DE.AE-2, DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7, RS.AN-1<br>
-    ISO 27001:2022: A.8.15, A.8.16, A.5.25<br>
-    SOC 2: CC7.2, CC7.3
+   <p><strong>Criticality level:</strong> Must have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-6(5), AU-7(1), AU-12(1), SI-4(1), SI-4(2), SI-4(5), SI-4(12)<br>
+   PCI-DSS v4: 10.4.1, 10.4.2, 10.4.3, 10.7.1, 10.7.2, 10.7.3<br>
+   CIS Controls v8.1: 8.9, 8.11, 13.1, 13.3, 13.4, 17.1<br>
+   NIST CSF v2.0: DE.AE-2, DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7, RS.AN-1<br>
+   ISO 27001:2022: A.8.15, A.8.16, A.5.25<br>
+   SOC 2: CC7.2, CC7.3
   `,
   "LT-6: Configure log storage retention": `
-    <p><strong>Criticality level:</strong> Should have.<br> </p>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-11(1), SI-12<br>
-    PCI-DSS v4: 10.5.1, 10.7.1, 10.7.2, 10.7.3<br>
-    CIS Controls v8.1: 8.3, 8.10<br>
-    NIST CSF v2.0: PR.PT-1, DE.CM-1<br>
-    ISO 27001:2022: A.8.15<br>
-    SOC 2: CC7.2
+   <p><strong>Criticality level:</strong> Should have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-11(1), SI-12<br>
+   PCI-DSS v4: 10.5.1, 10.7.1, 10.7.2, 10.7.3<br>
+   CIS Controls v8.1: 8.3, 8.10<br>
+   NIST CSF v2.0: PR.PT-1, DE.CM-1<br>
+   ISO 27001:2022: A.8.15<br>
+   SOC 2: CC7.2
   `,
   "LT-7: Use approved time synchronization sources": `
-   <p> <strong>Criticality level:</strong> Should have.<br> </p>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-8(1), AU-8(2)<br>
-    PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3<br>
-    CIS Controls v8.1: 8.4<br>
-    NIST CSF v2.0: DE.CM-1, PR.PT-1<br>
-    ISO 27001:2022: A.8.15<br>
-    SOC 2: CC7.2
+   <p><strong>Criticality level:</strong> Should have.<br></p>
+   <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-8(1), AU-8(2)<br>
+   PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3<br>
+   CIS Controls v8.1: 8.4<br>
+   NIST CSF v2.0: DE.CM-1, PR.PT-1<br>
+   ISO 27001:2022: A.8.15<br>
+   SOC 2: CC7.2
   `
 };
 
@@ -313,11 +311,16 @@ function showResults() {
     if (noQuestions.length) {
       const div = document.createElement("div");
       div.innerHTML = `<h4>${sectionTitle}</h4>`;
+
+      const ul = document.createElement("ul");
+      ul.classList.add("no-answers");
       noQuestions.forEach(q => {
-        const p = document.createElement("p");
-        p.textContent = q;
-        div.appendChild(p);
+        const li = document.createElement("li");
+        li.textContent = q;
+        ul.appendChild(li);
       });
+
+      div.appendChild(ul);
       container.appendChild(div);
     }
   });
@@ -363,25 +366,22 @@ document.getElementById("download-btn").onclick = () => {
 
     if (!noQuestions.length) return;
 
-    // --- Page break BEFORE section header ---
     if (y + 10 > pageHeight - marginTop) {
       doc.addPage();
       y = marginTop;
     }
 
-    // ===== SECTION HEADER =====
+    // Section header
     doc.setFont(undefined, "bold");
     doc.text(sectionTitle, marginLeft, y);
     y += 8;
-
     doc.setFont(undefined, "normal");
 
-    // ===== QUESTIONS =====
+    // Questions
     noQuestions.forEach(q => {
       const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
       const blockHeight = lines.length * lineHeight;
 
-      // --- Page break BEFORE question ---
       if (y + blockHeight > pageHeight - marginTop) {
         doc.addPage();
         y = marginTop;
@@ -396,6 +396,3 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
-
-
-
