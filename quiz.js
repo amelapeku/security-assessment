@@ -161,7 +161,10 @@ function enterSection(section) {
   sectionInfo.style.display = "block";
 
   sectionInfo.innerHTML = sectionIntroData[activeSection] || activeSection;
-  nextBtn.textContent = "Resume questions";
+nextBtn.textContent =
+  sectionProgress[activeSection] === -1
+    ? "Start questions"
+    : "Resume questions";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 }
@@ -286,3 +289,4 @@ function showResults() {
     }
   });
 }
+
