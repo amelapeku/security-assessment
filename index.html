@@ -153,31 +153,55 @@
 <script src="questions.js"></script>
 <script src="quiz.js"></script>
 <script>
+  // ===============================
   // PDF download functionality
+  // ===============================
   const downloadBtn = document.getElementById('download-pdf-btn');
+
   downloadBtn.addEventListener('click', function() {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const doc = new jsPDF('p', 'pt', 'a4');
 
+    // Title
+    doc.setFontSize(18);
+    doc.text("Assessment Results", 40, 50);
+
+    // Percentage of "Yes" answers
     const scoreText = document.getElementById('score-text').innerText;
-    const noAnswers = document.getElementById('no-answers-container').innerText;
+    doc.setFontSize(14);
+    doc.text(scoreText, 40, 80);
 
-    doc.setFontSize(16);
-    doc.text("Assessment Results", 10, 20);
+    let yOffset = 110;
 
-    doc.setFontSize(12);
-    doc.text(scoreText, 10, 40);
+    // Loop through sections to add "No" questions
+    const container = document.getElementById('no-answers-container');
+    const sections = container.querySelectorAll('div');
 
-    if(noAnswers) {
-      doc.text("Questions not answered:", 10, 60);
-      const lines = doc.splitTextToSize(noAnswers, 180);
-      doc.text(lines, 10, 70);
-    }
+    sections.forEach(sectionDiv => {
+      const sectionTitle = sectionDiv.querySelector('h4').innerText;
+      const questions = Array.from(sectionDiv.querySelectorAll('p')).map(p => p.innerText);
+
+      doc.setFontSize(16);
+      doc.text(sectionTitle, 40, yOffset);
+      yOffset += 20;
+
+      doc.setFontSize(12);
+      questions.forEach(q => {
+        const lines = doc.splitTextToSize("- " + q, 500);
+        doc.text(lines, 50, yOffset);
+        yOffset += lines.length * 15;
+        if (yOffset > 750) { 
+          doc.addPage();
+          yOffset = 50;
+        }
+      });
+
+      yOffset += 10;
+    });
 
     doc.save('assessment_results.pdf');
   });
 
-  // Show download button when results are visible
   function showDownloadButton() {
     downloadBtn.style.display = 'inline-block';
   }
@@ -185,5 +209,3 @@
 
 </body>
 </html>
-
-
