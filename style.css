@@ -102,7 +102,7 @@ body {
   border: 3px solid orange;
   padding: 16px 26px;
   border-radius: 25px;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 40px;
 
   font-size: 15px;
@@ -171,18 +171,5 @@ button:disabled {
 /* =====================
    PROGRESS BAR
 ===================== */
-#progress-bar-container {
-  background: #e0e0e0;
-  border-radius: 10px;
-  width: 100%;
-  height: 10px;
-  margin-top: 10px;
-}
 
-#progress-bar {
-  background: #0078d4;
-  height: 100%;
-  width: 0%;
-  border-radius: 10px;
-  transition: width 0.3s ease;
-}
+
