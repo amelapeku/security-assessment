@@ -61,7 +61,7 @@ body {
 .results-container,
 .risk-cloud,
 .options {
-  width: calc(100% - 300px);
+  width: calc(100% - 200px);
   margin-left: 360px;
   max-width: 900px;
 }
@@ -171,6 +171,7 @@ button:disabled {
 /* =====================
    PROGRESS BAR
 ===================== */
+
 
 
 
