@@ -44,6 +44,15 @@ body {
 }
 
 /* =====================
+   ACTIVE SIDEBAR SECTION
+===================== */
+.sidebar button.active-section {
+  background: #0078d4;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* =====================
    MAIN CONTENT COLUMN
 ===================== */
 .section-view,
