@@ -1,371 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz Assessment</title>
-<style>
-/* Minimal styling */
-body { font-family: Arial, sans-serif; padding: 20px; }
-#sidebar { float: left; width: 20%; margin-right: 20px; }
-.active-section { font-weight: bold; }
-#question-box, #section-info, #results-container, #intro-page { margin-bottom: 20px; }
-.options { display: flex; gap: 20px; margin-top: 10px; }
-.buttons { margin-top: 20px; }
-button { padding: 10px 20px; }
-#download-pdf-btn { display: none; margin-top: 10px; }
-.progress { height: 20px; background: #eee; margin-top: 5px; width: 100%; }
-#progress-bar { height: 100%; background: green; width: 0%; }
-</style>
+  <meta charset="UTF-8">
+  <title>Security Assessment</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* =====================
+       QUESTION BOX (GRAY) - FIXED WIDTH
+    ====================== */
+    .question-box {
+      background: #f2f2f2;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 100px;
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+      font-size: 18px;
+
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;  /* for absolute positioning of counter and progress bar */
+
+      width: 1050px;
+      max-width: 90%;
+    }
+
+    /* =====================
+       QUESTION COUNTER FIXED FROM BOTTOM
+    ====================== */
+    .question-counter {
+      position: absolute;
+      bottom: 10px;   /* fixed distance from bottom of gray box */
+      right: 30px;    /* distance from right edge */
+      font-size: 14px;
+      color: #555555;
+      font-weight: 600;
+    }
+
+    /* =====================
+       PROGRESS BAR FIXED ABOVE COUNTER
+    ====================== */
+    #progress-bar-container {
+      position: absolute;
+      bottom: 40px;  /* fixed gap above counter */
+      left: 30px;
+      right: 30px;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 10px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #0078d4;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+  </style>
 </head>
 <body>
 
-<div id="sidebar">
-  <button data-section="LT-1: Enable threat detection capabilities">LT-1</button>
-  <button data-section="LT-2: Enable threat detection for identity and access management">LT-2</button>
-  <button data-section="LT-3: Enable logging for security investigation">LT-3</button>
-  <button data-section="LT-4: Enable network logging for security investigation">LT-4</button>
-  <button data-section="LT-5: Centralize security log management and analysis">LT-5</button>
-  <button data-section="LT-6: Configure log storage retention">LT-6</button>
-  <button data-section="LT-7: Use approved time synchronization sources">LT-7</button>
-</div>
+<div class="quiz-container">
 
-<div id="intro-page">
-  <h2>Welcome to the Quiz</h2>
-  <button id="welcome-btn">Start Quiz</button>
-</div>
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
 
-<div id="section-info"></div>
+    <button id="welcome-btn">
+      <strong>Welcome</strong><br>
+      Assessment overview
+    </button>
 
-<div id="question-box">
-  <p id="question-text"></p>
-  <div class="options">
+    <hr>
+
+    <button data-section="LT-1: Enable threat detection capabilities">
+      <strong>LT-1</strong><br>Threat detection
+    </button>
+    <button data-section="LT-2: Enable threat detection for identity and access management">
+      <strong>LT-2</strong><br>Identity threat detection
+    </button>
+    <button data-section="LT-3: Enable logging for security investigation">
+      <strong>LT-3</strong><br>Security logging
+    </button>
+    <button data-section="LT-4: Enable network logging for security investigation">
+      <strong>LT-4</strong><br>Network logging
+    </button>
+    <button data-section="LT-5: Centralize security log management and analysis">
+      <strong>LT-5</strong><br>Centralized logging
+    </button>
+    <button data-section="LT-6: Configure log storage retention">
+      <strong>LT-6</strong><br>Log retention
+    </button>
+    <button data-section="LT-7: Use approved time synchronization sources">
+      <strong>LT-7</strong><br>Time sync
+    </button>
+
+    <hr>
+
+    <button id="finish-btn" disabled>
+      <strong>Finish</strong><br>
+      View results
+    </button>
+
+  </div>
+
+  <!-- Intro -->
+  <div class="question-box section-view" id="intro-page">
+    <p>
+      <strong>Welcome to the Logging & Threat Detection Assessment</strong><br><br>
+      This assessment evaluates your organization’s security posture based on
+      <strong>Microsoft Cloud Security Benchmark (MCSB) v2</strong>.
+    </p>
+  </div>
+
+  <!-- Section info -->
+  <div class="info-box" id="section-info"></div>
+
+  <!-- Question -->
+  <div class="question-box" id="question-box" style="display:none;">
+    <p id="question-text"></p>
+
+    <!-- Progress bar -->
+    <div id="progress-bar-container">
+      <div id="progress-bar"></div>
+    </div>
+
+    <!-- Question counter fixed from bottom -->
+    <div id="progress-text" class="question-counter"></div>
+  </div>
+
+  <!-- Options -->
+  <div class="options" style="display:none;">
     <label><input type="radio" name="answer" value="yes"> Yes</label>
     <label><input type="radio" name="answer" value="no"> No</label>
   </div>
-  <p id="risk-text"></p>
-  <div class="progress">
-    <div id="progress-bar"></div>
+
+  <!-- Risk -->
+  <div class="risk-cloud" id="risk-text" style="display:none;"></div>
+
+  <!-- Navigation -->
+  <div class="buttons">
+    <button id="prev-btn">Previous</button>
+    <button id="next-btn">Next</button>
   </div>
-  <p id="progress-text"></p>
+
+  <!-- Results -->
+  <div class="results-container" id="results-container" style="display:none;">
+    <h2>Assessment Results</h2>
+    <p id="score-text"></p>
+    <div id="no-answers-container"></div>
+  </div>
+
 </div>
 
-<div class="buttons">
-  <button id="prev-btn">Previous</button>
-  <button id="next-btn">Next</button>
-  <button id="finish-btn" disabled>Finish</button>
-  <button id="download-pdf-btn">Download PDF</button>
-</div>
-
-<div id="results-container">
-  <h2>Results</h2>
-  <p id="score-text"></p>
-  <div id="no-answers-container"></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-// ===============================
-// VARIABLES
-// ===============================
-let activeSection = null;
-let sectionPosition = -1;
-let inSectionIntro = false;
-let currentIndex = null;
-
-const answers = {};
-const sectionProgress = {};
-const introPage = document.getElementById("intro-page");
-const questionBox = document.getElementById("question-box");
-const questionText = document.getElementById("question-text");
-const riskText = document.getElementById("risk-text");
-const sectionInfo = document.getElementById("section-info");
-const resultsContainer = document.getElementById("results-container");
-const optionsDiv = document.querySelector(".options");
-const radios = Array.from(document.getElementsByName("answer"));
-const nextBtn = document.getElementById("next-btn");
-const prevBtn = document.getElementById("prev-btn");
-const finishBtn = document.getElementById("finish-btn");
-const sidebar = document.getElementById("sidebar");
-const downloadBtn = document.getElementById("download-pdf-btn");
-
-// ===============================
-// QUIZ QUESTIONS
-// ===============================
-// Example structure, replace with your actual questions
-const questions = [
-  { type: "section", title: "LT-1: Enable threat detection capabilities" },
-  { q: "Do you have threat detection enabled?", risk: "Risk if not implemented" },
-  { q: "Is it applied to all systems?", risk: "Risk if partial" },
-  { type: "section", title: "LT-2: Enable threat detection for identity and access management" },
-  { q: "Do you monitor identity and access?", risk: "Risk if not implemented" },
-  { q: "Is multi-factor authentication enforced?", risk: "Risk if weak" }
-  // Continue for all sections and questions
-];
-
-// ===============================
-// SECTION INTRO METADATA
-// ===============================
-const sectionIntroData = {
-  "LT-1: Enable threat detection capabilities": `<strong>Criticality level:</strong> Must have.<br>...`,
-  "LT-2: Enable threat detection for identity and access management": `<strong>Criticality level:</strong> Must have.<br>...`,
-  "LT-3: Enable logging for security investigation": `<strong>Criticality level:</strong> Must have.<br>...`,
-  "LT-4: Enable network logging for security investigation": `<strong>Criticality level:</strong> Must have.<br>...`,
-  "LT-5: Centralize security log management and analysis": `<strong>Criticality level:</strong> Must have.<br>...`,
-  "LT-6: Configure log storage retention": `<strong>Criticality level:</strong> Should have.<br>...`,
-  "LT-7: Use approved time synchronization sources": `<strong>Criticality level:</strong> Should have.<br>...`
-};
-
-// ===============================
-// BUILD SECTIONS
-// ===============================
-const sections = {};
-let currentSection = null;
-
-questions.forEach((q, i) => {
-  if (q.type === "section") {
-    currentSection = q.title;
-    sections[currentSection] = { introIndex: i, questions: [] };
-    sectionProgress[currentSection] = -1;
-  } else {
-    sections[currentSection].questions.push(i);
-  }
-});
-
-// ===============================
-// HIGHLIGHT ACTIVE SECTION
-// ===============================
-function setActiveSidebar(section) {
-  document.querySelectorAll("[data-section]").forEach(btn => {
-    btn.classList.toggle("active-section", btn.dataset.section === section);
-  });
-}
-
-// ===============================
-// VIEW MANAGEMENT
-// ===============================
-function hideAll() {
-  introPage.style.display = "none";
-  questionBox.style.display = "none";
-  optionsDiv.style.display = "none";
-  riskText.style.display = "none";
-  sectionInfo.style.display = "none";
-  resultsContainer.style.display = "none";
-  sidebar.style.display = "none";
-  document.querySelector(".buttons").style.display = "flex";
-}
-
-// ===============================
-// INITIAL LOAD
-// ===============================
-hideAll();
-sidebar.style.display = "block";
-introPage.style.display = "block";
-
-// ===============================
-// SIDEBAR NAVIGATION
-// ===============================
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => enterSection(btn.dataset.section);
-});
-
-// ===============================
-// WELCOME BUTTON
-// ===============================
-document.getElementById("welcome-btn").onclick = () => {
-  activeSection = null;
-  inSectionIntro = false;
-  sectionPosition = -1;
-  setActiveSidebar(null);
-  hideAll();
-  sidebar.style.display = "block";
-  introPage.style.display = "block";
-};
-
-// ===============================
-// ENTER SECTION
-// ===============================
-function enterSection(section) {
-  activeSection = section;
-  inSectionIntro = true;
-  setActiveSidebar(section);
-  sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
-  hideAll();
-  sidebar.style.display = "block";
-  sectionInfo.style.display = "block";
-  sectionInfo.innerHTML = `<h2 class="section-title">${activeSection}</h2>${sectionIntroData[activeSection] || ""}`;
-  nextBtn.textContent = sectionProgress[activeSection] === -1 ? "Start questions" : "Resume questions";
-  prevBtn.style.visibility = "visible";
-  prevBtn.disabled = false;
-}
-
-// ===============================
-// LOAD QUESTION
-// ===============================
-function loadQuestion() {
-  hideAll();
-  sidebar.style.display = "block";
-  questionBox.style.display = "block";
-  optionsDiv.style.display = "flex";
-  riskText.style.display = "block";
-
-  const qIndex = sections[activeSection].questions[sectionPosition];
-  const item = questions[qIndex];
-  currentIndex = qIndex;
-
-  questionText.textContent = item.q;
-  riskText.textContent = item.risk;
-  radios.forEach(r => (r.checked = answers[qIndex] === r.value));
-
-  const totalQuestions = sections[activeSection].questions.length;
-  const currentQuestionNumber = sectionPosition + 1;
-  document.getElementById("progress-text").textContent = `Question ${currentQuestionNumber} of ${totalQuestions}`;
-  const progressPercent = Math.round((currentQuestionNumber / totalQuestions) * 100);
-  document.getElementById("progress-bar").style.width = `${progressPercent}%`;
-
-  const isLastQuestion = sectionPosition === sections[activeSection].questions.length - 1;
-  const isLastSection = Object.keys(sections).indexOf(activeSection) === Object.keys(sections).length - 1;
-
-  nextBtn.textContent = isLastQuestion ? (isLastSection ? "Finish" : "Next Section") : "Next";
-}
-
-// ===============================
-// RECORD ANSWERS
-// ===============================
-radios.forEach(r => r.onchange = () => {
-  answers[currentIndex] = r.value;
-  sectionProgress[activeSection] = sectionPosition;
-});
-
-// ===============================
-// NEXT BUTTON
-// ===============================
-nextBtn.onclick = () => {
-  if (introPage.style.display === "block") {
-    enterSection(Object.keys(sections)[0]);
-    return;
-  }
-  if (activeSection && inSectionIntro) {
-    inSectionIntro = false;
-    sectionPosition = sectionProgress[activeSection] >= 0 ? sectionProgress[activeSection] : 0;
-    loadQuestion();
-    return;
-  }
-  if (!answers[currentIndex]) {
-    alert("Please answer Yes or No before continuing.");
-    return;
-  }
-  if (sectionPosition < sections[activeSection].questions.length - 1) {
-    sectionPosition++;
-    loadQuestion();
-    return;
-  }
-  const keys = Object.keys(sections);
-  const idx = keys.indexOf(activeSection);
-  if (idx < keys.length - 1) {
-    enterSection(keys[idx + 1]);
-    return;
-  }
-  finishBtn.disabled = false;
-  showResults();
-};
-
-// ===============================
-// PREVIOUS BUTTON
-// ===============================
-prevBtn.onclick = () => {
-  if (activeSection && !inSectionIntro && sectionPosition > 0) {
-    sectionPosition--;
-    loadQuestion();
-  } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
-    inSectionIntro = true;
-    enterSection(activeSection);
-  } else {
-    hideAll();
-    sidebar.style.display = "block";
-    introPage.style.display = "block";
-    activeSection = null;
-  }
-};
-
-// ===============================
-// RESULTS
-// ===============================
-function showResults() {
-  hideAll();
-  resultsContainer.style.display = "block";
-  setActiveSidebar(null);
-  document.querySelector(".buttons").style.display = "none";
-
-  const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
-  document.getElementById("score-text").textContent = `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
-
-  const container = document.getElementById("no-answers-container");
-  container.innerHTML = "";
-
-  Object.keys(sections).forEach(sectionTitle => {
-    const sectionIndices = sections[sectionTitle].questions;
-    const noQuestions = sectionIndices.filter(i => answers[i] === "no").map(i => questions[i].q);
-    if (noQuestions.length > 0) {
-      const sectionDiv = document.createElement("div");
-      sectionDiv.innerHTML = `<h4>${sectionTitle}</h4>`;
-      noQuestions.forEach(qText => {
-        const p = document.createElement("p");
-        p.textContent = qText;
-        sectionDiv.appendChild(p);
-      });
-      container.appendChild(sectionDiv);
-    }
-  });
-
-  showDownloadButton();
-}
-
-// ===============================
-// PDF DOWNLOAD
-// ===============================
-downloadBtn.addEventListener("click", function() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('p', 'pt', 'a4');
-
-  doc.setFontSize(18);
-  doc.text("Assessment Results", 40, 50);
-
-  const scoreText = document.getElementById('score-text').innerText;
-  doc.setFontSize(14);
-  doc.text(scoreText, 40, 80);
-
-  let yOffset = 110;
-  const container = document.getElementById('no-answers-container');
-  const sectionsDivs = container.querySelectorAll('div');
-
-  sectionsDivs.forEach(sectionDiv => {
-    const sectionTitle = sectionDiv.querySelector('h4').innerText;
-    const questions = Array.from(sectionDiv.querySelectorAll('p')).map(p => p.innerText);
-
-    doc.setFontSize(16);
-    doc.text(sectionTitle, 40, yOffset);
-    yOffset += 20;
-
-    doc.setFontSize(12);
-    questions.forEach(q => {
-      const lines = doc.splitTextToSize("- " + q, 500);
-      doc.text(lines, 50, yOffset);
-      yOffset += lines.length * 15;
-      if (yOffset > 750) { doc.addPage(); yOffset = 50; }
-    });
-
-    yOffset += 10;
-  });
-
-  doc.save('assessment_results.pdf');
-});
-
-function showDownloadButton() {
-  downloadBtn.style.display = 'inline-block';
-}
-</script>
-
+<script src="questions.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>
