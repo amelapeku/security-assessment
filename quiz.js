@@ -298,7 +298,7 @@ function showResults() {
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
   document.getElementById("score-text").textContent =
-    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
+    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions. The following key points highlight areas to focus on to strengthen your organization’s security:`;
 
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
@@ -396,3 +396,4 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
+
