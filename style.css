@@ -198,7 +198,7 @@ button:disabled {
   position: absolute;
   bottom: 10px;    /* fixed distance from bottom of gray box */
   left: 30px;      /* align with counter left */
-  width: 300px;    /* shorter than container width */
+  width: 1000px;    /* shorter than container width */
   height: 10px;
   background: #e0e0e0;
   border-radius: 10px;
@@ -211,5 +211,6 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
 
 
