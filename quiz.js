@@ -34,15 +34,16 @@ const sectionIntroData = {
     ISO 27001:2022: A.8.16, A.5.24<br>
     SOC 2: CC7.2, CC7.3 
   `,
-  "LT-2: Enable threat detection for identity and access management": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
-    PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
-    CIS Controls v8.1: 6.2, 8.5, 8.11<br>
-    NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
-    ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
-    SOC 2: CC6.1, CC7.2, CC7.3
-  `,
+"LT-2: Enable threat detection for identity and access management": `
+  <p><strong>Criticality level:</strong> Must have.</p>
+  <p style="margin-top: 10px;"><strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
+  PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
+  CIS Controls v8.1: 6.2, 8.5, 8.11<br>
+  NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
+  ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
+  SOC 2: CC6.1, CC7.2, CC7.3</p>
+`,
+
   "LT-3: Enable logging for security investigation": `
     <strong>Criticality level:</strong> Must have.<br>
     <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-12(1), SI-4(2)<br>
@@ -397,4 +398,5 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
+
 
