@@ -17,74 +17,19 @@ const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const finishBtn = document.getElementById("finish-btn");
 const sidebar = document.getElementById("sidebar");
+const downloadBtn = document.getElementById("download-btn");
 
 // ===============================
 // SECTION INTRO METADATA
 // ===============================
 const sectionIntroData = {
-  "LT-1: Enable threat detection capabilities": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: SI-4(1), SI-4(2), SI-4(5), SI-4(12), SI-4(23), AU-6(1), AU-6(3)<br>
-    PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3, 10.8.1, 11.5.1<br>
-    CIS Controls v8.1: 8.11, 13.1, 13.2<br>
-    NIST CSF v2.0: DE.CM-1, DE.CM-4, DE.CM-7<br>
-    ISO 27001:2022: A.8.16, A.5.24<br>
-    SOC 2: CC7.2, CC7.3
-  `,
-  "LT-2: Enable threat detection for identity and access management": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
-    PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
-    CIS Controls v8.1: 6.2, 8.5, 8.11<br>
-    NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
-    ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
-    SOC 2: CC6.1, CC7.2, CC7.3
-  `,
-  "LT-3: Enable logging for security investigation": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-12(1), SI-4(2)<br>
-    PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 10.3.3<br>
-    CIS Controls v8.1: 8.2, 8.3, 8.5, 8.12<br>
-    NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-6, PR.PT-1<br>
-    ISO 27001:2022: A.8.15, A.8.16, A.8.17<br>
-    SOC 2: CC4.1, CC7.2, CC7.3
-  `,
-  "LT-4: Enable network logging for security investigation": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-12(1), SI-4(2), SI-4(4), SI-4(5), SI-4(12)<br>
-    PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 11.4.1, 11.4.2<br>
-    CIS Controls v8.1: 8.2, 8.5, 8.6, 8.11, 13.6<br>
-    NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7<br>
-    ISO 27001:2022: A.8.15, A.8.16<br>
-    SOC 2: CC7.2
-  `,
-  "LT-5: Centralize security log management and analysis": `
-    <strong>Criticality level:</strong> Must have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-6(5), AU-7(1), AU-12(1), SI-4(1), SI-4(2), SI-4(5), SI-4(12)<br>
-    PCI-DSS v4: 10.4.1, 10.4.2, 10.4.3, 10.7.1, 10.7.2, 10.7.3<br>
-    CIS Controls v8.1: 8.9, 8.11, 13.1, 13.3, 13.4, 17.1<br>
-    NIST CSF v2.0: DE.AE-2, DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7, RS.AN-1<br>
-    ISO 27001:2022: A.8.15, A.8.16, A.5.25<br>
-    SOC 2: CC7.2, CC7.3
-  `,
-  "LT-6: Configure log storage retention": `
-    <strong>Criticality level:</strong> Should have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-11(1), SI-12<br>
-    PCI-DSS v4: 10.5.1, 10.7.1, 10.7.2, 10.7.3<br>
-    CIS Controls v8.1: 8.3, 8.10<br>
-    NIST CSF v2.0: PR.PT-1, DE.CM-1<br>
-    ISO 27001:2022: A.8.15<br>
-    SOC 2: CC7.2
-  `,
-  "LT-7: Use approved time synchronization sources": `
-    <strong>Criticality level:</strong> Should have.<br>
-    <strong>Control mapping:</strong> NIST SP 800-53 Rev.5: AU-8(1), AU-8(2)<br>
-    PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3<br>
-    CIS Controls v8.1: 8.4<br>
-    NIST CSF v2.0: DE.CM-1, PR.PT-1<br>
-    ISO 27001:2022: A.8.15<br>
-    SOC 2: CC7.2
-  `
+  "LT-1: Enable threat detection capabilities": `...`,
+  "LT-2: Enable threat detection for identity and access management": `...`,
+  "LT-3: Enable logging for security investigation": `...`,
+  "LT-4: Enable network logging for security investigation": `...`,
+  "LT-5: Centralize security log management and analysis": `...`,
+  "LT-6: Configure log storage retention": `...`,
+  "LT-7: Use approved time synchronization sources": `...`
 };
 
 // ===============================
@@ -214,7 +159,6 @@ function loadQuestion() {
   document.getElementById("progress-text").textContent =
     `Question ${currentQuestionNumber} of ${totalQuestions}`;
 
-  // Visual progress bar
   const progressPercent = Math.round((currentQuestionNumber / totalQuestions) * 100);
   document.getElementById("progress-bar").style.width = `${progressPercent}%`;
 
@@ -228,7 +172,6 @@ function loadQuestion() {
     ? (isLastSection ? "Finish" : "Next Section")
     : "Next";
 }
-
 
 // ===============================
 // RECORD ANSWERS
@@ -249,12 +192,10 @@ nextBtn.onclick = () => {
 
   if (activeSection && inSectionIntro) {
     inSectionIntro = false;
-
     sectionPosition =
       sectionProgress[activeSection] >= 0
         ? sectionProgress[activeSection]
         : 0;
-
     loadQuestion();
     return;
   }
@@ -300,7 +241,7 @@ prevBtn.onclick = () => {
 };
 
 // ===============================
-// RESULTS
+// SHOW RESULTS
 // ===============================
 function showResults() {
   hideAll();
@@ -308,22 +249,15 @@ function showResults() {
   setActiveSidebar(null);
   document.querySelector(".buttons").style.display = "none";
 
-  // ===============================
-  // Show Yes % summary
-  // ===============================
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
   document.getElementById("score-text").textContent =
     `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
 
-  // ===============================
-  // Show "No" answers grouped by section
-  // ===============================
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
-  // Loop through sections
   Object.keys(sections).forEach(sectionTitle => {
     const sectionIndices = sections[sectionTitle].questions;
     const noQuestions = sectionIndices
@@ -345,3 +279,44 @@ function showResults() {
   });
 }
 
+// ===============================
+// PDF DOWNLOAD
+// ===============================
+downloadBtn.onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const yesPercent = document.getElementById("score-text").textContent;
+  doc.setFontSize(16);
+  doc.text("Assessment Results", 10, 20);
+  doc.setFontSize(12);
+  doc.text(yesPercent, 10, 30);
+
+  let y = 40;
+  doc.text("Questions answered 'No':", 10, y);
+  y += 10;
+
+  Object.keys(sections).forEach(sectionTitle => {
+    const sectionIndices = sections[sectionTitle].questions;
+    const noQuestions = sectionIndices
+      .filter(i => answers[i] === "no")
+      .map(i => questions[i].q);
+
+    if (noQuestions.length > 0) {
+      doc.setFont(undefined, "bold");
+      doc.text(sectionTitle, 10, y);
+      doc.setFont(undefined, "normal");
+      y += 7;
+
+      noQuestions.forEach(qText => {
+        const lines = doc.splitTextToSize(qText, 180);
+        doc.text(lines, 12, y);
+        y += lines.length * 7;
+      });
+
+      y += 5;
+    }
+  });
+
+  doc.save("assessment_results.pdf");
+};
