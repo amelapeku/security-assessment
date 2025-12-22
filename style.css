@@ -184,11 +184,23 @@ button:disabled {
 
   width: 1050px;        
   max-width: 90%;
+
+  text-align: left; /* left-align content */
+  padding-left: 20px; /* optional left padding */
 }
 
 .results-container h4 {
   color: #0078d4;
   margin-top: 30px;
+}
+
+/* List of 'No' answers */
+.results-container ul.no-answers {
+  list-style-type: disc; /* bullets */
+  margin-top: 20px;
+  margin-left: 20px;
+  font-size: 16px;
+  color: #333;
 }
 
 /* =====================
@@ -211,8 +223,6 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
-
-
 
 /* =====================
    DOWNLOAD PDF BUTTON (PRIMARY CTA)
@@ -252,11 +262,3 @@ button:disabled {
   transform: translateY(0);
   box-shadow: 0 6px 12px rgba(0, 120, 212, 0.3);
 }
-
-/* Optional: center button in results view */
-.results-container {
-  text-align: center;
-}
-
-
-
