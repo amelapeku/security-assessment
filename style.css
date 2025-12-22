@@ -61,9 +61,11 @@ body {
 .results-container,
 .risk-cloud,
 .options {
-  width: calc(100% - 100px);
-  margin-left: 360px;
-  max-width: 900px;
+  margin-left: 360px; /* keeps left side aligned with sidebar/buttons */
+  max-width: none;
+  width: auto;
+  padding-right: 40px; /* optional: small space to right edge */
+  box-sizing: border-box;
 }
 
 /* =====================
@@ -80,6 +82,8 @@ body {
   min-height: 120px;
   display: flex;
   align-items: center;
+
+  width: calc(100% - 360px); /* stretches to right edge */
 }
 
 /* =====================
@@ -92,6 +96,8 @@ body {
   margin-top: 120px;
   font-size: 18px;
   min-height: 160px;
+
+  width: calc(100% - 360px); /* optional, keeps same stretching */
 }
 
 /* =====================
@@ -106,13 +112,15 @@ body {
   margin-bottom: 40px;
 
   font-size: 15px;
-    font-style: italic;
+  font-style: italic;
 
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
 
   min-height: 60px;
   display: flex;
   align-items: center;
+
+  width: calc(100% - 360px); /* stretches same as question box */
 }
 
 /* =====================
@@ -161,18 +169,8 @@ button:disabled {
   margin-top: 80px;
   height: 70vh;
   overflow-y: auto;
+
+  width: calc(100% - 360px); /* optional, keeps same stretching */
 }
 
-.results-container h4 {
-  color: #0078d4;
-  margin-top: 30px;
-}
-
-/* =====================
-   PROGRESS BAR
-===================== */
-
-
-
-
-
+.res
