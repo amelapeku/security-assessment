@@ -19,7 +19,7 @@ const finishBtn = document.getElementById("finish-btn");
 const sidebar = document.getElementById("sidebar");
 
 // ===============================
-// SECTION INTRO METADATA (UNCHANGED)
+// SECTION INTRO METADATA
 // ===============================
 const sectionIntroData = {
   "LT-1: Enable threat detection capabilities": `
@@ -104,6 +104,18 @@ questions.forEach((q, i) => {
 });
 
 // ===============================
+// HIGHLIGHT ACTIVE SECTION
+// ===============================
+function setActiveSidebar(section) {
+  document.querySelectorAll("[data-section]").forEach(btn => {
+    btn.classList.toggle(
+      "active-section",
+      btn.dataset.section === section
+    );
+  });
+}
+
+// ===============================
 // VIEW MANAGEMENT
 // ===============================
 function hideAll() {
@@ -118,7 +130,7 @@ function hideAll() {
 }
 
 // ===============================
-// INITIAL LOAD (WELCOME PAGE)
+// INITIAL LOAD
 // ===============================
 hideAll();
 sidebar.style.display = "block";
@@ -139,6 +151,8 @@ document.getElementById("welcome-btn").onclick = () => {
   inSectionIntro = false;
   sectionPosition = -1;
 
+  setActiveSidebar(null);
+
   hideAll();
   sidebar.style.display = "block";
   introPage.style.display = "block";
@@ -151,9 +165,11 @@ function enterSection(section) {
   activeSection = section;
   inSectionIntro = true;
 
+  setActiveSidebar(section);
+
   sectionPosition =
     sectionProgress[activeSection] >= 0
-      ? sectionProgress[activeSection]   // ✅ last answered
+      ? sectionProgress[activeSection]
       : 0;
 
   hideAll();
@@ -165,10 +181,10 @@ function enterSection(section) {
   ${sectionIntroData[activeSection] || ""}
 `;
 
-nextBtn.textContent =
-  sectionProgress[activeSection] === -1
-    ? "Start questions"
-    : "Resume questions";
+  nextBtn.textContent =
+    sectionProgress[activeSection] === -1
+      ? "Start questions"
+      : "Resume questions";
   prevBtn.style.visibility = "visible";
   prevBtn.disabled = false;
 }
@@ -191,10 +207,16 @@ function loadQuestion() {
   riskText.textContent = item.risk;
   radios.forEach(r => (r.checked = answers[qIndex] === r.value));
 
-  nextBtn.textContent =
-    sectionPosition === sections[activeSection].questions.length - 1
-      ? "Next Section"
-      : "Next";
+  // ===== Adjusted Next Button Text =====
+  const isLastQuestion =
+    sectionPosition === sections[activeSection].questions.length - 1;
+  const isLastSection =
+    Object.keys(sections).indexOf(activeSection) ===
+    Object.keys(sections).length - 1;
+
+  nextBtn.textContent = isLastQuestion
+    ? (isLastSection ? "Finish" : "Next Section")
+    : "Next";
 }
 
 // ===============================
@@ -206,7 +228,7 @@ radios.forEach(r => r.onchange = () => {
 });
 
 // ===============================
-// NEXT BUTTON (ADJUSTED)
+// NEXT BUTTON
 // ===============================
 nextBtn.onclick = () => {
   if (introPage.style.display === "block") {
@@ -219,7 +241,7 @@ nextBtn.onclick = () => {
 
     sectionPosition =
       sectionProgress[activeSection] >= 0
-        ? sectionProgress[activeSection]   // ✅ stay on last answered
+        ? sectionProgress[activeSection]
         : 0;
 
     loadQuestion();
@@ -272,6 +294,7 @@ prevBtn.onclick = () => {
 function showResults() {
   hideAll();
   resultsContainer.style.display = "block";
+  setActiveSidebar(null);
   document.querySelector(".buttons").style.display = "none";
 
   const total = questions.filter(q => !q.type).length;
@@ -293,5 +316,3 @@ function showResults() {
     }
   });
 }
-
-
