@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Security Assessment</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     /* =====================
        QUESTION BOX (GRAY) - FIXED WIDTH
@@ -15,13 +16,11 @@
       margin-top: 100px;
       box-shadow: 0 8px 12px rgba(0,0,0,0.15);
       font-size: 18px;
-
       min-height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       position: relative;  /* for absolute positioning of counter and progress bar */
-
       width: 1050px;
       max-width: 90%;
     }
@@ -31,8 +30,8 @@
     ====================== */
     .question-counter {
       position: absolute;
-      bottom: 10px;   /* fixed distance from bottom of gray box */
-      right: 30px;    /* distance from right edge */
+      bottom: 10px;
+      left: 30px;   /* show on left side */
       font-size: 14px;
       color: #555555;
       font-weight: 600;
@@ -58,6 +57,21 @@
       border-radius: 10px;
       transition: width 0.3s ease;
     }
+
+    /* =====================
+       DOWNLOAD PDF BUTTON
+    ====================== */
+    #download-pdf-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none; /* show when results are ready */
+    }
   </style>
 </head>
 <body>
@@ -66,43 +80,20 @@
 
   <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-
     <button id="welcome-btn">
       <strong>Welcome</strong><br>
       Assessment overview
     </button>
-
     <hr>
-
-    <button data-section="LT-1: Enable threat detection capabilities">
-      <strong>LT-1</strong><br>Threat detection
-    </button>
-    <button data-section="LT-2: Enable threat detection for identity and access management">
-      <strong>LT-2</strong><br>Identity threat detection
-    </button>
-    <button data-section="LT-3: Enable logging for security investigation">
-      <strong>LT-3</strong><br>Security logging
-    </button>
-    <button data-section="LT-4: Enable network logging for security investigation">
-      <strong>LT-4</strong><br>Network logging
-    </button>
-    <button data-section="LT-5: Centralize security log management and analysis">
-      <strong>LT-5</strong><br>Centralized logging
-    </button>
-    <button data-section="LT-6: Configure log storage retention">
-      <strong>LT-6</strong><br>Log retention
-    </button>
-    <button data-section="LT-7: Use approved time synchronization sources">
-      <strong>LT-7</strong><br>Time sync
-    </button>
-
+    <button data-section="LT-1: Enable threat detection capabilities"><strong>LT-1</strong><br>Threat detection</button>
+    <button data-section="LT-2: Enable threat detection for identity and access management"><strong>LT-2</strong><br>Identity threat detection</button>
+    <button data-section="LT-3: Enable logging for security investigation"><strong>LT-3</strong><br>Security logging</button>
+    <button data-section="LT-4: Enable network logging for security investigation"><strong>LT-4</strong><br>Network logging</button>
+    <button data-section="LT-5: Centralize security log management and analysis"><strong>LT-5</strong><br>Centralized logging</button>
+    <button data-section="LT-6: Configure log storage retention"><strong>LT-6</strong><br>Log retention</button>
+    <button data-section="LT-7: Use approved time synchronization sources"><strong>LT-7</strong><br>Time sync</button>
     <hr>
-
-    <button id="finish-btn" disabled>
-      <strong>Finish</strong><br>
-      View results
-    </button>
-
+    <button id="finish-btn" disabled><strong>Finish</strong><br>View results</button>
   </div>
 
   <!-- Intro -->
@@ -150,11 +141,43 @@
     <h2>Assessment Results</h2>
     <p id="score-text"></p>
     <div id="no-answers-container"></div>
+    <button id="download-pdf-btn">Download PDF</button>
   </div>
 
 </div>
 
 <script src="questions.js"></script>
 <script src="quiz.js"></script>
+<script>
+  // PDF download functionality
+  const downloadBtn = document.getElementById('download-pdf-btn');
+  downloadBtn.addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const scoreText = document.getElementById('score-text').innerText;
+    const noAnswers = document.getElementById('no-answers-container').innerText;
+
+    doc.setFontSize(16);
+    doc.text("Assessment Results", 10, 20);
+
+    doc.setFontSize(12);
+    doc.text(scoreText, 10, 40);
+
+    if(noAnswers) {
+      doc.text("Questions not answered:", 10, 60);
+      const lines = doc.splitTextToSize(noAnswers, 180);
+      doc.text(lines, 10, 70);
+    }
+
+    doc.save('assessment_results.pdf');
+  });
+
+  // Show download button when results are visible
+  function showDownloadButton() {
+    downloadBtn.style.display = 'inline-block';
+  }
+</script>
+
 </body>
 </html>
