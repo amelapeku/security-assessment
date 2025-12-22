@@ -160,7 +160,11 @@ function enterSection(section) {
   sidebar.style.display = "block";
   sectionInfo.style.display = "block";
 
-  sectionInfo.innerHTML = sectionIntroData[activeSection] || activeSection;
+  sectionInfo.innerHTML = `
+  <h2 class="section-title">${activeSection}</h2>
+  ${sectionIntroData[activeSection] || ""}
+`;
+
 nextBtn.textContent =
   sectionProgress[activeSection] === -1
     ? "Start questions"
@@ -289,4 +293,5 @@ function showResults() {
     }
   });
 }
+
 
