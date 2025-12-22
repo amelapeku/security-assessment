@@ -207,7 +207,6 @@ function loadQuestion() {
   riskText.textContent = item.risk;
   radios.forEach(r => (r.checked = answers[qIndex] === r.value));
 
-  // ===== Adjusted Next Button Text =====
   const isLastQuestion =
     sectionPosition === sections[activeSection].questions.length - 1;
   const isLastSection =
@@ -300,6 +299,7 @@ function showResults() {
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
+  // Show Yes % summary
   document.getElementById("score-text").textContent =
     `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`;
 
@@ -307,12 +307,36 @@ function showResults() {
   container.innerHTML = "";
 
   let currentSectionTitle = "";
+  let sectionQuestions = [];
+
   questions.forEach((q, i) => {
-    if (q.type === "section") currentSectionTitle = q.title;
-    else if (answers[i] === "no") {
-      const div = document.createElement("div");
-      div.innerHTML = `<h4>${currentSectionTitle}</h4><p>${q.q}</p>`;
-      container.appendChild(div);
+    if (q.type === "section") {
+      if (sectionQuestions.length > 0) {
+        const sectionDiv = document.createElement("div");
+        sectionDiv.innerHTML = `<h4>${currentSectionTitle}</h4>`;
+        sectionQuestions.forEach(questionText => {
+          const p = document.createElement("p");
+          p.textContent = questionText;
+          sectionDiv.appendChild(p);
+        });
+        container.appendChild(sectionDiv);
+      }
+      currentSectionTitle = q.title;
+      sectionQuestions = [];
+    } else if (answers[i] === "no") {
+      sectionQuestions.push(q.q);
     }
   });
+
+  // Append last section if needed
+  if (sectionQuestions.length > 0) {
+    const sectionDiv = document.createElement("div");
+    sectionDiv.innerHTML = `<h4>${currentSectionTitle}</h4>`;
+    sectionQuestions.forEach(questionText => {
+      const p = document.createElement("p");
+      p.textContent = questionText;
+      sectionDiv.appendChild(p);
+    });
+    container.appendChild(sectionDiv);
+  }
 }
