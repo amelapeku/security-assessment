@@ -78,7 +78,7 @@ body {
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
   font-size: 18px;
 
-  min-height: 140px;
+  min-height: 180px;
   display: flex;
   align-items: center;
 
@@ -199,6 +199,7 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
 
 
 
