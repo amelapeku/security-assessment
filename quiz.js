@@ -326,35 +326,70 @@ function showResults() {
 // ===============================
 document.getElementById("download-btn").onclick = () => {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    unit: "mm",
+    format: "a4"
+  });
 
-  let y = 10;
+  const pageHeight = 297;
+  const marginTop = 15;
+  const marginLeft = 15;
+  const lineHeight = 6;
+  const maxWidth = 180;
+
+  let y = marginTop;
+
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
+  // ===== TITLE =====
+  doc.setFontSize(14);
   doc.text(
-    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions`,
-    10,
+    `Assessment Score: ${Math.round((yes / total) * 100)}% Yes`,
+    marginLeft,
     y
   );
-  y += 10;
+  y += 12;
 
+  doc.setFontSize(11);
+
+  // ===== LOOP SECTIONS =====
   Object.keys(sections).forEach(sectionTitle => {
     const noQuestions = sections[sectionTitle].questions
       .filter(i => answers[i] === "no")
       .map(i => questions[i].q);
 
-    if (noQuestions.length) {
-      doc.text(sectionTitle, 10, y += 8);
-      noQuestions.forEach(q => {
-        const lines = doc.splitTextToSize(`- ${q}`, 180);
-        doc.text(lines, 12, y += 6);
-        if (y > 280) {
-          doc.addPage();
-          y = 10;
-        }
-      });
+    if (!noQuestions.length) return;
+
+    // --- Page break BEFORE section header ---
+    if (y + 10 > pageHeight - marginTop) {
+      doc.addPage();
+      y = marginTop;
     }
+
+    // ===== SECTION HEADER =====
+    doc.setFont(undefined, "bold");
+    doc.text(sectionTitle, marginLeft, y);
+    y += 8;
+
+    doc.setFont(undefined, "normal");
+
+    // ===== QUESTIONS =====
+    noQuestions.forEach(q => {
+      const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
+      const blockHeight = lines.length * lineHeight;
+
+      // --- Page break BEFORE question ---
+      if (y + blockHeight > pageHeight - marginTop) {
+        doc.addPage();
+        y = marginTop;
+      }
+
+      doc.text(lines, marginLeft + 4, y);
+      y += blockHeight + 2;
+    });
+
+    y += 4;
   });
 
   doc.save("assessment_results.pdf");
