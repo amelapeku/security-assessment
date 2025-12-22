@@ -82,7 +82,7 @@ body {
   display: flex;
   align-items: center;
 
-  width: 1000px;        /* fixed width for all questions */
+  width: 1050px;        /* fixed width for all questions */
   max-width: 90%;      /* ensures it fits smaller screens */
 }
 
@@ -97,7 +97,7 @@ body {
   font-size: 18px;
   min-height: 180px;
 
-  width: 1000px;        /* match question box width */
+  width: 1050px;        /* match question box width */
   max-width: 90%;
 }
 
@@ -121,7 +121,7 @@ body {
   display: flex;
   align-items: center;
 
-  width: 1000px;        /* match question box width */
+  width: 1050px;        /* match question box width */
   max-width: 90%;
 }
 
@@ -172,7 +172,7 @@ button:disabled {
   height: 70vh;
   overflow-y: auto;
 
-  width: 1000px;        /* match question box width */
+  width: 1050px;        /* match question box width */
   max-width: 90%;
 }
 
@@ -199,6 +199,7 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
 
 
 
