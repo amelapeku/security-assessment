@@ -214,5 +214,49 @@ button:disabled {
 
 
 
+/* =====================
+   DOWNLOAD PDF BUTTON (PRIMARY CTA)
+===================== */
+#download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 30px;
+  padding: 18px 36px;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #0078d4, #005a9e);
+  color: #ffffff;
+
+  border: none;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 22px rgba(0, 120, 212, 0.35);
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+#download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0, 120, 212, 0.45);
+  background: linear-gradient(135deg, #106ebe, #004578);
+}
+
+/* Active (click) */
+#download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(0, 120, 212, 0.3);
+}
+
+/* Optional: center button in results view */
+.results-container {
+  text-align: center;
+}
+
 
 
