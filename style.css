@@ -61,15 +61,14 @@ body {
 .results-container,
 .risk-cloud,
 .options {
-  margin-left: 360px; /* keeps left side aligned with sidebar/buttons */
-  max-width: none;
-  width: auto;
-  padding-right: 40px; /* optional: small space to right edge */
+  margin-left: 360px; /* aligns with sidebar/buttons */
   box-sizing: border-box;
+  max-width: none;
+  padding-right: 40px; /* optional small right space */
 }
 
 /* =====================
-   QUESTION BOX (GRAY)
+   QUESTION BOX (GRAY) - FIXED WIDTH
 ===================== */
 .question-box {
   background: #f2f2f2;
@@ -83,7 +82,8 @@ body {
   display: flex;
   align-items: center;
 
-  width: calc(100% - 400px); /* stretches to right edge */
+  width: 600px;        /* fixed width for all questions */
+  max-width: 90%;      /* ensures it fits smaller screens */
 }
 
 /* =====================
@@ -97,11 +97,12 @@ body {
   font-size: 18px;
   min-height: 160px;
 
-  width: calc(100% - 400px); /* optional, keeps same stretching */
+  width: 600px;        /* match question box width */
+  max-width: 90%;
 }
 
 /* =====================
-   RISK BUBBLE (ORANGE)
+   RISK BUBBLE (ORANGE) - MATCH WIDTH
 ===================== */
 .risk-cloud {
   background: #fff5e6;
@@ -120,7 +121,8 @@ body {
   display: flex;
   align-items: center;
 
-  width: calc(100% - 400px); /* stretches same as question box */
+  width: 600px;        /* match question box width */
+  max-width: 90%;
 }
 
 /* =====================
@@ -170,8 +172,30 @@ button:disabled {
   height: 70vh;
   overflow-y: auto;
 
-  width: calc(100% - 400px); /* optional, keeps same stretching */
+  width: 600px;        /* match question box width */
+  max-width: 90%;
 }
 
-.res
+.results-container h4 {
+  color: #0078d4;
+  margin-top: 30px;
+}
 
+/* =====================
+   PROGRESS BAR
+===================== */
+#progress-bar-container {
+  background: #e0e0e0;
+  border-radius: 10px;
+  width: 100%;
+  height: 10px;
+  margin-top: 10px;
+}
+
+#progress-bar {
+  background: #0078d4;
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
