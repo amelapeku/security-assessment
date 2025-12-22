@@ -90,7 +90,7 @@ body {
 .question-counter {
   position: absolute;
   bottom: 15px;   /* fixed distance from bottom of gray box */
-  right: 30px;     /* fixed distance from left (can adjust) */
+  left: 30px;     /* fixed distance from left (can adjust) */
   font-size: 14px;
   color: #555555;
   font-weight: 600;
@@ -211,6 +211,7 @@ button:disabled {
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
 
 
 
