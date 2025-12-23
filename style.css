@@ -6,7 +6,7 @@
 
 /* ===================== BASE ===================== */
 html {
-  font-size: 16px; /* stable rem baseline */
+  font-size: 16px;
 }
 
 body {
@@ -63,6 +63,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== MAIN CONTENT COLUMN ===================== */
+/* The container owns centering and max width */
 .section-view,
 .question-box,
 .info-box,
@@ -77,6 +78,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
   max-width: calc(100% - var(--sidebar-width) - 40px);
 }
 
+/* The *direct child* fills the container */
 .section-view > *,
 .question-box > *,
 .info-box > *,
@@ -84,12 +86,9 @@ p, li, h1, h2, h3, h4, h5, h6 {
 .options > *,
 .results-container > * {
   width: 100%;
-  max-width: var(--content-max-width);
 }
 
-/* ============================================================= */
-/* ✅ QUESTION BOX (GRAY) — BASELINE SIZE (WELCOME SOURCE) ✅ */
-/* ============================================================= */
+/* ===================== QUESTION BOX (GRAY) ===================== */
 .question-box {
   background: #f2f2f2;
   padding: 30px;
@@ -97,7 +96,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 
-  /* ✅ THIS matches Welcome screen exactly */
+  /* SAME size as Welcome screen */
   font-size: clamp(1rem, 1.2vw, 1.25rem);
 
   min-height: 220px;
@@ -120,9 +119,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
-/* ============================================================= */
-/* ✅ SECTION INFO BOX (GRAY) — SAME SCALE AS QUESTIONS ✅ */
-/* ============================================================= */
+/* ===================== INFO BOX (GRAY) ===================== */
 .info-box {
   background: #f2f2f2;
   padding: 30px;
@@ -130,16 +127,14 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 120px;
   min-height: 220px;
 
-  /* ✅ Same perceived size as Welcome / questions */
   font-size: clamp(0.95rem, 1.2vw, 1.15rem);
 
   word-wrap: break-word;
   hyphens: auto;
 }
 
-/* ============================================================= */
-/* ✅ RISK CLOUD (ORANGE) — SLIGHTLY SMALLER, SAME STYLE ✅ */
-/* ============================================================= */
+/* ===================== RISK CLOUD (ORANGE) ===================== */
+/* IMPORTANT: no width, no max-width here */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
@@ -148,22 +143,19 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 40px;
   margin-bottom: 80px;
 
-  /* ✅ Matches previous visual size exactly */
+  /* Slightly smaller than question text (original behavior) */
   font-size: clamp(0.9rem, 1.1vw, 1.05rem);
-
   line-height: 1.45;
   font-style: italic;
 
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
   min-height: 60px;
+
   display: flex;
   align-items: center;
   justify-content: flex-start;
 
-  width: 100%;
-  max-width: var(--content-max-width);
   box-sizing: border-box;
-
   word-wrap: break-word;
   hyphens: auto;
 }
