@@ -138,6 +138,9 @@ body {
 /* =====================
    YES / NO OPTIONS
 ===================== */
+/* =====================
+   YES / NO OPTIONS
+===================== */
 .options {
   margin-top: 40px;
   margin-bottom: 120px;
@@ -145,17 +148,20 @@ body {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .options button {
-  padding: 12px 40px;
-  font-size: 18px;
+  padding: 10px 30px;  /* smaller padding */
+  font-size: 16px;     /* slightly smaller font */
   border-radius: 12px;
   border: 2px solid #0078d4;
   background: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 100px;
+  min-width: 80px;     /* constrain width */
+  max-width: 200px;    /* avoid huge buttons */
+  flex: 0 0 auto;      /* prevent flex stretching */
 }
 
 .options button:hover,
@@ -164,6 +170,7 @@ body {
   color: white;
   font-weight: 600;
 }
+
 
 /* =====================
    NAV BUTTONS
@@ -251,3 +258,4 @@ body {
     right: 20px;
   }
 }
+
