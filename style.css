@@ -163,7 +163,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== YES / NO OPTIONS ===================== */
-/* Separate row, centered, calm */
+/* Separate row, centered */
 .options {
   margin-top: 32px;
   margin-bottom: 120px;
@@ -174,12 +174,14 @@ p, li, h1, h2, h3, h4, h5, h6 {
   gap: 20px;
 }
 
-/* Small, narrow, slightly taller buttons */
+/* Compact, centered, BOLD buttons */
 .options button {
-  padding: 6px 10px;
+  padding: 0 10px;
+  height: 32px;
 
   font-size: 0.85rem;
   line-height: 1;
+  font-weight: 600;            /* ✅ ALWAYS BOLD */
 
   border-radius: 8px;
   border: 2px solid #0078d4;
@@ -190,16 +192,19 @@ p, li, h1, h2, h3, h4, h5, h6 {
   transition: all 0.15s ease;
 
   min-width: 56px;
-  height: 32px;
-
   flex: 0 0 auto;
+
+  /* ✅ Perfect vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Hover / selected */
 .options button:hover,
 .options button.selected {
   background: #0078d4;
   color: white;
-  font-weight: 600;
 }
 
 /* ===================== NAV BUTTONS ===================== */
