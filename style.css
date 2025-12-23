@@ -2,6 +2,9 @@
 :root {
   --sidebar-width: 280px;
   --content-max-width: 1100px;
+
+  /* ✅ New: consistent gap between sidebar and content */
+  --content-gap: 40px;
 }
 
 /* ===================== BASE ===================== */
@@ -63,22 +66,30 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== MAIN CONTENT COLUMN ===================== */
-/* The container owns centering and max width */
+/* Parent owns centering and max width, with a guaranteed gap from sidebar */
 .section-view,
 .question-box,
 .info-box,
 .risk-cloud,
 .options,
 .results-container {
-  margin-left: var(--sidebar-width);
-  padding: 0 40px;
+  /* ✅ Always clear the fixed sidebar by a gap */
+  margin-left: calc(var(--sidebar-width) + var(--content-gap));
+
+  /* ✅ Inner horizontal padding */
+  padding: 0 var(--content-gap);
+
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  max-width: calc(100% - var(--sidebar-width) - 40px);
+
+  /* ✅ Prevent overlap by accounting for both margins and padding */
+  max-width: calc(
+    100% - var(--sidebar-width) - (var(--content-gap) * 2)
+  );
 }
 
-/* The *direct child* fills the container */
+/* Direct child fills the container; no extra max-width cap to avoid right-side gap */
 .section-view > *,
 .question-box > *,
 .info-box > *,
@@ -134,7 +145,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== RISK CLOUD (ORANGE) ===================== */
-/* IMPORTANT: no width, no max-width here */
+/* IMPORTANT: no width/max-width here (parent owns layout) */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
@@ -193,8 +204,11 @@ p, li, h1, h2, h3, h4, h5, h6 {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: calc(var(--sidebar-width) + 40px);
-  right: 40px;
+
+  /* ✅ Respect the same sidebar + content gap */
+  left: calc(var(--sidebar-width) + var(--content-gap));
+  right: var(--content-gap);
+
   display: flex;
   justify-content: space-between;
   z-index: 5;
@@ -256,6 +270,11 @@ p, li, h1, h2, h3, h4, h5, h6 {
     margin-left: 0;
     max-width: 100%;
     padding: 0 20px;
+  }
+
+  .buttons {
+    left: 20px;
+    right: 20px;
   }
 
   .options {
