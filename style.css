@@ -202,15 +202,16 @@ body {
   right: 0;
   padding: 0 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* distribute buttons left/right */
+  max-width: var(--content-max-width);
+  margin: 0 auto; /* center the container */
 }
 
+
 .buttons > * {
-  width: auto; /* make buttons smaller */
   max-width: 500px;
   display: flex;
   justify-content: space-between;
-  gap: 20px;
 }
 
 .buttons button {
@@ -285,3 +286,4 @@ body {
     font-size: 20px;
   }
 }
+
