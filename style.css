@@ -1,3 +1,11 @@
+:root {
+  --sidebar-width: 280px;
+  --content-offset: 360px; /* sidebar + safe gap */
+}
+
+/* =====================
+   BASE
+===================== */
 body {
   font-family: Verdana, Arial, sans-serif;
   margin: 0;
@@ -17,7 +25,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  width: 280px;
+  width: var(--sidebar-width);
   height: 100vh;
   background: #f2f2f2;
   padding: 20px;
@@ -43,9 +51,6 @@ body {
   border-top: 1px solid #ccc;
 }
 
-/* =====================
-   ACTIVE SIDEBAR SECTION
-===================== */
 .sidebar button.active-section {
   background: #0078d4;
   color: #ffffff;
@@ -53,7 +58,7 @@ body {
 }
 
 /* =====================
-   MAIN CONTENT WRAPPER
+   MAIN CONTENT RAIL
 ===================== */
 .section-view,
 .question-box,
@@ -61,21 +66,23 @@ body {
 .results-container,
 .risk-cloud,
 .options {
-  margin-left: 280px;
+  margin-left: var(--content-offset);
   padding: 0 40px;
+  box-sizing: border-box;
+
   display: flex;
   justify-content: center;
-  box-sizing: border-box;
 }
 
-/* Inner rail to center content */
+/* unified inner width */
 .section-view > *,
 .question-box,
 .info-box,
 .results-container,
 .risk-cloud,
 .options > * {
-  width: min(1050px, 100%);
+  width: 100%;
+  max-width: 1100px;
 }
 
 /* =====================
@@ -88,7 +95,6 @@ body {
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
   font-size: clamp(16px, 2vw, 18px);
-
   min-height: 220px;
   position: relative;
 }
@@ -101,7 +107,7 @@ body {
   bottom: 15px;
   left: 30px;
   font-size: 14px;
-  color: #555555;
+  color: #555;
   font-weight: 600;
 }
 
@@ -132,8 +138,8 @@ body {
   font-style: italic;
 
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
-
   min-height: 60px;
+
   display: flex;
   align-items: center;
 }
@@ -142,14 +148,13 @@ body {
    YES / NO OPTIONS
 ===================== */
 .options {
-  display: flex;
-  justify-content: center;
   margin-top: 40px;
-  margin-bottom: 100px;
+  margin-bottom: 110px;
 }
 
 .options > * {
   display: flex;
+  justify-content: center;
   gap: clamp(40px, 8vw, 80px);
   font-size: clamp(18px, 3vw, 24px);
 }
@@ -160,11 +165,12 @@ body {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: 280px;
-  right: 0;
-  padding: 0 40px;
+  left: var(--content-offset);
+  right: 40px;
+
   display: flex;
   justify-content: space-between;
+  z-index: 9;
 }
 
 .buttons button {
@@ -245,48 +251,22 @@ button:disabled {
   transition: all 0.25s ease;
 }
 
-#download-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(0, 120, 212, 0.45);
-  background: linear-gradient(135deg, #106ebe, #004578);
-}
-
-#download-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 12px rgba(0, 120, 212, 0.3);
-}
-
 /* =====================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE
 ===================== */
-@media (max-width: 1100px) {
-  .buttons {
-    left: 280px;
-    padding: 0 20px;
-  }
-}
-
 @media (max-width: 900px) {
+  :root {
+    --content-offset: 0px;
+  }
+
   .sidebar {
     position: relative;
     width: 100%;
     height: auto;
   }
 
-  .section-view,
-  .question-box,
-  .info-box,
-  .results-container,
-  .risk-cloud,
-  .options {
-    margin-left: 0;
-    padding: 0 20px;
-  }
-
   .buttons {
-    position: fixed;
-    left: 0;
-    right: 0;
-    padding: 0 20px;
+    left: 20px;
+    right: 20px;
   }
 }
