@@ -1,1 +1,267 @@
-:root { --sidebar-width: 280px; --content-max-width: 1100px; } /* ===================== BASE ===================== */ body { font-family: Verdana, Arial, sans-serif; margin: 0; background: #ffffff; overflow-x: hidden; } .quiz-container { width: 100%; min-height: 100vh; } /* ===================== SIDEBAR ===================== */ .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: #f2f2f2; padding: 20px; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 10; overflow-y: auto; } .sidebar button { width: 100%; margin-bottom: 18px; padding: 14px; font-size: 14px; text-align: left; border-radius: 8px; border: none; background: white; cursor: pointer; } .sidebar button.active-section { background: #0078d4; color: #ffffff; font-weight: 600; } /* ===================== MAIN CONTENT COLUMN ===================== */ .section-view, .question-box, .info-box, .risk-cloud, .options, .results-container { margin-left: var(--sidebar-width); padding: 0 40px; box-sizing: border-box; display: flex; justify-content: center; max-width: calc(100% - var(--sidebar-width) - 40px); /* avoid overflow on right */ } .section-view > *, .question-box > *, .info-box > *, .risk-cloud > *, .options > *, .results-container > * { width: 100%; max-width: var(--content-max-width); } /* ===================== QUESTION BOX ===================== */ .question-box { background: #f2f2f2; padding: 30px; border-radius: 15px; margin-top: 100px; box-shadow: 0 8px 12px rgba(0,0,0,0.15); font-size: 18px; min-height: 220px; position: relative; display: flex; flex-direction: column; justify-content: flex-start; } /* ===================== QUESTION COUNTER ===================== */ .question-counter { position: absolute; bottom: 15px; left: 30px; font-size: 14px; color: #555; font-weight: 600; } /* ===================== INFO BOX ===================== */ .info-box { background: #f2f2f2; padding: 30px; border-radius: 15px; margin-top: 120px; min-height: 220px; } /* ===================== RISK CLOUD ===================== */ .risk-cloud { background: #fff5e6; border: 3px solid orange; padding: 16px 26px; border-radius: 25px; margin-top: 40px; margin-bottom: 80px; /* extra bottom margin to avoid overlap */ font-size: 15px; font-style: italic; box-shadow: 0 6px 10px rgba(0,0,0,0.12); min-height: 60px; display: flex; align-items: center; justify-content: flex-start; width: 100%; max-width: var(--content-max-width); box-sizing: border-box; } /* ===================== YES / NO OPTIONS ===================== */ .options { margin-top: 40px; margin-bottom: 120px; display: flex; justify-content: center; gap: 20px; } .options button { padding: 12px 40px; font-size: 18px; border-radius: 12px; border: 2px solid #0078d4; background: #ffffff; cursor: pointer; transition: all 0.2s ease; min-width: 100px; } .options button:hover { background: #0078d4; color: white; font-weight: 600; } .options button.selected { background: #0078d4; color: white; font-weight: 600; } /* ===================== NAV BUTTONS ===================== */ .buttons { position: fixed; bottom: 30px; left: calc(var(--sidebar-width) + 40px); /* offset from sidebar */ right: 40px; /* stay inside content area */ display: flex; justify-content: space-between; z-index: 5; } .buttons button { padding: 14px 32px; font-size: 18px; background: #0078d4; color: white; border-radius: 10px; border: none; cursor: pointer; } /* ===================== RESULTS ===================== */ .results-container { margin-top: 80px; height: 70vh; overflow-y: auto; text-align: left; } /* ===================== PROGRESS BAR ===================== */ #progress-bar-container { position: absolute; bottom: 40px; left: 30px; width: calc(100% - 60px); height: 10px; background: #e0e0e0; border-radius: 10px; } #progress-bar { background: #0078d4; height: 100%; width: 0%; border-radius: 10px; transition: width 0.3s ease; } /* ===================== RESPONSIVE ===================== */ @media (max-width: 900px) { .sidebar { position: relative; width: 100%; height: auto; } .section-view, .question-box, .info-box, .risk-cloud, .options, .results-container, .buttons { margin-left: 0; max-width: 100%; padding: 0 20px; } .options { flex-direction: column; gap: 20px; } }
+
+:root {
+  --sidebar-width: 280px;
+  --content-max-width: 1100px;
+}
+
+/* ===================== BASE ===================== */
+html {
+  /* Stable base for rem units */
+  font-size: 16px;
+}
+
+body {
+  font-family: Verdana, Arial, sans-serif;
+  margin: 0;
+  background: #ffffff;
+  overflow-x: hidden;
+
+  /* Improve visual consistency across OS/monitors */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global text legibility */
+p, li, h1, h2, h3, h4, h5, h6 {
+  line-height: 1.5;
+}
+
+/* ===================== QUIZ CONTAINER ===================== */
+.quiz-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ===================== SIDEBAR ===================== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: #f2f2f2;
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.sidebar button {
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 14px;
+  /* Responsive font sizing: min 0.85rem, scales with vw, caps at 1rem */
+  font-size: clamp(0.85rem, 0.9vw, 1rem);
+  text-align: left;
+  border-radius: 8px;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.sidebar button.active-section {
+  background: #0078d4;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ===================== MAIN CONTENT COLUMN ===================== */
+.section-view,
+.question-box,
+.info-box,
+.risk-cloud,
+.options,
+.results-container {
+  margin-left: var(--sidebar-width);
+  padding: 0 40px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  max-width: calc(100% - var(--sidebar-width) - 40px); /* avoid overflow on right */
+}
+
+.section-view > *,
+.question-box > *,
+.info-box > *,
+.risk-cloud > *,
+.options > *,
+.results-container > * {
+  width: 100%;
+  max-width: var(--content-max-width);
+}
+
+/* ===================== QUESTION BOX ===================== */
+.question-box {
+  background: #f2f2f2;
+  padding: 30px;
+  border-radius: 15px;
+  margin-top: 100px;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  /* Responsive font sizing for question text: min 1rem, scales, caps ~1.25rem */
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  min-height: 220px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Better wrapping */
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* ===================== QUESTION COUNTER ===================== */
+.question-counter {
+  position: absolute;
+  bottom: 15px;
+  left: 30px;
+  /* Responsive, but smaller than question text */
+  font-size: clamp(0.875rem, 0.9vw, 1rem);
+  color: #555;
+  font-weight: 600;
+}
+
+/* ===================== INFO BOX ===================== */
+.info-box {
+  background: #f2f2f2;
+  padding: 30px;
+  border-radius: 15px;
+  margin-top: 120px;
+  min-height: 220px;
+  /* Make section intro readable across monitors */
+  font-size: clamp(0.95rem, 1vw, 1.1rem);
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* ===================== RISK CLOUD ===================== */
+.risk-cloud {
+  background: #fff5e6;
+  border: 3px solid orange;
+  padding: 16px 26px;
+  border-radius: 25px;
+  margin-top: 40px;
+  margin-bottom: 80px; /* extra bottom margin to avoid overlap */
+  /* Responsive font size for risk text */
+  font-size: clamp(0.9rem, 1vw, 1.05rem);
+  font-style: italic;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: var(--content-max-width);
+  box-sizing: border-box;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* ===================== YES / NO OPTIONS ===================== */
+.options {
+  margin-top: 40px;
+  margin-bottom: 120px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.options button {
+  padding: 12px 40px;
+  /* Responsive font size for buttons */
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  border-radius: 12px;
+  border: 2px solid #0078d4;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.options button:hover {
+  background: #0078d4;
+  color: white;
+  font-weight: 600;
+}
+
+.options button.selected {
+  background: #0078d4;
+  color: white;
+  font-weight: 600;
+}
+
+/* ===================== NAV BUTTONS ===================== */
+.buttons {
+  position: fixed;
+  bottom: 30px;
+  left: calc(var(--sidebar-width) + 40px); /* offset from sidebar */
+  right: 40px; /* stay inside content area */
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.buttons button {
+  padding: 14px 32px;
+  /* Responsive font size for nav buttons */
+  font-size: clamp(0.95rem, 1vw, 1.125rem);
+  background: #0078d4;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===================== RESULTS ===================== */
+.results-container {
+  margin-top: 80px;
+  height: 70vh;
+  overflow-y: auto;
+  text-align: left;
+  /* Ensure readable results text */
+  font-size: clamp(0.95rem, 1vw, 1.1rem);
+}
+
+/* ===================== PROGRESS BAR ===================== */
+#progress-bar-container {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  width: calc(100% - 60px);
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 10px;
+}
+
+#progress-bar {
+  background: #0078d4;
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .section-view,
+  .question-box,
+  .info-box,
+  .risk-cloud,
+  .options,
+  .results-container,
+  .buttons {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .options {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
