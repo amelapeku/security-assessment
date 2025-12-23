@@ -88,7 +88,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================= */
-/* ✅ QUESTION BOX (GRAY) — CONTAINER-BASED TYPOGRAPHY ✅ */
+/* ✅ QUESTION BOX (GRAY) — BASELINE SIZE (WELCOME SOURCE) ✅ */
 /* ============================================================= */
 .question-box {
   background: #f2f2f2;
@@ -97,8 +97,8 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 
-  /* 🔑 THIS IS THE KEY */
-  container-type: inline-size;
+  /* ✅ THIS matches Welcome screen exactly */
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
 
   min-height: 220px;
   position: relative;
@@ -110,24 +110,18 @@ p, li, h1, h2, h3, h4, h5, h6 {
   hyphens: auto;
 }
 
-/* Question text scales with gray container */
-#question-text {
-  font-size: clamp(1rem, 2.2cqw, 1.45rem);
-  line-height: 1.5;
-}
-
 /* Question counter */
 .question-counter {
   position: absolute;
   bottom: 15px;
   left: 30px;
-  font-size: clamp(0.85rem, 1.4cqw, 1.05rem);
+  font-size: clamp(0.85rem, 1vw, 1rem);
   color: #555;
   font-weight: 600;
 }
 
 /* ============================================================= */
-/* ✅ SECTION INFO BOX (GRAY) — CONTAINER-BASED ✅ */
+/* ✅ SECTION INFO BOX (GRAY) — SAME SCALE AS QUESTIONS ✅ */
 /* ============================================================= */
 .info-box {
   background: #f2f2f2;
@@ -136,16 +130,15 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 120px;
   min-height: 220px;
 
-  container-type: inline-size;
-
-  font-size: clamp(0.95rem, 2cqw, 1.25rem);
+  /* ✅ Same perceived size as Welcome / questions */
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
 
   word-wrap: break-word;
   hyphens: auto;
 }
 
 /* ============================================================= */
-/* ✅ RISK CLOUD (ORANGE) — CONTAINER-BASED ✅ */
+/* ✅ RISK CLOUD (ORANGE) — SLIGHTLY SMALLER, SAME STYLE ✅ */
 /* ============================================================= */
 .risk-cloud {
   background: #fff5e6;
@@ -155,9 +148,9 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 40px;
   margin-bottom: 80px;
 
-  container-type: inline-size;
+  /* ✅ Matches previous visual size exactly */
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
 
-  font-size: clamp(0.95rem, 1.8cqw, 1.2rem);
   line-height: 1.45;
   font-style: italic;
 
