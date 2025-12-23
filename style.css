@@ -180,7 +180,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
   padding: 0 12px;           /* ⬆ a touch more X padding */
   height: 40px;              /* ⬆ slightly taller */
 
-  font-size: 1.8 rem;         /* ⬆ text slightly bigger */
+  font-size: 3 rem;         /* ⬆ text slightly bigger */
   line-height: 1;
   font-weight: 600;
 
@@ -289,5 +289,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
 
 
