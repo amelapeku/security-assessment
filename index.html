@@ -4,59 +4,6 @@
   <meta charset="UTF-8">
   <title>Security Assessment</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* =====================
-       QUESTION BOX (GRAY) - FIXED WIDTH
-    ====================== */
-    .question-box {
-      background: #f2f2f2;
-      padding: 30px;
-      border-radius: 15px;
-      margin-top: 100px;
-      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-      font-size: 18px;
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      position: relative;  /* for absolute positioning of counter and progress bar */
-      width: 1050px;
-      max-width: 90%;
-    }
-
-    /* =====================
-       QUESTION COUNTER FIXED FROM BOTTOM
-    ====================== */
-    .question-counter {
-      position: absolute;
-      bottom: 10px;   /* fixed distance from bottom of gray box */
-      right: 30px;    /* distance from right edge */
-      font-size: 14px;
-      color: #555555;
-      font-weight: 600;
-    }
-
-    /* =====================
-       PROGRESS BAR FIXED ABOVE COUNTER
-    ====================== */
-    #progress-bar-container {
-      position: absolute;
-      bottom: 40px;  /* fixed gap above counter */
-      left: 30px;
-      right: 30px;
-      height: 10px;
-      background: #e0e0e0;
-      border-radius: 10px;
-    }
-
-    #progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #0078d4;
-      border-radius: 10px;
-      transition: width 0.3s ease;
-    }
-  </style>
 </head>
 <body>
 
@@ -99,19 +46,18 @@
       <strong>Finish</strong><br>
       View results
     </button>
-
   </div>
 
   <!-- Intro -->
   <div class="question-box section-view" id="intro-page">
- <p>
-  <strong>Welcome to the Logging & Threat Detection Assessment</strong><br><br>
- This assessment is designed to help your organization evaluate and strengthen its security posture by reviewing key controls across the full set of Microsoft Cloud Security Benchmark (MCSB) recommendations. While based on MCSB, the principles covered here are widely applicable to other security frameworks and best practices.
-</p>
+    <p>
+      <strong>Welcome to the Logging & Threat Detection Assessment</strong><br><br>
+      This assessment is designed to help your organization evaluate and strengthen its security posture by reviewing key controls across the full set of Microsoft Cloud Security Benchmark (MCSB) recommendations. While based on MCSB, the principles covered here are widely applicable to other security frameworks and best practices.
+    </p>
 
-<p>
-  The focus of this assessment is to ensure that your organization is collecting the recommended logs effectively. By completing it, you will gain actionable insights into how to collect, centralize, and analyze logs in your SIEM solution, enabling better detection of threats, faster investigation, and improved overall security operations.
-</p>
+    <p>
+      The focus of this assessment is to ensure that your organization is collecting the recommended logs effectively. By completing it, you will gain actionable insights into how to collect, centralize, and analyze logs in your SIEM solution, enabling better detection of threats, faster investigation, and improved overall security operations.
+    </p>
   </div>
 
   <!-- Section info -->
@@ -126,16 +72,15 @@
       <div id="progress-bar"></div>
     </div>
 
-    <!-- Question counter fixed from bottom -->
+    <!-- Question counter -->
     <div id="progress-text" class="question-counter"></div>
   </div>
 
   <!-- Options -->
-<div class="options" style="display:none;">
-  <button id="yes-btn" class="yes">Yes</button>
-  <button id="no-btn" class="no">No</button>
-</div>
-
+  <div class="options" style="display:none;">
+    <button id="yes-btn" class="yes">Yes</button>
+    <button id="no-btn" class="no">No</button>
+  </div>
 
   <!-- Risk -->
   <div class="risk-cloud" id="risk-text" style="display:none;"></div>
@@ -151,7 +96,6 @@
     <h2>Assessment Results</h2>
     <p id="score-text"></p>
     <div id="no-answers-container"></div>
-    <!-- PDF download button -->
     <button id="download-btn">Download Results (PDF)</button>
   </div>
 
@@ -159,9 +103,7 @@
 
 <!-- jsPDF library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script src="questions.js"></script>
 <script src="quiz.js"></script>
 </body>
 </html>
-
