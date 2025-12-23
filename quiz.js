@@ -1,3 +1,4 @@
+
 let activeSection = null;
 let sectionPosition = -1;
 let inSectionIntro = false;
