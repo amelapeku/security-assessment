@@ -180,18 +180,26 @@ p, li, h1, h2, h3, h4, h5, h6 {
   gap: 16px;
 }
 
+
 .options button {
-  padding: 8px 16px;
-  font-size: clamp(0.95rem, 1vw, 1.05rem);
-  border-radius: 12px;
+  /* ✅ Much smaller, compact buttons */
+  padding: 4px 10px;
+
+  font-size: 0.85rem;     /* fixed & small */
+  line-height: 1;
+
+  border-radius: 6px;
   border: 2px solid #0078d4;
   background: #ffffff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 
-  min-width: 88px;
+  min-width: 52px;        /* much smaller */
+  height: 28px;           /* visually compact */
+
   flex: 0 0 auto;
 }
+
 
 .options button:hover,
 .options button.selected {
@@ -282,4 +290,5 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
 
