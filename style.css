@@ -3,8 +3,8 @@
   --sidebar-width: 280px;
   --content-max-width: 1100px;
 
-  /* ✅ New: consistent gap between sidebar and content */
-  --content-gap: 80px;
+  /* Gap between sidebar and content */
+  --content-gap: 44px;
 }
 
 /* ===================== BASE ===================== */
@@ -66,30 +66,25 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== MAIN CONTENT COLUMN ===================== */
-/* Parent owns centering and max width, with a guaranteed gap from sidebar */
 .section-view,
 .question-box,
 .info-box,
 .risk-cloud,
 .options,
 .results-container {
-  /* ✅ Always clear the fixed sidebar by a gap */
   margin-left: calc(var(--sidebar-width) + var(--content-gap));
-
-  /* ✅ Inner horizontal padding */
   padding: 0 var(--content-gap);
 
   box-sizing: border-box;
   display: flex;
   justify-content: center;
 
-  /* ✅ Prevent overlap by accounting for both margins and padding */
   max-width: calc(
     100% - var(--sidebar-width) - (var(--content-gap) * 2)
   );
 }
 
-/* Direct child fills the container; no extra max-width cap to avoid right-side gap */
+/* Direct child fills available container width */
 .section-view > *,
 .question-box > *,
 .info-box > *,
@@ -107,7 +102,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 
-  /* SAME size as Welcome screen */
   font-size: clamp(1rem, 1.2vw, 1.25rem);
 
   min-height: 220px;
@@ -145,7 +139,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== RISK CLOUD (ORANGE) ===================== */
-/* IMPORTANT: no width/max-width here (parent owns layout) */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
@@ -154,7 +147,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-top: 40px;
   margin-bottom: 80px;
 
-  /* Slightly smaller than question text (original behavior) */
   font-size: clamp(0.9rem, 1.1vw, 1.05rem);
   line-height: 1.45;
   font-style: italic;
@@ -166,44 +158,42 @@ p, li, h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: flex-start;
 
-  box-sizing: border-box;
   word-wrap: break-word;
   hyphens: auto;
 }
 
 /* ===================== YES / NO OPTIONS ===================== */
+/* Separate row, centered, calm */
 .options {
-  margin-top: 40px;
+  margin-top: 32px;
   margin-bottom: 120px;
+
   display: flex;
   justify-content: center;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
 }
 
-
-
+/* Small, narrow, slightly taller buttons */
 .options button {
-  /* ✅ Narrow in X, slightly taller in Y */
-  padding: 18px 24px;        /* small horizontal, slightly larger vertical */
+  padding: 6px 10px;
 
-  font-size: 1.2rem;
+  font-size: 0.85rem;
   line-height: 1;
 
-  border-radius: 6px;
+  border-radius: 8px;
   border: 2px solid #0078d4;
   background: #ffffff;
+  color: #0078d4;
+
   cursor: pointer;
   transition: all 0.15s ease;
 
-  /* ✅ This is critical: remove forced width */
-  min-width: unset;        /* ← removes horizontal expansion */
-  width: auto;             /* content decides width */
+  min-width: 56px;
+  height: 32px;
 
-  height: 40px;            /* slightly taller */
   flex: 0 0 auto;
 }
-
-
 
 .options button:hover,
 .options button.selected {
@@ -217,7 +207,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   position: fixed;
   bottom: 30px;
 
-  /* ✅ Respect the same sidebar + content gap */
   left: calc(var(--sidebar-width) + var(--content-gap));
   right: var(--content-gap);
 
@@ -294,12 +283,3 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
-
-
-
-
-
-
-
-
-
