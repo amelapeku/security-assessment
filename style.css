@@ -66,7 +66,7 @@ body {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  max-width: calc(100% - var(--sidebar-width));
+  max-width: calc(100% - var(--sidebar-width) - 40px); /* avoid overflow on right */
 }
 
 .section-view > *,
@@ -91,8 +91,6 @@ body {
   font-size: 18px;
   min-height: 220px;
   position: relative;
-  width: 100%;
-  max-width: var(--content-max-width);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -130,7 +128,7 @@ body {
   padding: 16px 26px;
   border-radius: 25px;
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 80px; /* extra bottom margin to avoid overlap */
   font-size: 15px;
   font-style: italic;
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
@@ -181,14 +179,10 @@ body {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%); /* center the container */
-  width: 100%;
-  max-width: var(--content-max-width);
-  padding: 0 20px;
+  left: calc(var(--sidebar-width) + 40px); /* offset from sidebar */
+  right: 40px; /* stay inside content area */
   display: flex;
-  justify-content: space-between; /* Previous left, Next right */
-  box-sizing: border-box;
+  justify-content: space-between;
   z-index: 5;
 }
 
@@ -201,7 +195,6 @@ body {
   border: none;
   cursor: pointer;
 }
-
 
 /* =====================
    RESULTS
@@ -253,16 +246,11 @@ body {
   .buttons {
     margin-left: 0;
     max-width: 100%;
-  }
-
-  .buttons {
     padding: 0 20px;
   }
 
-  .options > * {
-    gap: 20px;
+  .options {
     flex-direction: column;
-    font-size: 20px;
+    gap: 20px;
   }
 }
-
