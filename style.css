@@ -4,7 +4,7 @@
   --content-max-width: 1100px;
 
   /* ✅ New: consistent gap between sidebar and content */
-  --content-gap: 40px;
+  --content-gap: 44px;
 }
 
 /* ===================== BASE ===================== */
@@ -282,3 +282,4 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
