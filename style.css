@@ -149,13 +149,9 @@ body {
 .options {
   margin-top: 40px;
   margin-bottom: 120px;
-}
-
-.options > * {
   display: flex;
-  gap: 40px;
-  font-size: 24px;
   justify-content: center;
+  gap: 40px;
 }
 
 .options button {
@@ -185,13 +181,15 @@ body {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: var(--sidebar-width);
-  right: 0;
-  padding: 0 40px;
+  left: 50%;
+  transform: translateX(-50%); /* center the container */
+  width: 100%;
+  max-width: var(--content-max-width);
+  padding: 0 20px;
   display: flex;
   justify-content: space-between; /* Previous left, Next right */
-  max-width: var(--content-max-width);
-  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 5;
 }
 
 .buttons button {
@@ -203,6 +201,7 @@ body {
   border: none;
   cursor: pointer;
 }
+
 
 /* =====================
    RESULTS
@@ -266,3 +265,4 @@ body {
     font-size: 20px;
   }
 }
+
