@@ -7,7 +7,7 @@ body {
 
 .quiz-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* =====================
@@ -53,7 +53,7 @@ body {
 }
 
 /* =====================
-   MAIN CONTENT COLUMN
+   MAIN CONTENT WRAPPER
 ===================== */
 .section-view,
 .question-box,
@@ -61,36 +61,45 @@ body {
 .results-container,
 .risk-cloud,
 .options {
-  margin-left: 360px; /* aligns with sidebar/buttons */
+  margin-left: 280px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
-  max-width: none;
-  padding-right: 40px; /* optional small right space */
+}
+
+/* Inner rail to center content */
+.section-view > *,
+.question-box,
+.info-box,
+.results-container,
+.risk-cloud,
+.options > * {
+  width: min(1050px, 100%);
 }
 
 /* =====================
-   QUESTION BOX (GRAY) - FIXED WIDTH
+   QUESTION BOX
 ===================== */
 .question-box {
   background: #f2f2f2;
-  padding: 30px;
+  padding: clamp(20px, 3vw, 30px);
   border-radius: 15px;
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-  font-size: 18px;
+  font-size: clamp(16px, 2vw, 18px);
 
   min-height: 220px;
-  position: relative;  /* for absolute positioning of counter */
-  width: 1050px;        
-  max-width: 90%;      
+  position: relative;
 }
 
 /* =====================
-   QUESTION COUNTER FIXED FROM BOTTOM
+   QUESTION COUNTER
 ===================== */
 .question-counter {
   position: absolute;
-  bottom: 15px;   /* fixed distance from bottom of gray box */
-  left: 30px;     /* fixed distance from left (can adjust) */
+  bottom: 15px;
+  left: 30px;
   font-size: 14px;
   color: #555555;
   font-weight: 600;
@@ -101,18 +110,15 @@ body {
 ===================== */
 .info-box {
   background: #f2f2f2;
-  padding: 30px;
+  padding: clamp(20px, 3vw, 30px);
   border-radius: 15px;
   margin-top: 120px;
-  font-size: 18px;
+  font-size: clamp(16px, 2vw, 18px);
   min-height: 220px;
-
-  width: 1050px;        
-  max-width: 90%;
 }
 
 /* =====================
-   RISK BUBBLE (ORANGE) - MATCH WIDTH
+   RISK BUBBLE
 ===================== */
 .risk-cloud {
   background: #fff5e6;
@@ -130,9 +136,6 @@ body {
   min-height: 60px;
   display: flex;
   align-items: center;
-
-  width: 1050px;        
-  max-width: 90%;
 }
 
 /* =====================
@@ -141,11 +144,14 @@ body {
 .options {
   display: flex;
   justify-content: center;
-  gap: 80px;
-  font-size: 24px;
   margin-top: 40px;
   margin-bottom: 100px;
-  min-height: 50px;
+}
+
+.options > * {
+  display: flex;
+  gap: clamp(40px, 8vw, 80px);
+  font-size: clamp(18px, 3vw, 24px);
 }
 
 /* =====================
@@ -154,8 +160,9 @@ body {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: 360px;
-  right: 40px;
+  left: 280px;
+  right: 0;
+  padding: 0 40px;
   display: flex;
   justify-content: space-between;
 }
@@ -181,12 +188,7 @@ button:disabled {
   margin-top: 80px;
   height: 70vh;
   overflow-y: auto;
-
-  width: 1050px;        
-  max-width: 90%;
-
-  text-align: left; /* left-align content */
-  padding-left: 20px; /* optional left padding */
+  text-align: left;
 }
 
 .results-container h4 {
@@ -194,9 +196,8 @@ button:disabled {
   margin-top: 30px;
 }
 
-/* List of 'No' answers */
 .results-container ul.no-answers {
-  list-style-type: disc; /* bullets */
+  list-style-type: disc;
   margin-top: 20px;
   margin-left: 20px;
   font-size: 16px;
@@ -208,9 +209,9 @@ button:disabled {
 ===================== */
 #progress-bar-container {
   position: absolute;
-  bottom: 10px;    /* fixed distance from bottom of gray box */
-  left: 30px;      /* align with counter left */
-  width: 980px;    /* shorter than container width */
+  bottom: 10px;
+  left: 30px;
+  width: calc(100% - 60px);
   height: 10px;
   background: #e0e0e0;
   border-radius: 10px;
@@ -225,40 +226,67 @@ button:disabled {
 }
 
 /* =====================
-   DOWNLOAD PDF BUTTON (PRIMARY CTA)
+   DOWNLOAD BUTTON
 ===================== */
 #download-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   margin-top: 30px;
   padding: 18px 36px;
-
   font-size: 20px;
   font-weight: 700;
-
   background: linear-gradient(135deg, #0078d4, #005a9e);
   color: #ffffff;
-
   border: none;
   border-radius: 14px;
-
   cursor: pointer;
-
   box-shadow: 0 10px 22px rgba(0, 120, 212, 0.35);
   transition: all 0.25s ease;
 }
 
-/* Hover effect */
 #download-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(0, 120, 212, 0.45);
   background: linear-gradient(135deg, #106ebe, #004578);
 }
 
-/* Active (click) */
 #download-btn:active {
   transform: translateY(0);
   box-shadow: 0 6px 12px rgba(0, 120, 212, 0.3);
+}
+
+/* =====================
+   RESPONSIVE BREAKPOINTS
+===================== */
+@media (max-width: 1100px) {
+  .buttons {
+    left: 280px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .section-view,
+  .question-box,
+  .info-box,
+  .results-container,
+  .risk-cloud,
+  .options {
+    margin-left: 0;
+    padding: 0 20px;
+  }
+
+  .buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+  }
 }
