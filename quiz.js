@@ -12,11 +12,13 @@ const riskText = document.getElementById("risk-text");
 const sectionInfo = document.getElementById("section-info");
 const resultsContainer = document.getElementById("results-container");
 const optionsDiv = document.querySelector(".options");
-const radios = Array.from(document.getElementsByName("answer"));
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
 const finishBtn = document.getElementById("finish-btn");
 const sidebar = document.getElementById("sidebar");
+
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
 
 // ===============================
 // SECTION INTRO METADATA
@@ -197,7 +199,9 @@ function loadQuestion() {
 
   questionText.textContent = item.q;
   riskText.textContent = item.risk;
-  radios.forEach(r => (r.checked = answers[qIndex] === r.value));
+
+  yesBtn.classList.toggle("selected", answers[qIndex] === "yes");
+  noBtn.classList.toggle("selected", answers[qIndex] === "no");
 
   const totalQuestions = sections[activeSection].questions.length;
   const currentQuestionNumber = sectionPosition + 1;
@@ -225,12 +229,16 @@ function loadQuestion() {
 // ===============================
 // RECORD ANSWERS
 // ===============================
-radios.forEach(r => {
-  r.onchange = () => {
-    answers[currentIndex] = r.value;
-    sectionProgress[activeSection] = sectionPosition;
-  };
-});
+function selectAnswer(value) {
+  answers[currentIndex] = value;
+  sectionProgress[activeSection] = sectionPosition;
+
+  yesBtn.classList.toggle("selected", value === "yes");
+  noBtn.classList.toggle("selected", value === "no");
+}
+
+yesBtn.onclick = () => selectAnswer("yes");
+noBtn.onclick = () => selectAnswer("no");
 
 // ===============================
 // NEXT BUTTON
@@ -396,4 +404,3 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
-
