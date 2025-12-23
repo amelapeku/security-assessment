@@ -184,9 +184,9 @@ p, li, h1, h2, h3, h4, h5, h6 {
 
 .options button {
   /* ✅ Narrow in X, slightly taller in Y */
-  padding: 24px 32px;        /* small horizontal, slightly larger vertical */
+  padding: 18px 24px;        /* small horizontal, slightly larger vertical */
 
-  font-size: 2rem;
+  font-size: 1.2rem;
   line-height: 1;
 
   border-radius: 6px;
@@ -294,6 +294,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
 
 
 
