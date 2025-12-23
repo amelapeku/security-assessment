@@ -175,12 +175,12 @@ p, li, h1, h2, h3, h4, h5, h6 {
 /* ✅ SLIGHTLY BIGGER, STILL COMPACT BUTTONS */
 .options button {
   width: auto;
-  min-width: 64px;           /* ⬆ a bit wider */
+  min-width: 80px;           /* ⬆ a bit wider */
 
   padding: 0 12px;           /* ⬆ a touch more X padding */
-  height: 36px;              /* ⬆ slightly taller */
+  height: 40px;              /* ⬆ slightly taller */
 
-  font-size: 0.9rem;         /* ⬆ text slightly bigger */
+  font-size: 1.2 rem;         /* ⬆ text slightly bigger */
   line-height: 1;
   font-weight: 600;
 
@@ -289,3 +289,4 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
