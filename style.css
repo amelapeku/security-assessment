@@ -109,8 +109,10 @@ p, li, h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   justify-content: flex-start;
 
-  word-wrap: break-word;
-  hyphens: auto;
+  /* ✅ FIX: prevent mid‑word breaking */
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 /* Question counter */
@@ -133,8 +135,10 @@ p, li, h1, h2, h3, h4, h5, h6 {
 
   font-size: clamp(0.95rem, 1.2vw, 1.15rem);
 
-  word-wrap: break-word;
-  hyphens: auto;
+  /* ✅ FIX */
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 /* ===================== RISK CLOUD (ORANGE) ===================== */
@@ -157,8 +161,10 @@ p, li, h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: flex-start;
 
-  word-wrap: break-word;
-  hyphens: auto;
+  /* ✅ FIX */
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 /* ===================== YES / NO OPTIONS ===================== */
@@ -172,28 +178,25 @@ p, li, h1, h2, h3, h4, h5, h6 {
   gap: 32px;
 }
 
-/* ✅ SLIGHTLY BIGGER, STILL COMPACT BUTTONS */
 .options button {
   width: auto;
-  min-width: 80px;           /* ⬆ a bit wider */
+  min-width: 80px;
+  padding: 0 12px;
+  height: 40px;
 
-  padding: 0 12px;           /* ⬆ a touch more X padding */
-  height: 40px;              /* ⬆ slightly taller */
-
-  font-size: 1.4rem;         /* ⬆ text slightly bigger */
+  font-size: 1.4rem;
   line-height: 1;
   font-weight: 600;
 
   border-radius: 8px;
   border: 2px solid #0078d4;
   background: #ffffff;
-
-  color: #000000;            /* ✅ black text by default */
+  color: #000000;
 
   cursor: pointer;
   transition: all 0.15s ease;
 
-  display: flex;             /* ✅ perfect centering */
+  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -201,7 +204,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
 }
 
-/* Hover / selected */
 .options button:hover,
 .options button.selected {
   background: #0078d4;
@@ -289,9 +291,3 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
-
-
-
-
-
-
