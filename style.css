@@ -181,11 +181,12 @@ p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 
-.options button {
-  /* ✅ Much smaller, compact buttons */
-  padding: 2px 6px;
 
-  font-size: 0.85rem;     /* fixed & small */
+.options button {
+  /* ✅ Narrow in X, slightly taller in Y */
+  padding: 6px 8px;        /* small horizontal, slightly larger vertical */
+
+  font-size: 0.85rem;
   line-height: 1;
 
   border-radius: 6px;
@@ -194,11 +195,14 @@ p, li, h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all 0.15s ease;
 
-  min-width: 33px;        /* much smaller */
-  height: 28px;           /* visually compact */
+  /* ✅ This is critical: remove forced width */
+  min-width: unset;        /* ← removes horizontal expansion */
+  width: auto;             /* content decides width */
 
+  height: 34px;            /* slightly taller */
   flex: 0 0 auto;
 }
+
 
 
 .options button:hover,
@@ -290,6 +294,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
+
 
 
 
