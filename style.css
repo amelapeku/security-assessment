@@ -16,6 +16,7 @@ body {
 .quiz-container {
   width: 100%;
   min-height: 100vh;
+  display: flex;
 }
 
 /* =====================
@@ -64,19 +65,11 @@ body {
   margin-left: var(--sidebar-width);
   padding: 0 40px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  max-width: calc(100% - var(--sidebar-width) - 40px); /* avoid overflow on right */
-}
-
-.section-view > *,
-.question-box > *,
-.info-box > *,
-.risk-cloud > *,
-.options > *,
-.results-container > * {
   width: 100%;
   max-width: var(--content-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* make content span full width of container */
 }
 
 /* =====================
@@ -94,6 +87,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  width: 100%;
 }
 
 /* =====================
@@ -102,7 +96,7 @@ body {
 .question-counter {
   position: absolute;
   bottom: 15px;
-  left: 30px;
+  right: 30px;
   font-size: 14px;
   color: #555;
   font-weight: 600;
@@ -117,6 +111,7 @@ body {
   border-radius: 15px;
   margin-top: 120px;
   min-height: 220px;
+  width: 100%;
 }
 
 /* =====================
@@ -137,7 +132,6 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: var(--content-max-width);
   box-sizing: border-box;
 }
 
@@ -150,6 +144,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .options button {
@@ -160,16 +155,10 @@ body {
   background: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
-   min-width: 100px;  
+  min-width: 100px;
 }
 
-.options button:hover {
-  background: #0078d4;
-  color: white;
-    font-weight: 600;
-
-}
-
+.options button:hover,
 .options button.selected {
   background: #0078d4;
   color: white;
@@ -182,8 +171,8 @@ body {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: calc(var(--sidebar-width) + 40px); /* offset from sidebar */
-  right: 40px; /* stay inside content area */
+  left: calc(var(--sidebar-width) + 40px);
+  right: 40px;
   display: flex;
   justify-content: space-between;
   z-index: 5;
@@ -204,9 +193,9 @@ body {
 ===================== */
 .results-container {
   margin-top: 80px;
-  height: 70vh;
   overflow-y: auto;
   text-align: left;
+  width: 100%;
 }
 
 /* =====================
@@ -216,7 +205,7 @@ body {
   position: absolute;
   bottom: 40px;
   left: 30px;
-  width: calc(100% - 60px);
+  right: 30px;
   height: 10px;
   background: #e0e0e0;
   border-radius: 10px;
@@ -256,5 +245,9 @@ body {
     flex-direction: column;
     gap: 20px;
   }
-}
 
+  .buttons {
+    left: 20px;
+    right: 20px;
+  }
+}
