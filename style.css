@@ -6,8 +6,7 @@
 
 /* ===================== BASE ===================== */
 html {
-  /* Stable base for rem units */
-  font-size: 16px;
+  font-size: 16px; /* stable rem baseline */
 }
 
 body {
@@ -16,7 +15,6 @@ body {
   background: #ffffff;
   overflow-x: hidden;
 
-  /* Improve visual consistency across OS/monitors */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -50,7 +48,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   width: 100%;
   margin-bottom: 18px;
   padding: 14px;
-  /* Responsive font sizing: min 0.85rem, scales with vw, caps at 1rem */
   font-size: clamp(0.85rem, 0.9vw, 1rem);
   text-align: left;
   border-radius: 8px;
@@ -77,7 +74,7 @@ p, li, h1, h2, h3, h4, h5, h6 {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  max-width: calc(100% - var(--sidebar-width) - 40px); /* avoid overflow on right */
+  max-width: calc(100% - var(--sidebar-width) - 40px);
 }
 
 .section-view > *,
@@ -90,68 +87,90 @@ p, li, h1, h2, h3, h4, h5, h6 {
   max-width: var(--content-max-width);
 }
 
-/* ===================== QUESTION BOX ===================== */
+/* ============================================================= */
+/* ✅ QUESTION BOX (GRAY) — CONTAINER-BASED TYPOGRAPHY ✅ */
+/* ============================================================= */
 .question-box {
   background: #f2f2f2;
   padding: 30px;
   border-radius: 15px;
   margin-top: 100px;
   box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-  /* Responsive font sizing for question text: min 1rem, scales, caps ~1.25rem */
-  font-size: clamp(1rem, 1.2vw, 1.25rem);
+
+  /* 🔑 THIS IS THE KEY */
+  container-type: inline-size;
+
   min-height: 220px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Better wrapping */
+
   word-wrap: break-word;
   hyphens: auto;
 }
 
-/* ===================== QUESTION COUNTER ===================== */
+/* Question text scales with gray container */
+#question-text {
+  font-size: clamp(1rem, 2.2cqw, 1.45rem);
+  line-height: 1.5;
+}
+
+/* Question counter */
 .question-counter {
   position: absolute;
   bottom: 15px;
   left: 30px;
-  /* Responsive, but smaller than question text */
-  font-size: clamp(0.875rem, 0.9vw, 1rem);
+  font-size: clamp(0.85rem, 1.4cqw, 1.05rem);
   color: #555;
   font-weight: 600;
 }
 
-/* ===================== INFO BOX ===================== */
+/* ============================================================= */
+/* ✅ SECTION INFO BOX (GRAY) — CONTAINER-BASED ✅ */
+/* ============================================================= */
 .info-box {
   background: #f2f2f2;
   padding: 30px;
   border-radius: 15px;
   margin-top: 120px;
   min-height: 220px;
-  /* Make section intro readable across monitors */
-  font-size: clamp(0.95rem, 1vw, 1.1rem);
+
+  container-type: inline-size;
+
+  font-size: clamp(0.95rem, 2cqw, 1.25rem);
+
   word-wrap: break-word;
   hyphens: auto;
 }
 
-/* ===================== RISK CLOUD ===================== */
+/* ============================================================= */
+/* ✅ RISK CLOUD (ORANGE) — CONTAINER-BASED ✅ */
+/* ============================================================= */
 .risk-cloud {
   background: #fff5e6;
   border: 3px solid orange;
   padding: 16px 26px;
   border-radius: 25px;
   margin-top: 40px;
-  margin-bottom: 80px; /* extra bottom margin to avoid overlap */
-  /* Responsive font size for risk text */
-  font-size: clamp(0.9rem, 1vw, 1.05rem);
+  margin-bottom: 80px;
+
+  container-type: inline-size;
+
+  font-size: clamp(0.95rem, 1.8cqw, 1.2rem);
+  line-height: 1.45;
   font-style: italic;
+
   box-shadow: 0 6px 10px rgba(0,0,0,0.12);
   min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   width: 100%;
   max-width: var(--content-max-width);
   box-sizing: border-box;
+
   word-wrap: break-word;
   hyphens: auto;
 }
@@ -162,27 +181,23 @@ p, li, h1, h2, h3, h4, h5, h6 {
   margin-bottom: 120px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
 }
 
 .options button {
   padding: 8px 16px;
-  /* Responsive font size for buttons */
-  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
   border-radius: 12px;
   border: 2px solid #0078d4;
   background: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 100px;
+
+  min-width: 88px;
+  flex: 0 0 auto;
 }
 
-.options button:hover {
-  background: #0078d4;
-  color: white;
-  font-weight: 600;
-}
-
+.options button:hover,
 .options button.selected {
   background: #0078d4;
   color: white;
@@ -193,8 +208,8 @@ p, li, h1, h2, h3, h4, h5, h6 {
 .buttons {
   position: fixed;
   bottom: 30px;
-  left: calc(var(--sidebar-width) + 40px); /* offset from sidebar */
-  right: 40px; /* stay inside content area */
+  left: calc(var(--sidebar-width) + 40px);
+  right: 40px;
   display: flex;
   justify-content: space-between;
   z-index: 5;
@@ -202,7 +217,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
 
 .buttons button {
   padding: 14px 32px;
-  /* Responsive font size for nav buttons */
   font-size: clamp(0.95rem, 1vw, 1.125rem);
   background: #0078d4;
   color: white;
@@ -217,7 +231,6 @@ p, li, h1, h2, h3, h4, h5, h6 {
   height: 70vh;
   overflow-y: auto;
   text-align: left;
-  /* Ensure readable results text */
   font-size: clamp(0.95rem, 1vw, 1.1rem);
 }
 
@@ -265,4 +278,3 @@ p, li, h1, h2, h3, h4, h5, h6 {
     gap: 20px;
   }
 }
-
