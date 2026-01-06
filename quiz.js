@@ -402,6 +402,106 @@ prevBtn.onclick = () => {
 };
 
 // ===============================
-// RESULTS
 
-// RESULTS // =============================== function showResults() { hideAll(); resultsContainer.style.display = "block"; document.querySelector(".buttons").style.display = "none"; const total = questions.filter(q => !q.type).length; const yes = Object.values(answers).filter(a => a === "yes").length; document.getElementById("score-text").textContent = You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions. The following key points highlight areas to focus on to strengthen your organization’s security:; const container = document.getElementById("no-answers-container"); container.innerHTML = ""; Object.keys(sections).forEach(sectionTitle => { const noQuestions = sections[sectionTitle].questions .filter(i => answers[i] === "no") .map(i => questions[i].q); if (noQuestions.length) { const div = document.createElement("div"); div.innerHTML = <h4>${sectionTitle}</h4>; const ul = document.createElement("ul"); ul.classList.add("no-answers"); noQuestions.forEach(q => { const li = document.createElement("li"); li.textContent = q; ul.appendChild(li); }); div.appendChild(ul); container.appendChild(div); } }); } // =============================== // DOWNLOAD PDF // =============================== document.getElementById("download-btn").onclick = () => { const { jsPDF } = window.jspdf; const doc = new jsPDF({ unit: "mm", format: "a4" }); const pageHeight = 297; const marginTop = 15; const marginLeft = 15; const lineHeight = 6; const maxWidth = 180; let y = marginTop; const total = questions.filter(q => !q.type).length; const yes = Object.values(answers).filter(a => a === "yes").length; // ===== TITLE ===== doc.setFontSize(14); doc.text( Assessment Score: ${Math.round((yes / total) * 100)}% Yes, marginLeft, y ); y += 12; doc.setFontSize(11); // ===== LOOP SECTIONS ===== Object.keys(sections).forEach(sectionTitle => { const noQuestions = sections[sectionTitle].questions .filter(i => answers[i] === "no") .map(i => questions[i].q); if (!noQuestions.length) return; if (y + 10 > pageHeight - marginTop) { doc.addPage(); y = marginTop; } // Section header doc.setFont(undefined, "bold"); doc.text(sectionTitle, marginLeft, y); y += 8; doc.setFont(undefined, "normal"); // Questions noQuestions.forEach(q => { const lines = doc.splitTextToSize(• ${q}, maxWidth); const blockHeight = lines.length * lineHeight; if (y + blockHeight > pageHeight - marginTop) { doc.addPage(); y = marginTop; } doc.text(lines, marginLeft + 4, y); y += blockHeight + 2; }); y += 4; }); doc.save("assessment_results.pdf"); }; style: :root { --sidebar-width: 280px; --content-max-width: 1100px; /* Gap between sidebar and content */ --content-gap: 90px; } /* ===================== BASE ===================== */ html { font-size: 16px; } body { font-family: Verdana, Arial, sans-serif; margin: 0; background: #ffffff; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } /* Global text legibility */ p, li, h1, h2, h3, h4, h5, h6 { line-height: 1.5; } /* ===================== QUIZ CONTAINER ===================== */ .quiz-container { width: 100%; min-height: 100vh; } /* ===================== SIDEBAR ===================== */ .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: #f2f2f2; padding: 20px; box-shadow: 4px 0 10px rgba(0,0,0,0.1); z-index: 10; overflow-y: auto; } .sidebar button { width: 100%; margin-bottom: 18px; padding: 14px; font-size: clamp(0.85rem, 0.9vw, 1rem); text-align: left; border-radius: 8px; border: none; background: white; cursor: pointer; } .sidebar button.active-section { background: #0078d4; color: #ffffff; font-weight: 600; } /* ===================== MAIN CONTENT COLUMN ===================== */ .section-view, .question-box, .info-box, .risk-cloud, .options, .results-container { margin-left: calc(var(--sidebar-width) + var(--content-gap)); padding: 0 var(--content-gap); box-sizing: border-box; display: flex; justify-content: center; max-width: calc( 100% - var(--sidebar-width) - (var(--content-gap) * 2) ); } /* Direct child fills container width – EXCEPT buttons */ .section-view > *, .question-box > *, .info-box > *, .risk-cloud > *, .results-container > * { width: 100%; } /* ===================== QUESTION BOX (GRAY) ===================== */ .question-box { background: #f2f2f2; padding: 30px; border-radius: 15px; margin-top: 100px; box-shadow: 0 8px 12px rgba(0,0,0,0.15); font-size: clamp(1rem, 1.2vw, 1.25rem); min-height: 220px; position: relative; display: flex; flex-direction: column; justify-content: flex-start; /* ✅ FIX: prevent mid‑word breaking */ word-wrap: normal; overflow-wrap: normal; hyphens: none; } /* Question counter */ .question-counter { position: absolute; bottom: 15px; left: 30px; font-size: clamp(0.85rem, 1vw, 1rem); color: #555; font-weight: 600; } /* ===================== INFO BOX (GRAY) ===================== */ .info-box { background: #f2f2f2; padding: 30px; border-radius: 15px; margin-top: 120px; min-height: 220px; font-size: clamp(0.95rem, 1.2vw, 1.15rem); /* ✅ FIX */ word-wrap: normal; overflow-wrap: normal; hyphens: none; } /* ===================== RISK CLOUD (ORANGE) ===================== */ .risk-cloud { background: #fff5e6; border: 3px solid orange; padding: 16px 26px; border-radius: 25px; margin-top: 40px; margin-bottom: 80px; font-size: clamp(0.9rem, 1.1vw, 1.05rem); line-height: 1.45; font-style: italic; box-shadow: 0 6px 10px rgba(0,0,0,0.12); min-height: 60px; display: flex; align-items: center; justify-content: flex-start; /* ✅ FIX */ word-wrap: normal; overflow-wrap: normal; hyphens: none; } /* ===================== YES / NO OPTIONS ===================== */ .options { margin-top: 32px; margin-bottom: 120px; display: flex; justify-content: center; align-items: center; gap: 32px; } .options button { width: auto; min-width: 80px; padding: 0 12px; height: 40px; font-size: 1.4rem; line-height: 1; font-weight: 600; border-radius: 8px; border: 2px solid #0078d4; background: #ffffff; color: #000000; cursor: pointer; transition: all 0.15s ease; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; white-space: nowrap; } .options button:hover, .options button.selected { background: #0078d4; color: #ffffff; } /* ===================== NAV BUTTONS ===================== */ .buttons { position: fixed; bottom: 30px; left: calc(var(--sidebar-width) + var(--content-gap)); right: var(--content-gap); display: flex; justify-content: space-between; z-index: 5; } .buttons button { padding: 14px 32px; font-size: clamp(0.95rem, 1vw, 1.125rem); background: #0078d4; color: white; border-radius: 10px; border: none; cursor: pointer; } /* ===================== RESULTS ===================== */ .results-container { margin-top: 80px; height: 70vh; overflow-y: auto; text-align: left; font-size: clamp(0.95rem, 1vw, 1.1rem); } /* ===================== PROGRESS BAR ===================== */ #progress-bar-container { position: absolute; bottom: 40px; left: 30px; width: calc(100% - 60px); height: 10px; background: #e0e0e0; border-radius: 10px; } #progress-bar { background: #0078d4; height: 100%; width: 0%; border-radius: 10px; transition: width 0.3s ease; } /* ===================== RESPONSIVE ===================== */ @media (max-width: 900px) { .sidebar { position: relative; width: 100%; height: auto; } .section-view, .question-box, .info-box, .risk-cloud, .options, .results-container, .buttons { margin-left: 0; max-width: 100%; padding: 0 20px; } .buttons { left: 20px; right: 20px; } .options { flex-direction: column; gap: 20px; } }
+// ===============================
+// RESULTS
+// ===============================
+function showResults() {
+  hideAll();
+  resultsContainer.style.display = "block";
+  document.querySelector(".buttons").style.display = "none";
+
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+
+  document.getElementById("score-text").textContent = 
+    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions. The following key points highlight areas to focus on to strengthen your organization’s security:`;
+
+  const container = document.getElementById("no-answers-container");
+  container.innerHTML = "";
+
+  Object.keys(sections).forEach(sectionTitle => {
+    const noQuestions = sections[sectionTitle].questions
+      .filter(i => answers[i] === "no")
+      .map(i => questions[i].q);
+
+    if (noQuestions.length) {
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${sectionTitle}</h4>`;
+
+      const ul = document.createElement("ul");
+      ul.classList.add("no-answers");
+
+      noQuestions.forEach(q => {
+        const li = document.createElement("li");
+        li.textContent = q;
+        ul.appendChild(li);
+      });
+
+      div.appendChild(ul);
+      container.appendChild(div);
+    }
+  });
+}
+
+// ===============================
+// DOWNLOAD PDF
+// ===============================
+document.getElementById("download-btn").onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const pageHeight = 297;
+  const marginTop = 15;
+  const marginLeft = 15;
+  const lineHeight = 6;
+  const maxWidth = 180;
+  let y = marginTop;
+
+  const total = questions.filter(q => !q.type).length;
+  const yes = Object.values(answers).filter(a => a === "yes").length;
+
+  // ===== TITLE =====
+  doc.setFontSize(14);
+  doc.text(`Assessment Score: ${Math.round((yes / total) * 100)}% Yes`, marginLeft, y);
+  y += 12;
+  doc.setFontSize(11);
+
+  // ===== LOOP SECTIONS =====
+  Object.keys(sections).forEach(sectionTitle => {
+    const noQuestions = sections[sectionTitle].questions
+      .filter(i => answers[i] === "no")
+      .map(i => questions[i].q);
+
+    if (!noQuestions.length) return;
+
+    if (y + 10 > pageHeight - marginTop) {
+      doc.addPage();
+      y = marginTop;
+    }
+
+    // Section header
+    doc.setFont(undefined, "bold");
+    doc.text(sectionTitle, marginLeft, y);
+    y += 8;
+    doc.setFont(undefined, "normal");
+
+    // Questions
+    noQuestions.forEach(q => {
+      const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
+      const blockHeight = lines.length * lineHeight;
+
+      if (y + blockHeight > pageHeight - marginTop) {
+        doc.addPage();
+        y = marginTop;
+      }
+
+      doc.text(lines, marginLeft + 4, y);
+      y += blockHeight + 2;
+    });
+
+    y += 4;
+  });
+
+  doc.save("assessment_results.pdf");
+};
+
