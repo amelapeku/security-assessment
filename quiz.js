@@ -460,6 +460,7 @@ function showResults() {
 
 
 // ===============================
+// ===============================
 // DOWNLOAD PDF
 // ===============================
 document.getElementById("download-btn").onclick = () => {
@@ -475,13 +476,38 @@ document.getElementById("download-btn").onclick = () => {
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
-  // ===== TITLE =====
+  // ===== OVERALL ASSESSMENT SCORE =====
   doc.setFontSize(14);
-  doc.text(`Assessment Score: ${Math.round((yes / total) * 100)}% Yes`, marginLeft, y);
+  doc.text(`Overall Assessment Score: ${Math.round((yes / total) * 100)}% Yes`, marginLeft, y);
   y += 12;
-  doc.setFontSize(11);
 
-  // ===== LOOP SECTIONS =====
+  doc.setFontSize(12);
+  doc.text("Section Scores:", marginLeft, y);
+  y += 8;
+
+  // ===== SECTION-BY-SECTION SCORES =====
+  Object.keys(sections).forEach(sectionTitle => {
+    const sectionQuestions = sections[sectionTitle].questions;
+    const sectionYes = sectionQuestions.filter(i => answers[i] === "yes").length;
+    const sectionPercent = Math.round((sectionYes / sectionQuestions.length) * 100);
+    const sectionLine = `${sectionTitle}: ${sectionPercent}% score`;
+
+    const lines = doc.splitTextToSize(sectionLine, maxWidth);
+    const blockHeight = lines.length * lineHeight;
+    if (y + blockHeight > pageHeight - marginTop) {
+      doc.addPage();
+      y = marginTop;
+    }
+    doc.text(lines, marginLeft, y);
+    y += blockHeight + 4;
+  });
+
+  y += 4;
+  doc.setFontSize(11);
+  doc.text("Key points to focus on (questions answered 'No'):", marginLeft, y);
+  y += 8;
+
+  // ===== LIST OF "NO" ANSWERS PER SECTION =====
   Object.keys(sections).forEach(sectionTitle => {
     const noQuestions = sections[sectionTitle].questions
       .filter(i => answers[i] === "no")
@@ -519,5 +545,4 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
-
 
