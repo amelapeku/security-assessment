@@ -442,10 +442,12 @@ function showResults() {
       return count + (answers[i] === "yes" ? 1 : 0);
     }, 0);
 
-    const totalInSection = sectionQuestionCounts[sectionTitle] || sectionQuestions.length;
-    const sectionPercent = totalInSection > 0
-      ? Math.round((yesCount / totalInSection) * 100)
-      : 0;
+const totalInSection = sectionQuestions.length; // use actual question count per section
+const sectionPercent = totalInSection > 0
+  ? Math.round((yesCount / totalInSection) * 100)
+  : 0;
+
+
 
     const p = document.createElement("p");
     p.innerHTML = `<strong>${sectionTitle}:</strong> ${sectionPercent}% score`;
@@ -489,4 +491,5 @@ function showResults() {
 const finishBtn = document.getElementById("finish-btn");
 finishBtn.disabled = false;
 finishBtn.onclick = () => showResults();
+
 
