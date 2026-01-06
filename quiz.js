@@ -29,6 +29,7 @@ function updateNavButtons() {
   if (introPage.style.display === "block") {
     prevBtn.style.display = "none";
     nextBtn.style.display = "inline-block";
+     nextBtn.textContent = "Next"; 
     if (buttonsContainer) buttonsContainer.style.justifyContent = "flex-end";
     return;
   }
@@ -415,3 +416,4 @@ function showResults() {
     <p>You answered YES to ${yesCount} out of ${totalQuestions} questions.</p>
   `;
 }
+
