@@ -24,10 +24,14 @@ const noBtn = document.getElementById("no-btn");
 // NAV BUTTON VISIBILITY CONTROL
 // ===============================
 function updateNavButtons() {
+  const buttonsContainer = document.querySelector(".buttons");
+
   // Welcome page
   if (introPage.style.display === "block") {
     prevBtn.style.display = "none";
     nextBtn.style.display = "inline-block";
+    // Ensure Next is on the right for Welcome view
+    if (buttonsContainer) buttonsContainer.style.justifyContent = "flex-end";
     return;
   }
 
@@ -35,12 +39,16 @@ function updateNavButtons() {
   if (inSectionIntro) {
     prevBtn.style.display = "inline-block";
     nextBtn.style.display = "inline-block";
+    // Balanced layout so LT-1 / LT-2 intro content doesn't get pushed or overlap
+    if (buttonsContainer) buttonsContainer.style.justifyContent = "space-between";
     return;
   }
 
   // Question pages
   prevBtn.style.display = "inline-block";
   nextBtn.style.display = "none";
+  // Keep stable layout on question pages (no crowding on LT-1/LT-2)
+  if (buttonsContainer) buttonsContainer.style.justifyContent = "flex-start";
 }
 
 // ===============================
