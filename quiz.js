@@ -417,6 +417,7 @@ const sectionQuestionCounts = {
 };
 
 // ===============================
+// ===============================
 // RESULTS
 // ===============================
 function showResults() {
@@ -437,9 +438,12 @@ function showResults() {
 
   Object.keys(sections).forEach(sectionTitle => {
     const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
-    const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
+    const yesCount = sectionQuestions.reduce((count, i) => {
+      return count + (answers[i] === "yes" ? 1 : 0);
+    }, 0);
+
     const totalInSection = sectionQuestionCounts[sectionTitle] || sectionQuestions.length;
-    const sectionPercent = totalInSection
+    const sectionPercent = totalInSection > 0
       ? Math.round((yesCount / totalInSection) * 100)
       : 0;
 
@@ -478,84 +482,6 @@ function showResults() {
   });
 }
 
-// ===============================
-// DOWNLOAD PDF
-// ===============================
-document.getElementById("download-btn").onclick = () => {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit: "mm", format: "a4" });
-  const pageHeight = 297;
-  const marginTop = 15;
-  const marginLeft = 15;
-  const lineHeight = 6;
-  const maxWidth = 180;
-  let y = marginTop;
-
-  const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
-
-  // ===== Overall Assessment Score =====
-  doc.setFontSize(14);
-  doc.text(`Overall Assessment Score: ${Math.round((yes / total) * 100)}% Yes`, marginLeft, y);
-  y += 10;
-  doc.setFontSize(12);
-
-  // ===== Section-wise Scores =====
-  Object.keys(sections).forEach(sectionTitle => {
-    const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
-    const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
-    const totalInSection = sectionQuestionCounts[sectionTitle] || sectionQuestions.length;
-    const sectionPercent = totalInSection
-      ? Math.round((yesCount / totalInSection) * 100)
-      : 0;
-
-    if (y + 8 > pageHeight - marginTop) {
-      doc.addPage();
-      y = marginTop;
-    }
-
-    doc.setFont(undefined, "bold");
-    doc.text(`${sectionTitle}: ${sectionPercent}% score`, marginLeft, y);
-    y += 8;
-    doc.setFont(undefined, "normal");
-  });
-
-  // ===== Questions answered "No" =====
-  Object.keys(sections).forEach(sectionTitle => {
-    const noQuestions = sections[sectionTitle].questions
-      .filter(i => !questions[i].type && answers[i] === "no")
-      .map(i => questions[i].q);
-
-    if (!noQuestions.length) return;
-
-    if (y + 10 > pageHeight - marginTop) {
-      doc.addPage();
-      y = marginTop;
-    }
-
-    doc.setFont(undefined, "bold");
-    doc.text(sectionTitle, marginLeft, y);
-    y += 8;
-    doc.setFont(undefined, "normal");
-
-    noQuestions.forEach(q => {
-      const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
-      const blockHeight = lines.length * lineHeight;
-
-      if (y + blockHeight > pageHeight - marginTop) {
-        doc.addPage();
-        y = marginTop;
-      }
-
-      doc.text(lines, marginLeft + 4, y);
-      y += blockHeight + 2;
-    });
-
-    y += 4;
-  });
-
-  doc.save("assessment_results.pdf");
-};
 
 // ===============================
 // ENABLE FINISH BUTTON
@@ -563,3 +489,4 @@ document.getElementById("download-btn").onclick = () => {
 const finishBtn = document.getElementById("finish-btn");
 finishBtn.disabled = false;
 finishBtn.onclick = () => showResults();
+
