@@ -402,9 +402,6 @@ prevBtn.onclick = () => {
 };
 
 // ===============================
-
-// ===============================
-// ===============================
 // ===============================
 // RESULTS
 // ===============================
@@ -425,7 +422,8 @@ function showResults() {
   sectionScoresDiv.id = "section-scores";
 
   Object.keys(sections).forEach(sectionTitle => {
-    const sectionQuestions = sections[sectionTitle].questions;
+    // Only actual questions
+    const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
     const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
     const sectionPercent = sectionQuestions.length
       ? Math.round((yesCount / sectionQuestions.length) * 100)
@@ -444,7 +442,7 @@ function showResults() {
 
   Object.keys(sections).forEach(sectionTitle => {
     const noQuestions = sections[sectionTitle].questions
-      .filter(i => answers[i] === "no")
+      .filter(i => !questions[i].type && answers[i] === "no")
       .map(i => questions[i].q);
 
     if (noQuestions.length) {
@@ -490,7 +488,7 @@ document.getElementById("download-btn").onclick = () => {
 
   // ===== Section-wise Scores =====
   Object.keys(sections).forEach(sectionTitle => {
-    const sectionQuestions = sections[sectionTitle].questions;
+    const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
     const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
     const sectionPercent = sectionQuestions.length
       ? Math.round((yesCount / sectionQuestions.length) * 100)
@@ -510,7 +508,7 @@ document.getElementById("download-btn").onclick = () => {
   // ===== Questions answered "No" =====
   Object.keys(sections).forEach(sectionTitle => {
     const noQuestions = sections[sectionTitle].questions
-      .filter(i => answers[i] === "no")
+      .filter(i => !questions[i].type && answers[i] === "no")
       .map(i => questions[i].q);
 
     if (!noQuestions.length) return;
