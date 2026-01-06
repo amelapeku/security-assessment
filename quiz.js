@@ -546,3 +546,13 @@ document.getElementById("download-btn").onclick = () => {
   doc.save("assessment_results.pdf");
 };
 
+// ===============================
+// FINISH BUTTON
+// ===============================
+const finishBtn = document.getElementById("finish-btn");
+finishBtn.disabled = false; // Enable it immediately, or enable later when quiz starts
+
+finishBtn.onclick = () => {
+  showResults();
+};
+
