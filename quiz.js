@@ -405,6 +405,7 @@ prevBtn.onclick = () => {
 
 // ===============================
 // ===============================
+// ===============================
 // RESULTS
 // ===============================
 function showResults() {
@@ -415,22 +416,29 @@ function showResults() {
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
-  // Overall assessment score
-  let scoreHTML = `<strong>Overall Assessment Score:</strong> ${Math.round((yes / total) * 100)}% Yes<br><br>`;
+  // ===== Overall Assessment Score =====
+  document.getElementById("score-text").innerHTML = 
+    `<strong>Overall Assessment Score:</strong> ${Math.round((yes / total) * 100)}% Yes`;
 
-  // Section-by-section scores
-  scoreHTML += `<strong>Section Scores:</strong><br>`;
+  // ===== Section-wise Scores =====
+  const sectionScoresDiv = document.createElement("div");
+  sectionScoresDiv.id = "section-scores";
+
   Object.keys(sections).forEach(sectionTitle => {
     const sectionQuestions = sections[sectionTitle].questions;
-    const sectionYes = sectionQuestions.filter(i => answers[i] === "yes").length;
-    const sectionPercent = Math.round((sectionYes / sectionQuestions.length) * 100);
-    scoreHTML += `${sectionTitle}: ${sectionPercent}% score<br>`;
+    const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
+    const sectionPercent = sectionQuestions.length
+      ? Math.round((yesCount / sectionQuestions.length) * 100)
+      : 0;
+
+    const p = document.createElement("p");
+    p.innerHTML = `<strong>${sectionTitle}:</strong> ${sectionPercent}% score`;
+    sectionScoresDiv.appendChild(p);
   });
 
-  scoreHTML += `<br>The following key points highlight areas to focus on to strengthen your organization’s security:`;
-  document.getElementById("score-text").innerHTML = scoreHTML;
+  resultsContainer.insertBefore(sectionScoresDiv, document.getElementById("no-answers-container"));
 
-  // List of "no" answers per section
+  // ===== Questions answered "No" =====
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
@@ -458,8 +466,6 @@ function showResults() {
   });
 }
 
-
-// ===============================
 // ===============================
 // DOWNLOAD PDF
 // ===============================
@@ -476,38 +482,32 @@ document.getElementById("download-btn").onclick = () => {
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
-  // ===== OVERALL ASSESSMENT SCORE =====
+  // ===== Overall Assessment Score =====
   doc.setFontSize(14);
   doc.text(`Overall Assessment Score: ${Math.round((yes / total) * 100)}% Yes`, marginLeft, y);
-  y += 12;
-
+  y += 10;
   doc.setFontSize(12);
-  doc.text("Section Scores:", marginLeft, y);
-  y += 8;
 
-  // ===== SECTION-BY-SECTION SCORES =====
+  // ===== Section-wise Scores =====
   Object.keys(sections).forEach(sectionTitle => {
     const sectionQuestions = sections[sectionTitle].questions;
-    const sectionYes = sectionQuestions.filter(i => answers[i] === "yes").length;
-    const sectionPercent = Math.round((sectionYes / sectionQuestions.length) * 100);
-    const sectionLine = `${sectionTitle}: ${sectionPercent}% score`;
+    const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
+    const sectionPercent = sectionQuestions.length
+      ? Math.round((yesCount / sectionQuestions.length) * 100)
+      : 0;
 
-    const lines = doc.splitTextToSize(sectionLine, maxWidth);
-    const blockHeight = lines.length * lineHeight;
-    if (y + blockHeight > pageHeight - marginTop) {
+    if (y + 8 > pageHeight - marginTop) {
       doc.addPage();
       y = marginTop;
     }
-    doc.text(lines, marginLeft, y);
-    y += blockHeight + 4;
+
+    doc.setFont(undefined, "bold");
+    doc.text(`${sectionTitle}: ${sectionPercent}% score`, marginLeft, y);
+    y += 8;
+    doc.setFont(undefined, "normal");
   });
 
-  y += 4;
-  doc.setFontSize(11);
-  doc.text("Key points to focus on (questions answered 'No'):", marginLeft, y);
-  y += 8;
-
-  // ===== LIST OF "NO" ANSWERS PER SECTION =====
+  // ===== Questions answered "No" =====
   Object.keys(sections).forEach(sectionTitle => {
     const noQuestions = sections[sectionTitle].questions
       .filter(i => answers[i] === "no")
@@ -547,12 +547,8 @@ document.getElementById("download-btn").onclick = () => {
 };
 
 // ===============================
-// FINISH BUTTON
+// ENABLE FINISH BUTTON
 // ===============================
 const finishBtn = document.getElementById("finish-btn");
-finishBtn.disabled = false; // Enable it immediately, or enable later when quiz starts
-
-finishBtn.onclick = () => {
-  showResults();
-};
-
+finishBtn.disabled = false;
+finishBtn.onclick = () => showResults();
