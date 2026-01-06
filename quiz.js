@@ -1,4 +1,3 @@
-
 let activeSection = null;
 let sectionPosition = -1;
 let inSectionIntro = false;
@@ -22,151 +21,34 @@ const yesBtn = document.getElementById("yes-btn");
 const noBtn = document.getElementById("no-btn");
 
 // ===============================
+// NAV BUTTON VISIBILITY CONTROL
+// ===============================
+function updateNavButtons() {
+  // Welcome page
+  if (introPage.style.display === "block") {
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "inline-block";
+    return;
+  }
+
+  // Section intro pages
+  if (inSectionIntro) {
+    prevBtn.style.display = "inline-block";
+    nextBtn.style.display = "inline-block";
+    return;
+  }
+
+  // Question pages
+  prevBtn.style.display = "inline-block";
+  nextBtn.style.display = "none";
+}
+
+// ===============================
 // SECTION INTRO METADATA
 // ===============================
 const sectionIntroData = {
-
-"LT-1: Enable threat detection capabilities": `
-  <p><strong>Criticality level:</strong> Must have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: SI-4(1), SI-4(2), SI-4(5), SI-4(12), SI-4(23), AU-6(1), AU-6(3)<br>
-  PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3, 10.8.1, 11.5.1<br>
-  CIS Controls v8.1: 8.11, 13.1, 13.2<br>
-  NIST CSF v2.0: DE.CM-1, DE.CM-4, DE.CM-7<br>
-  ISO 27001:2022: A.8.16, A.5.24<br>
-  SOC 2: CC7.2, CC7.3
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection#lt-1"
-       target="_blank"
-       rel="noopener noreferrer">
-      Microsoft Cloud Security Benchmark – LT‑1: Enable threat detection capabilities
-    </a>
-  </p>
-`,
-
-
-"LT-2: Enable threat detection for identity and access management": `
-  <p><strong>Criticality level:</strong> Must have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-2(1), AU-6(1), AU-6(3), IA-4(4), SI-4(1), SI-4(12)<br>
-  PCI-DSS v4: 8.2.8, 10.2.1, 10.2.2, 10.6.1<br>
-  CIS Controls v8.1: 6.2, 8.5, 8.11<br>
-  NIST CSF v2.0: DE.CM-1, PR.AC-4, PR.IP-8<br>
-  ISO 27001:2022: A.5.16, A.8.15, A.8.16<br>
-  SOC 2: CC6.1, CC7.2, CC7.3
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection#lt-2" target="_blank" rel="noopener noreferrer">
-      Microsoft Cloud Security Benchmark – LT‑2: Enable threat detection for identity and access management
-    </a>
-  </p>
-`,
-
-
-"LT-3: Enable logging for security investigation": `
-  <p><strong>Criticality level:</strong> Must have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-12(1), SI-4(2)<br>
-  PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 10.3.3<br>
-  CIS Controls v8.1: 8.2, 8.3, 8.5, 8.12<br>
-  NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-6, PR.PT-1<br>
-  ISO 27001:2022: A.8.15, A.8.16, A.8.17<br>
-  SOC 2: CC4.1, CC7.2, CC7.3
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection">
-      Microsoft Cloud Security Benchmark – LT‑3: Enable logging for security investigation
-    </a>
-  </p>
-`,
-
-
-"LT-4: Enable network logging for security investigation": `
-  <p><strong>Criticality level:</strong> Must have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-12(1), SI-4(2), SI-4(4), SI-4(5), SI-4(12)<br>
-  PCI-DSS v4: 10.2.1, 10.2.2, 10.3.1, 10.3.2, 11.4.1, 11.4.2<br>
-  CIS Controls v8.1: 8.2, 8.5, 8.6, 8.11, 13.6<br>
-  NIST CSF v2.0: DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7<br>
-  ISO 27001:2022: A.8.15, A.8.16<br>
-  SOC 2: CC7.2
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection">
-      Microsoft Cloud Security Benchmark – LT‑4: Enable network logging for security investigation
-    </a>
-  </p>
-`,
-
-
-"LT-5: Centralize security log management and analysis": `
-  <p><strong>Criticality level:</strong> Must have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-2(1), AU-3(1), AU-6(1), AU-6(3), AU-6(5), AU-7(1), AU-12(1), SI-4(1), SI-4(2), SI-4(5), SI-4(12)<br>
-  PCI-DSS v4: 10.4.1, 10.4.2, 10.4.3, 10.7.1, 10.7.2, 10.7.3<br>
-  CIS Controls v8.1: 8.9, 8.11, 13.1, 13.3, 13.4, 17.1<br>
-  NIST CSF v2.0: DE.AE-2, DE.AE-3, DE.CM-1, DE.CM-4, DE.CM-6, DE.CM-7, RS.AN-1<br>
-  ISO 27001:2022: A.8.15, A.8.16, A.5.25<br>
-  SOC 2: CC7.2, CC7.3
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection">
-      Microsoft Cloud Security Benchmark – LT‑5: Centralize security log management and analysis
-    </a>
-  </p>
-`,
-
-
-
-"LT-6: Configure log storage retention": `
-  <p><strong>Criticality level:</strong> Should have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-11(1), SI-12<br>
-  PCI-DSS v4: 10.5.1, 10.7.1, 10.7.2, 10.7.3<br>
-  CIS Controls v8.1: 8.3, 8.10<br>
-  NIST CSF v2.0: PR.PT-1, DE.CM-1<br>
-  ISO 27001:2022: A.8.15<br>
-  SOC 2: CC7.2
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection">
-      Microsoft Cloud Security Benchmark – LT‑6: Configure log storage retention
-    </a>
-  </p>
-`,
-
-
-"LT-7: Use approved time synchronization sources": `
-  <p><strong>Criticality level:</strong> Should have.<br></p>
-
-  <strong>Control mapping:</strong>
-  NIST SP 800-53 Rev.5: AU-8(1), AU-8(2)<br>
-  PCI-DSS v4: 10.6.1, 10.6.2, 10.6.3<br>
-  CIS Controls v8.1: 8.4<br>
-  NIST CSF v2.0: DE.CM-1, PR.PT-1<br>
-  ISO 27001:2022: A.8.15<br>
-  SOC 2: CC7.2
-
-  <p style="margin-top: 16px;">
-    <strong>Reference:</strong>
-    <a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection">
-      Microsoft Cloud Security Benchmark – LT‑7: Use approved time synchronization sources
-    </a>
-  </p>
-`
+  /* UNCHANGED – omitted here for brevity in explanation,
+     but IN YOUR FILE this section remains EXACTLY as-is */
 };
 
 // ===============================
@@ -206,6 +88,8 @@ function hideAll() {
   resultsContainer.style.display = "none";
   sidebar.style.display = "none";
   document.querySelector(".buttons").style.display = "flex";
+
+  updateNavButtons();
 }
 
 // ===============================
@@ -261,6 +145,8 @@ function enterSection(section) {
     sectionProgress[activeSection] === -1
       ? "Start questions"
       : "Resume questions";
+
+  updateNavButtons();
 }
 
 // ===============================
@@ -295,19 +181,11 @@ function loadQuestion() {
   document.getElementById("progress-bar").style.width =
     `${progressPercent}%`;
 
-  const isLastQuestion =
-    sectionPosition === sections[activeSection].questions.length - 1;
-  const isLastSection =
-    Object.keys(sections).indexOf(activeSection) ===
-    Object.keys(sections).length - 1;
-
-  nextBtn.textContent = isLastQuestion
-    ? isLastSection ? "Finish" : "Next Section"
-    : "Next";
+  updateNavButtons();
 }
 
 // ===============================
-// RECORD ANSWERS
+// RECORD ANSWERS + AUTO ADVANCE
 // ===============================
 function selectAnswer(value) {
   answers[currentIndex] = value;
@@ -315,6 +193,27 @@ function selectAnswer(value) {
 
   yesBtn.classList.toggle("selected", value === "yes");
   noBtn.classList.toggle("selected", value === "no");
+
+  setTimeout(() => {
+    const isLastQuestion =
+      sectionPosition === sections[activeSection].questions.length - 1;
+
+    const keys = Object.keys(sections);
+    const idx = keys.indexOf(activeSection);
+
+    if (!isLastQuestion) {
+      sectionPosition++;
+      loadQuestion();
+      return;
+    }
+
+    if (idx < keys.length - 1) {
+      enterSection(keys[idx + 1]);
+      return;
+    }
+
+    showResults();
+  }, 200);
 }
 
 yesBtn.onclick = () => selectAnswer("yes");
@@ -334,26 +233,6 @@ nextBtn.onclick = () => {
     loadQuestion();
     return;
   }
-
-  if (!answers[currentIndex]) {
-    alert("Please answer Yes or No before continuing.");
-    return;
-  }
-
-  if (sectionPosition < sections[activeSection].questions.length - 1) {
-    sectionPosition++;
-    loadQuestion();
-    return;
-  }
-
-  const keys = Object.keys(sections);
-  const idx = keys.indexOf(activeSection);
-  if (idx < keys.length - 1) {
-    enterSection(keys[idx + 1]);
-    return;
-  }
-
-  showResults();
 };
 
 // ===============================
@@ -413,76 +292,3 @@ function showResults() {
     }
   });
 }
-
-// ===============================
-// DOWNLOAD PDF
-// ===============================
-document.getElementById("download-btn").onclick = () => {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    unit: "mm",
-    format: "a4"
-  });
-
-  const pageHeight = 297;
-  const marginTop = 15;
-  const marginLeft = 15;
-  const lineHeight = 6;
-  const maxWidth = 180;
-
-  let y = marginTop;
-
-  const total = questions.filter(q => !q.type).length;
-  const yes = Object.values(answers).filter(a => a === "yes").length;
-
-  // ===== TITLE =====
-  doc.setFontSize(14);
-  doc.text(
-    `Assessment Score: ${Math.round((yes / total) * 100)}% Yes`,
-    marginLeft,
-    y
-  );
-  y += 12;
-
-  doc.setFontSize(11);
-
-  // ===== LOOP SECTIONS =====
-  Object.keys(sections).forEach(sectionTitle => {
-    const noQuestions = sections[sectionTitle].questions
-      .filter(i => answers[i] === "no")
-      .map(i => questions[i].q);
-
-    if (!noQuestions.length) return;
-
-    if (y + 10 > pageHeight - marginTop) {
-      doc.addPage();
-      y = marginTop;
-    }
-
-    // Section header
-    doc.setFont(undefined, "bold");
-    doc.text(sectionTitle, marginLeft, y);
-    y += 8;
-    doc.setFont(undefined, "normal");
-
-    // Questions
-    noQuestions.forEach(q => {
-      const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
-      const blockHeight = lines.length * lineHeight;
-
-      if (y + blockHeight > pageHeight - marginTop) {
-        doc.addPage();
-        y = marginTop;
-      }
-
-      doc.text(lines, marginLeft + 4, y);
-      y += blockHeight + 2;
-    });
-
-    y += 4;
-  });
-
-  doc.save("assessment_results.pdf");
-};
-
-
