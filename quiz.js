@@ -1,4 +1,3 @@
-
 let activeSection = null;
 let sectionPosition = -1;
 let inSectionIntro = false;
@@ -30,7 +29,6 @@ function updateNavButtons() {
   if (introPage.style.display === "block") {
     prevBtn.style.display = "none";
     nextBtn.style.display = "inline-block";
-    // Ensure Next is on the right for Welcome view
     if (buttonsContainer) buttonsContainer.style.justifyContent = "flex-end";
     return;
   }
@@ -39,7 +37,6 @@ function updateNavButtons() {
   if (inSectionIntro) {
     prevBtn.style.display = "inline-block";
     nextBtn.style.display = "inline-block";
-    // Balanced layout so LT-1 / LT-2 intro content doesn't get pushed or overlap
     if (buttonsContainer) buttonsContainer.style.justifyContent = "space-between";
     return;
   }
@@ -47,15 +44,24 @@ function updateNavButtons() {
   // Question pages
   prevBtn.style.display = "inline-block";
   nextBtn.style.display = "none";
-  // Keep stable layout on question pages (no crowding on LT-1/LT-2)
   if (buttonsContainer) buttonsContainer.style.justifyContent = "flex-start";
 }
 
 // ===============================
-// SECTION INTRO METADATA (UNCHANGED)
+// HTML DECODE HELPER
+// ===============================
+function decodeHTMLDeep(html) {
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = html;
+  const once = textarea.value;
+  textarea.innerHTML = once;
+  return textarea.value;
+}
+
+// ===============================
+// SECTION INTRO METADATA
 // ===============================
 const sectionIntroData = {
-
 "LT-1: Enable threat detection capabilities": `
   &lt;p&gt;&lt;strong&gt;Criticality level:&lt;/strong&gt; Must have.&lt;br&gt;&lt;/p&gt;
 
@@ -67,11 +73,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.16, A.5.24&lt;br&gt;
   SOC 2: CC7.2, CC7.3
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection#lt-1"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-1: Enable threat detection capabilities
     &lt;/a&gt;
   &lt;/p&gt;
@@ -88,11 +93,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.5.16, A.8.15, A.8.16&lt;br&gt;
   SOC 2: CC6.1, CC7.2, CC7.3
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection#lt-2"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-2: Enable threat detection for identity and access management
     &lt;/a&gt;
   &lt;/p&gt;
@@ -109,11 +113,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.15, A.8.16, A.8.17&lt;br&gt;
   SOC 2: CC4.1, CC7.2, CC7.3
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-3: Enable logging for security investigation
     &lt;/a&gt;
   &lt;/p&gt;
@@ -130,11 +133,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.15, A.8.16&lt;br&gt;
   SOC 2: CC7.2
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-4: Enable network logging for security investigation
     &lt;/a&gt;
   &lt;/p&gt;
@@ -151,11 +153,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.15, A.8.16, A.5.25&lt;br&gt;
   SOC 2: CC7.2, CC7.3
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-5: Centralize security log management and analysis
     &lt;/a&gt;
   &lt;/p&gt;
@@ -172,11 +173,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.15&lt;br&gt;
   SOC 2: CC7.2
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-6: Configure log storage retention
     &lt;/a&gt;
   &lt;/p&gt;
@@ -193,11 +193,10 @@ const sectionIntroData = {
   ISO 27001:2022: A.8.15&lt;br&gt;
   SOC 2: CC7.2
 
-  &lt;p style="margin-top: 16px;"&gt;
+  &lt;p style="margin-top:16px;"&gt;
     &lt;strong&gt;Reference:&lt;/strong&gt;
     &lt;a href="https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-v2-logging-threat-detection"
-       target="_blank"
-       rel="noopener noreferrer"&gt;
+       target="_blank" rel="noopener noreferrer"&gt;
       Microsoft Cloud Security Benchmark – LT-7: Use approved time synchronization sources
     &lt;/a&gt;
   &lt;/p&gt;
@@ -291,8 +290,8 @@ function enterSection(section) {
   sectionInfo.style.display = "block";
 
   sectionInfo.innerHTML = `
-    &lt;h2 class="section-title"&gt;${activeSection}&lt;/h2&gt;
-    ${sectionIntroData[activeSection] || ""}
+    <h2 class="section-title">${activeSection}</h2>
+    ${decodeHTMLDeep(sectionIntroData[activeSection] || "")}
   `;
 
   nextBtn.textContent =
@@ -389,7 +388,7 @@ nextBtn.onclick = () => {
 };
 
 // ===============================
-// PREVIOUS BUTTON (UNCHANGED)
+// PREVIOUS BUTTON
 // ===============================
 prevBtn.onclick = () => {
   if (activeSection && !inSectionIntro && sectionPosition > 0) {
@@ -398,10 +397,21 @@ prevBtn.onclick = () => {
   } else if (activeSection && !inSectionIntro && sectionPosition === 0) {
     inSectionIntro = true;
     enterSection(activeSection);
-  } else {
-    hideAll();
-    sidebar.style.display = "block";
-    introPage.style.display = "block";
-    activeSection = null;
   }
 };
+
+// ===============================
+// RESULTS
+// ===============================
+function showResults() {
+  hideAll();
+  resultsContainer.style.display = "block";
+
+  const totalQuestions = questions.filter(q => q.type !== "section").length;
+  const yesCount = Object.values(answers).filter(v => v === "yes").length;
+
+  resultsContainer.innerHTML = `
+    <h2>Assessment Complete</h2>
+    <p>You answered YES to ${yesCount} out of ${totalQuestions} questions.</p>
+  `;
+}
