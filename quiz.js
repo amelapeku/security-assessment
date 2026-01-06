@@ -404,6 +404,7 @@ prevBtn.onclick = () => {
 // ===============================
 
 // ===============================
+// ===============================
 // RESULTS
 // ===============================
 function showResults() {
@@ -414,9 +415,22 @@ function showResults() {
   const total = questions.filter(q => !q.type).length;
   const yes = Object.values(answers).filter(a => a === "yes").length;
 
-  document.getElementById("score-text").textContent = 
-    `You answered "Yes" to ${Math.round((yes / total) * 100)}% of questions. The following key points highlight areas to focus on to strengthen your organization’s security:`;
+  // Overall assessment score
+  let scoreHTML = `<strong>Overall Assessment Score:</strong> ${Math.round((yes / total) * 100)}% Yes<br><br>`;
 
+  // Section-by-section scores
+  scoreHTML += `<strong>Section Scores:</strong><br>`;
+  Object.keys(sections).forEach(sectionTitle => {
+    const sectionQuestions = sections[sectionTitle].questions;
+    const sectionYes = sectionQuestions.filter(i => answers[i] === "yes").length;
+    const sectionPercent = Math.round((sectionYes / sectionQuestions.length) * 100);
+    scoreHTML += `${sectionTitle}: ${sectionPercent}% score<br>`;
+  });
+
+  scoreHTML += `<br>The following key points highlight areas to focus on to strengthen your organization’s security:`;
+  document.getElementById("score-text").innerHTML = scoreHTML;
+
+  // List of "no" answers per section
   const container = document.getElementById("no-answers-container");
   container.innerHTML = "";
 
@@ -443,6 +457,7 @@ function showResults() {
     }
   });
 }
+
 
 // ===============================
 // DOWNLOAD PDF
@@ -504,4 +519,5 @@ document.getElementById("download-btn").onclick = () => {
 
   doc.save("assessment_results.pdf");
 };
+
 
