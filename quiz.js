@@ -403,6 +403,20 @@ prevBtn.onclick = () => {
 
 // ===============================
 // ===============================
+// ===============================
+// SECTION QUESTION COUNTS
+// ===============================
+const sectionQuestionCounts = {
+  "LT-1: Enable threat detection capabilities": 10,
+  "LT-2: Enable threat detection for identity and access management": 8,
+  "LT-3: Enable logging for security investigation": 32,
+  "LT-4: Enable network logging for security investigation": 5,
+  "LT-5: Centralize security log management and analysis": 10,
+  "LT-6: Configure log storage retention": 7,
+  "LT-7: Use approved time synchronization sources": 5,
+};
+
+// ===============================
 // RESULTS
 // ===============================
 function showResults() {
@@ -422,11 +436,11 @@ function showResults() {
   sectionScoresDiv.id = "section-scores";
 
   Object.keys(sections).forEach(sectionTitle => {
-    // Only actual questions
     const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
     const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
-    const sectionPercent = sectionQuestions.length
-      ? Math.round((yesCount / sectionQuestions.length) * 100)
+    const totalInSection = sectionQuestionCounts[sectionTitle] || sectionQuestions.length;
+    const sectionPercent = totalInSection
+      ? Math.round((yesCount / totalInSection) * 100)
       : 0;
 
     const p = document.createElement("p");
@@ -490,8 +504,9 @@ document.getElementById("download-btn").onclick = () => {
   Object.keys(sections).forEach(sectionTitle => {
     const sectionQuestions = sections[sectionTitle].questions.filter(i => !questions[i].type);
     const yesCount = sectionQuestions.filter(i => answers[i] === "yes").length;
-    const sectionPercent = sectionQuestions.length
-      ? Math.round((yesCount / sectionQuestions.length) * 100)
+    const totalInSection = sectionQuestionCounts[sectionTitle] || sectionQuestions.length;
+    const sectionPercent = totalInSection
+      ? Math.round((yesCount / totalInSection) * 100)
       : 0;
 
     if (y + 8 > pageHeight - marginTop) {
@@ -518,13 +533,11 @@ document.getElementById("download-btn").onclick = () => {
       y = marginTop;
     }
 
-    // Section header
     doc.setFont(undefined, "bold");
     doc.text(sectionTitle, marginLeft, y);
     y += 8;
     doc.setFont(undefined, "normal");
 
-    // Questions
     noQuestions.forEach(q => {
       const lines = doc.splitTextToSize(`• ${q}`, maxWidth);
       const blockHeight = lines.length * lineHeight;
